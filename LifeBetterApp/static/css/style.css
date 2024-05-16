@@ -1,0 +1,30 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-areas: 'header header' 'navigate body' 'footer footer';
+  grid-template-rows: auto auto auto;
+  min-height: 100vh;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.grid-header {
+  grid-area: header;
+  background-color: aqua;
+}
+
+.grid-body {
+  grid-area: body;
+  background-color: lightcoral;
+}
+
+.grid-navigate {
+ grid-area: navigate;
+ background-color: lightgreen;
+}
+
+.grid-footer {
+  grid-area: footer;
+  background-color: lightblue;
+
+}
