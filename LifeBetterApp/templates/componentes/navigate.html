@@ -9,31 +9,3 @@
 
 
 </ul>
-
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <!-- Barra de navegación fija en la parte superior con estilo inverso -->
-    <div class="container"> <!-- Contenedor de la barra de navegación -->
-        <div class="navbar-header"> <!-- Encabezado de la barra de navegación -->
-            <a class="navbar-brand" href="#">Demo project</a> <!-- Marca de la barra de navegación -->
-        </div>
-
-        <div class="navbar-collapse collapse"> <!-- Contenido colapsable de la barra de navegación -->
-            <ul class="nav navbar-nav pull-right"> <!-- Lista de navegación alineada a la derecha -->
-                {% if request.user.is_authenticated %} <!-- Verifica si el usuario está autenticado -->
-                <li class='dropdown'>
-                    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Account
-                        <span class="caret"></span> <!-- Icono de caret para indicar el menú desplegable -->
-                    </a>
-                    <ul class='dropdown-menu' role='menu'> <!-- Menú desplegable de la cuenta -->
-                        <li><a href="#">Account Information</a></li> <!-- Enlace a la información de la cuenta -->
-                        <li><a href="/accounts/logout">Logout</a></li> <!-- Enlace para cerrar sesión -->
-                    </ul>
-                </li>
-                {% else %} <!-- Si el usuario no está autenticado -->
-                <li><a href="/accounts/register">Sign Up</a></li> <!-- Enlace para registrarse -->
-                <li><a href="/accounts/login">Login</a></li> <!-- Enlace para iniciar sesión -->
-                {% endif %}
-            </ul>
-        </div><!--/.navbar-collapse -->
-    </div>
-</div>

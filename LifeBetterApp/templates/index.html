@@ -1,47 +1,46 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{% block title %} {% endblock %}</title>
+    <title>{% block title %} {% endblock %}</title>
 
-        <!-- Enlace a la hoja de estilos de Bootstrap -->
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- Enlace a la hoja de estilos de Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-    </head>
-
+</head>
 
 <body>
     <div class="grid-container">
         <!-- Header -->
-        <div class="grid-header">{% include 'componentes/header.html'%}
-        </div>
-        <!-- Menu lateral????????-->
-        <div class="grid-navigate">{% include 'componentes/navigate.html'%}
-        </div>
-        <!-- CONTENEDOR DE PAGINAS -->
-        <div class="grid-body">
+        <div class="grid-header">{% include 'componentes/header.html' %}</div>
+
+        <!-- Contenedor de paginas -->
+        <div>
             {% block body %}
 
             {% endblock %}
-        
-        <!-- Footer -->
-        <footer>
-            <div class="text-center p-4" style="background-color: #01004e; color:darkgrey">
-                © 2024 Copyright:
-            </div>
+        </div>
+
+    </div>
+
+    <br>
+    <!-- Footer -->
+    <div>
+        <footer class="grid-footer">
+            © 2024 Copyright
         </footer>
-            
     </div>
 
     <!-- Enlace a la hoja de JavaScript -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/myjs.js' %}"></script>
-    
+
 </body>
+
 </html>

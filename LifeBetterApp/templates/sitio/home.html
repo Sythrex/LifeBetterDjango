@@ -1,25 +1,24 @@
 {% extends "../index.html" %}
 
 {% load static %}
-
+{% block title %} LB | INICIO {% endblock %}
 {% block body %}
 
 <!--seccion principal-->
 <section class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-7">
+    <div class="col-12 col-md-7">
         <h2 class="hero-h2">HERRAMIENTA PARA LA <span class="hero-destacado1">ADMINISTRACION</span><br> DE EDIFICIOS Y
             CONDOMINIOS</h2>
-        <h3 class="hero-h3">Administra edificios con <span class="hero-destacado2">Betterlife</span>: la pagina web
-            ideal<br> para tu comunidad.Administracion de conserjeria,comite<br>residentes,votaciones en línea y mucho
-            más. </h3>
+        <h3 class="hero-h3">Administra edificios con <span class="hero-destacado2">Betterlife</span>: la página web
+            ideal<br> para tu comunidad. Administración de conserjería, comité<br> residentes, votaciones en línea y
+            mucho más.</h3>
     </div>
-    <div class="col-md-4">
+    <div class="col-12 col-md-5 text-center">
         <img class="edificio" src="{% static '/img/bodys/edificio.png' %}" alt="imagen de edificio">
     </div>
 
-    <!-- CARRUSEL  jfif   -->
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <!-- CARRUSEL -->
+    <div id="carouselExampleCaptions" class="carousel slide mt-5" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
                 aria-current="true" aria-label="Slide 1"></button>
@@ -62,9 +61,6 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-
-
-
 </section>
 
 {% endblock %}
