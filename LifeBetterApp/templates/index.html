@@ -18,14 +18,13 @@
 <body>
     <div class="grid-container">
         <!-- Header -->
-        <div class="grid-header">{% include 'componentes/header.html' %}</div>
+        {% include 'componentes/header.html' %}
 
         <!-- Contenedor de paginas -->
-        <div>
+        
             {% block body %}
 
             {% endblock %}
-        </div>
 
     </div>
 

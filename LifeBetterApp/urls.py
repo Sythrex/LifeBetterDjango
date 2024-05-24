@@ -14,4 +14,7 @@ urlpatterns = [
     path('admin/', views.admin, name='admin'),
     path('admin/usuarios/crear/', views.crear_usuario, name='crear_usuario'),
     
+    # GESTIÓN DE USUARIOS
+    path('login', views.login, name='login'),  # Ruta para la vista de inicio de sesión
+    path('salir', views.salir, name='salir'),  # Ruta para la vista de cerrar sesión
 ]
