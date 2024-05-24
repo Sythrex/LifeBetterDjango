@@ -12,6 +12,8 @@ def home(request):
 def login(request):
     return render(request, 'sitio/login.html', {})
 
+def nosotros(request):
+    return render(request, 'sitio/nosotros.html', {})
 
 def conserje(request):
     return render(request, 'conserje/index.html', {})

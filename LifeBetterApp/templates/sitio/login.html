@@ -1,9 +1,43 @@
 {% extends "../index.html" %}
 
-{% load static %}
+{% block title %} LB | Login {% endblock %} 
 
 {% block body %}
+<div class="row"> <!-- Contenedor principal -->
+  <h2 class="fw-bold text-center py-5">Inicio de Sesión</h2> 
+  <div>
+    <!-- Formulario de inicio de sesión -->
+    <form method="post">
+      {% csrf_token %} <!-- Token CSRF para proteger contra ataques CSRF -->
+      <div class="form-group mb-1"> <!-- Grupo de formulario con margen inferior -->
+          <label for="usuario" class="form-label">Nombre Usuario</label> <!-- Etiqueta para el campo de usuario -->
+          <input type="text" class="form-control" name="username"> <!-- Campo de entrada para el nombre de usuario -->
+      </div>
 
-<h1>Login</h1>
-    
+      <div class="form-group mb-2"> <!-- Grupo de formulario con margen inferior -->
+          <label for="password" class="form-label">Contraseña</label> <!-- Etiqueta para el campo de contraseña -->
+          <input type="password" class="form-control" name="password"> <!-- Campo de entrada para la contraseña -->
+      </div>
+
+      <!-- Botón para enviar el formulario -->
+      <div class="form-group d-grid mb-2">
+          <button type="submit" class="btn btn-primary">Iniciar Sesión</button> 
+      </div>
+      
+      <!-- Checkbox para recordar al usuario -->
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember"> Recuerdame
+      </label>
+    </form>
+
+    <div class="help-block"> <!-- recuperación de contraseña -->
+      Olvido Contraseña? <a href="#">Clic Aquí</a>
+    </div>
+    <div class="help-block"> <!-- registro -->
+        No Tiene Cuenta? <a href="#">Registrar</a>
+    </div>
+
+  </div>
+</div>
+
 {% endblock %}

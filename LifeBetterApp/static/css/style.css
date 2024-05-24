@@ -39,8 +39,8 @@ body{
 }
 
 .grid-navigate {
- grid-area: navigate;
- background-color: #15184d;
+  grid-area: navigate;
+  background-color: #15184d;
 }
 
 .grid-footer {
