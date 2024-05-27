@@ -1,4 +1,5 @@
 body{
+  color: #d0d0d0;
   background-color: #15184d;
 }
 
@@ -67,4 +68,14 @@ body{
 
 .edificio{
   opacity: 40%;
+}
+
+.pago{
+  padding: 2rem;
+}
+
+.pago select{
+  width: 50%;
+  padding: 1rem;
+  margin: 1rem 0;
 }

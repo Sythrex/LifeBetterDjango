@@ -1,0 +1,38 @@
+
+{% extends 'index.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="text-center">¡Listo para realizar tu pago!</h4>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            ¡Estás a punto de realizar un pago de
+            <strong>
+              <script>
+                var amount = '{{ amount }}'
+                var formattedAmount = parseFloat(amount).toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })
+                document.write(formattedAmount)
+              </script>
+            </strong>
+          </p>
+          <form action="{{ response.url }}" method="post">
+             {% csrf_token %}
+            <input type="hidden" name="token_ws" value="{{ response.token }}" />
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">¡Vamos a pagar ahora!</button>
+              <a href="/gastoscomunes" class="btn btn-secondary">Cancelar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
