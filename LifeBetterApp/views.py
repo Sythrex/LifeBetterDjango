@@ -1,6 +1,6 @@
 import random
 from urllib import request
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -8,6 +8,8 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from transbank.error.transbank_error import TransbankError
 from transbank.error.transaction_create_error import TransactionCreateError
+from django.contrib.auth.decorators import login_required
+
 
 
 from LifeBetterApp.forms import CrearUsuarioForm, PagarGastosComunesForm
@@ -130,6 +132,7 @@ def gestioncur(request):
 def login(request):
     return render(request, "registration/login.html")
 
+@login_required
 def salir(request):
     logout(request)
     return redirect("home")
