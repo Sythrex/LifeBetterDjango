@@ -22,12 +22,14 @@ def home(request):
 def login(request):
     return render(request, 'sitio/login.html', {})
 
+def nosotros(request):
+    return render(request, 'sitio/nosotros.html', {})
 
 def conserje(request):
-    return render(request, 'conserje/index.html', {})
+    return render(request, 'conserje/conserje.html', {})
 
 def residente(request):
-    return render(request, 'residente/index.html', {})
+    return render(request, 'residente/residente.html', {})
 
 def gastoscomunes(request):
     if request.method == 'POST':
@@ -44,7 +46,7 @@ def gastoscomunes(request):
 
 ## ADMINISTRADOR
 def admin(request):
-    return render(request, 'administrador/index.html', {})
+    return render(request, 'administrador/admin.html', {})
 
 def crear_usuario(request):
     if request.method == 'POST':
@@ -115,3 +117,19 @@ def webpay_plus_commit(request):
         return render(request, 'webpay/plus/error.html', {'error': str(e)})
             
     return render(request, 'webpay/plus/commit.html', {'token': token, 'response': response})
+
+## GESTIÓN DE ENSCOMIENDAS
+@login_required
+def gestioncur(request):
+    cursos = cursos.objects.all()
+    context = {"cursos": cursos}
+    return render(request, 'gestion/gestioncur.html', context)
+
+
+# GESTIÓN DE USUARIOS
+def login(request):
+    return render(request, "registration/login.html")
+
+def salir(request):
+    logout(request)
+    return redirect("home")

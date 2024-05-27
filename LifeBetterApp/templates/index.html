@@ -1,32 +1,45 @@
 {% load static %}
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>LifeBetterApp</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %} {% endblock %}</title>
+
+    <!-- Enlace a la hoja de estilos de Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
 </head>
 
-
 <body>
     <div class="grid-container">
-        <div class="grid-header">{% include 'componentes/header.html'%}
-        </div>
-        <div class="grid-navigate">{% include 'componentes/navigate.html'%}
-        </div>
-        <div class="grid-body">
-            {% block body %}
-            {% endblock %}
+        <!-- Header -->
+        {% include 'componentes/header.html' %}
+
+        <!-- Contenedor de paginas -->
         
-        </div>
-        <div class="grid-footer">{% include 'componentes/footer.html'%}
-        </div>
-            
+            {% block body %}
+
+            {% endblock %}
+
     </div>
+
+    <br>
+    <!-- Footer -->
+    <div>
+        <footer class="grid-footer">
+            © 2024 Copyright
+        </footer>
+    </div>
+
+    <!-- Enlace a la hoja de JavaScript -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
+
 </body>
-
-
 
 </html>
