@@ -40,7 +40,7 @@ def gastoscomunes(request):
             mes = form.cleaned_data['mes']
             amount = form.cleaned_data['amount']
             print(f"Mes: {mes}, Amount: {amount}")  # Agrega esta línea
-            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})  
+            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})
 
     else:
         form = PagarGastosComunesForm()
