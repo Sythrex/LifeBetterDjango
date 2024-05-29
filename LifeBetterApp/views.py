@@ -2,8 +2,7 @@ import random
 from urllib import request
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django import logout
-
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
