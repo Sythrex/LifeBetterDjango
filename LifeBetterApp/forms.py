@@ -1,5 +1,4 @@
 from django import forms
-
 from LifeBetterApp.models import User
 
 
@@ -56,5 +55,3 @@ class PagarGastosComunesForm(forms.Form):
     }
 
     mes = forms.ChoiceField(choices=MESES, widget=forms.Select(attrs={'class': 'form-control'}))
-
-     

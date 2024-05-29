@@ -2,6 +2,8 @@ import random
 from urllib import request
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django import logout
+
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
@@ -9,7 +11,6 @@ from transbank.error.transaction_commit_error import TransactionCommitError
 from transbank.error.transbank_error import TransbankError
 from transbank.error.transaction_create_error import TransactionCreateError
 from django.contrib.auth.decorators import login_required
-
 
 
 from LifeBetterApp.forms import CrearUsuarioForm, PagarGastosComunesForm
@@ -120,12 +121,12 @@ def webpay_plus_commit(request):
             
     return render(request, 'webpay/plus/commit.html', {'token': token, 'response': response})
 
-## GESTIÓN DE ENSCOMIENDAS
+## GESTIÓN DE ENCOMIENDAS
 @login_required
-def gestioncur(request):
-    cursos = cursos.objects.all()
-    context = {"cursos": cursos}
-    return render(request, 'gestion/gestioncur.html', context)
+def gestionencomienda(request):
+    encomienda = encomienda.objects.all()
+    context = {"encomienda": encomienda}
+    return render(request, 'conserje/gestion/gestion.html', context)
 
 
 # GESTIÓN DE USUARIOS
