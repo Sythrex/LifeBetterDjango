@@ -1,0 +1,19 @@
+<form enctype="multipart/form-data" method="post"> <!-- Formulario que permite la carga de archivos y usa el método POST -->
+    {% csrf_token %} <!-- Token CSRF para proteger contra ataques CSRF -->
+    <fieldset> <!-- Conjunto de campos del formulario -->
+        {% for campo in formulario %} <!-- Itera sobre cada campo del formulario -->
+        <div class="mb-1"> <!-- Contenedor para cada campo del formulario con margen inferior -->
+            {% if campo.field.widget.input_type == 'file' and campo.value %} <!-- Verifica si el campo es un archivo y tiene un valor -->
+            <p>{{ MEDIA_URL }}</p> <!-- Muestra la URL base de los archivos de medios -->
+            <td><img src="{{MEDIA_URL}}{{campo.value}}" alt="" width="100px"></td> <!-- Muestra una vista previa de la imagen cargada -->
+            {% endif %}
+            <input class="form-control" type="{{campo.field.widget.input_type}}" id="" name="{{campo.name}}" placeholder="{{campo.name}}" value="{{campo.value | default:''}}"
+            required> <!-- Campo requerido -->
+        </div>
+        <div>{{campo.errors}}</div> <!-- Muestra los errores del campo si existen -->
+        {% endfor %}
+        <div class="mb-3 d-grid"> <!-- Contenedor para el botón de envío con margen inferior y estilo de cuadrícula -->
+            <button class="btn btn-primary btn-lg" type="submit">Enviar Formulario</button> <!-- Botón para enviar el formulario -->
+        </div>
+    </fieldset>
+</form>

@@ -1,1 +1,45 @@
-pagina conserje
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %} CONSERJE {% endblock %}</title>
+
+  <!-- Enlace a la hoja de estilos de Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+  <div class="grid-container">
+    <!-- Header -->
+    {% include 'componentes/header.html' %}
+
+    <!-- Contenedor de paginas -->
+
+    {% block body %}
+
+    {% endblock %}
+
+  </div>
+
+  <br>
+  <!-- Footer -->
+  <div>
+    <footer class="grid-footer">
+      © 2024 Copyright
+    </footer>
+  </div>
+
+  <!-- Enlace a la hoja de JavaScript -->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/myjs.js' %}"></script>
+
+</body>
+
+</html>
