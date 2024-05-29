@@ -87,7 +87,7 @@ class Visitante(models.Model):
         return f'{self.rut_visitante}-{self.dv_visitante}'
 
 #5
-class AdministracionEmpleadoContratada(models.Model):
+class AdminEmpleadoContratada(models.Model):
     id_admin_empleado_contratada = models.CharField(primary_key=True, max_length=10)
     run_empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     rut_admin = models.ForeignKey(AdministracionExterna, on_delete=models.CASCADE)
@@ -180,4 +180,4 @@ class Encomienda(models.Model):
     run_empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id_encomienda¿
+        return self.id_encomienda
