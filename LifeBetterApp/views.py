@@ -130,7 +130,7 @@ def gestioncur(request):
 
 # GESTIÓN DE USUARIOS
 def login(request):
-    return render(request, "registration/login.html")
+    return render(request, "sitio/login.html")
 
 @login_required
 def salir(request):
