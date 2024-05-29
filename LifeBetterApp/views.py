@@ -48,7 +48,7 @@ def gastoscomunes(request):
 
 ## ADMINISTRADOR
 def admin(request):
-    return render(request, 'administrador/admin.html', {})
+    return render(request, 'administrador/adminedificio.html', {})
 
 def crear_usuario(request):
     if request.method == 'POST':

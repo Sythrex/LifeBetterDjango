@@ -15,7 +15,7 @@ urlpatterns = [
     path('webpay/plus/commit/', views.webpay_plus_commit, name='webpay-plus-commit'),
     path('webpay/plus/create/', views.webpay_plus_create, name='webpay-plus-create'),
     # administrador
-    path('admin/', views.admin, name='admin'),
+    path('adminedificio/', views.admin, name='adminedificio'),
     path('admin/usuarios/crear/', views.crear_usuario, name='crear_usuario'),
     
     # GESTIÓN DE USUARIOS
