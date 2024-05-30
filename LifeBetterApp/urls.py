@@ -1,9 +1,18 @@
 from django.urls import path
+from django.urls import reverse_lazy
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('sitio/login/', views.login, name='login'),
+
+    # Rutas para el restablecimiento de contraseña
+    path('password_reset/', views.password_reset, name='password_reset'),
+    path('password_reset/done/', views.done, name='done'),
+    path('password_reset/<uidb64>/<token>/', views.confirm, name='confirm'),
+    path('password_reset/done/', views.complete, name='complete'),
+
     path('nosotros/', views.nosotros, name='nosotros'),
     path('conserje/', views.conserje, name='conserje'),
     path('residente/', views.residente, name='residente'),
@@ -15,9 +24,8 @@ urlpatterns = [
 
     # administrador
     path('adminedificio/', views.admin, name='adminedificio'),
-    path('admin/usuarios/crear/', views.crear_usuario, name='crear_usuario'),
+    path('administrador/crearusuario/', views.crear_usuario, name='crear_usuario'),
     
     # GESTIÓN DE USUARIOS
-    path('login', views.login, name='login'),  # Ruta para la vista de inicio de sesión
-    path('salir', views.salir, name='salir'),  # Ruta para la vista de cerrar sesión
+    path('logout/', views.salir, name='logout'),  # Ruta para la vista de cerrar sesión
 ]

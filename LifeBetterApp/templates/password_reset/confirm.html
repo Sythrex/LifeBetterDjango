@@ -1,0 +1,14 @@
+{% extends "../index.html" %}
+
+{% block content %}
+<h2 class="fw-bold text-center py-5">Nueva Contraseña</h2>
+<div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-group d-grid mb-2">
+      <button type="submit" class="btn btn-primary">Restablecer Contraseña</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
