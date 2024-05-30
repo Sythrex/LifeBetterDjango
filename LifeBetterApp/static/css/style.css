@@ -1,3 +1,16 @@
+:root {
+  --navigate-color: #048e76;
+  --secondary-color: #15184d;
+  --tertiary-color: #01004e;
+  --text-color: #d0d0d0;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body{
   color: #d0d0d0;
   background-color: #15184d;
@@ -6,30 +19,59 @@ body{
 /* Contenedor principal del grid */
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 200px 1fr;
   grid-template-areas: 
-    'header' 
-    'navigate' 
-    'body' 
-    'footer';
-  grid-template-rows: 76px 40px auto 70px;
+  'header navigate' 
+  'body body' 
+  'footer footer';
+  grid-template-rows: 70px auto 70px;
   min-height: 100vh;
-  gap: 10px;
   padding: 0;
 }
 
 .grid-header {
   grid-area: header;
-  background-color: #048e76; 
+  background-color: var(--navigate-color); 
+  padding: 10px 0 0 10px;
 }
 
+.grid-navigate {
+  grid-area: navigate;
+  background-color: var(--navigate-color);
+  padding-top: 4px;
+}
+
+.grid-body {
+  grid-area: body;
+  background-color: #15184d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.grid-footer {
+  grid-area: footer;
+  background-color: #01004e;
+  color: darkgrey;
+  text-align: center;
+}
+
+/* Estilo para la barra de navegación */
 .navbar {
-  background-color: #14163a;
+  background-color: transparent !important ; 
 }
 
-.btn-outline-custom {
-  color: #048e76; /* Color del texto */
-  border-color: #048e76; /* Color del borde */
+.btn-search{
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: solid 3px var(--text-color);
+}
+
+/*Estilo para carrusel*/
+.carousel-inner {
+  max-height: 450px;
 }
 
 /* Cambiar el color de fondo y el texto cuando el botón está activo o con el foco */
@@ -46,27 +88,10 @@ body{
   justify-content: space-between;
 }
 
-.grid-body {
-  grid-area: body;
-  background-color: #15184d;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
 
-.grid-navigate {
-  grid-area: navigate;
-  background-color: #15184d;
-}
 
-.grid-footer {
-  grid-area: footer;
-  background-color: #01004e;
-  color: darkgrey;
-  text-align: center;
-}
+
+
 
 .hero-h2 {
   color: #d0d0d0;
@@ -88,8 +113,7 @@ body{
 
 .edificio {
   opacity: 40%;
-  max-width: 100%;
-  height: auto;
+  max-height: 300px;
 }
 
 @media (max-width: 768px) {
