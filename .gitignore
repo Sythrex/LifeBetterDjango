@@ -1,38 +1,23 @@
-# Ignorar archivos y directorios generados por el sistema
-.DS_Store
+#Ignorar archivos y directorios generados por el sistema
+.DSStore
 Thumbs.db
 
-# Ignorar archivos de compilación y ejecutables
+#Ignorar archivos de compilación y ejecutables
 *.exe
 *.dll
 *.class
-*.jar
+.jar
 
-# Ignorar archivos de dependencias y paquetes
-/node_modules
-/bower_components
-
-# Ignorar archivos de configuración local
-.env
-.env.local
-.env.*.local
-
-# Ignorar archivos de registro y salida
-npm-debug.log*
+#Ignorar archivos de registro y salida
+npm-debug.log
 yarn-debug.log*
 yarn-error.log*
 
-# Ignorar archivos y directorios generados por Django
+#Ignorar archivos y directorios generados por Django
 *.pyc
-__pycache__/
+*.pyo
+*.pyd
+_pycache/
 *.sqlite3
 db.sqlite3
-
-# Ignorar archivos de configuración local de Django
-*.env
-*.env.local
-*.env.*.local
-
-# Ignorar archivos de migraciones
-/migrations/
-LifeBetter/Lib/
+env/
