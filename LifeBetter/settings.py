@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e@os#%zl_6l(c@4#zj((-b!wr9ccj@#mx%asx*a8=y%c9gqp43
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -124,3 +124,16 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'LifeBetterApp.User'
+
+
+# Configuración del correo electrónico
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # Cambia esto por la dirección de tu servidor SMTP
+EMAIL_PORT = 587  # Cambia esto al puerto de tu servidor SMTP
+EMAIL_USE_TLS = True  # O False si tu servidor SMTP no requiere TLS
+EMAIL_HOST_USER = 'tu_correo@example.com'  # Cambia esto al usuario de tu servidor SMTP
+EMAIL_HOST_PASSWORD = 'tu_contraseña'  # Cambia esto a la contraseña de tu servidor SMTP
+
+# Configuración adicional para usar la consola en lugar de SMTP en entornos de desarrollo
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

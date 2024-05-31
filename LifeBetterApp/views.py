@@ -1,8 +1,11 @@
 import random
 from urllib import request
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth import logout
+
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
@@ -10,10 +13,7 @@ from transbank.error.transaction_commit_error import TransactionCommitError
 from transbank.error.transbank_error import TransbankError
 from transbank.error.transaction_create_error import TransactionCreateError
 from django.contrib.auth.decorators import login_required
-
-
 from LifeBetterApp.forms import CrearUsuarioForm, PagarGastosComunesForm
-
 
 def index(request):
     return render(request, 'index.html', {})
@@ -23,6 +23,32 @@ def home(request):
 
 def login(request):
     return render(request, 'sitio/login.html', {})
+
+# Restablecimiento de contraseña con correo electronico
+def password_reset(request):
+    return auth_views.PasswordResetView.as_view(
+        template_name='password_reset/password_reset.html',
+        email_template_name='password_reset/email.html',
+        subject_template_name='password_reset/subject.txt',
+        success_url=reverse_lazy('done')
+    )(request)
+
+def done(request):
+    return auth_views.PasswordResetDoneView.as_view(
+        template_name='password_reset/done.html'
+    )(request)
+
+def confirm(request, uidb64=None, token=None):
+    return auth_views.PasswordResetConfirmView.as_view(
+        template_name='password_reset/confirm.html',
+        success_url=reverse_lazy('complete')
+    )(request, uidb64=uidb64, token=token)
+
+def complete(request):
+    return auth_views.PasswordResetCompleteView.as_view(
+        template_name='password_reset/complete.html'
+    )(request)
+
 
 def nosotros(request):
     return render(request, 'sitio/nosotros.html', {})
@@ -54,7 +80,15 @@ def crear_usuario(request):
     if request.method == 'POST':
         form = CrearUsuarioForm(request.POST)
         if form.is_valid():
+            # Obtenemos la contraseña del formulario
+            password = form.cleaned_data['password']
+            
+            # Hasheamos la contraseña antes de guardarla en la base de datos
+            form.instance.password = make_password(password)
+
+            # Guardamos el usuario en la base de datos
             form.save()
+            return redirect('home')  # Redirigir a la página de inicio después de crear el usuario
     else:
         form = CrearUsuarioForm()
     return render(request, 'administrador/crearusuario.html', {'form': form})
