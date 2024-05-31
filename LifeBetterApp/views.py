@@ -136,3 +136,13 @@ def login(request):
 def salir(request):
     logout(request)
     return redirect("home")
+
+#Gestion de botones de conserje
+def gestion(request):
+    return render(request, 'conserje/gestion/gestion.html', {})
+def editar(request):
+    return render(request, 'conserje/gestion/editar.html', {})
+def form(request):
+    return render(request, 'conserje/gestion/form.html', {})
+def crear(request):
+    return render(request, 'conserje/gestion/crear.html', {})

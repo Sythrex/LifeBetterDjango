@@ -20,4 +20,10 @@ urlpatterns = [
     # GESTIÓN DE USUARIOS
     path('login', views.login, name='login'),  # Ruta para la vista de inicio de sesión
     path('salir', views.salir, name='salir'),  # Ruta para la vista de cerrar sesión
+
+    #Gestion de botones de conserje 
+    path('conserje/gestion/', views.gestion, name='gestion'),
+    path('conserje/editar/', views.editar, name='editar'),
+    path('conserje/form/', views.form, name='form'),
+    path('conserje/crear/', views.crear, name='crear'),
 ]
