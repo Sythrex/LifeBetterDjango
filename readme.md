@@ -6,8 +6,12 @@ python -m venv env
 ### Activa el entorno virtual
 .\env\Scripts\activate
 
-### Ejecuta las instalaciones de los requerimientos
+### Ejecuta las instalaciones de los requerimientos(no agregar ya que está en los documentos)
 pip install -r requirements.txt
+
+### apis
+python manage.py django
+python manage.py transbank-sdk
 
 ### Aplica las migraciones
 python manage.py migrate
