@@ -3,6 +3,7 @@ const formulario = document.getElementById("Form_Contacto");
 const userName = document.getElementById("userName");
 const userEmail = document.getElementById("userEmail");
 const userMens = document.getElementById("userMens");
+
 const alertSuccess = document.getElementById("alertSuccess");
 
 const regUserName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;

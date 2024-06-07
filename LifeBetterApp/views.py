@@ -131,29 +131,19 @@ def residente(request):
     return render(request, 'residente/residente.html', {})
 
 def perfil(request):
-    residente = Residente.objects.get(user=request.user)
-    context = {'residente': residente}
-    return render(request, 'residente/perfil.html', context)
+    return render(request, 'residente/perfil.html', {})
 
 def encomienda(request):
-    encomiendas = Encomienda.objects.filter(run_residente__user=request.user)
-    context = {'encomiendas': encomiendas}
-    return render(request, 'residente/encomienda.html', context)
+    return render(request, 'residente/encomienda.html', {})
 
 def visitas(request):
-    visitas = Visitante.objects.filter(run_residente__user=request.user)
-    context = {'visitas': visitas}
-    return render(request, 'residente/visitas.html', context)
+    return render(request, 'residente/visitas.html', {})
 
 def avisos(request):
-    avisos = Anuncio.objects.all()  # Adjust the filter as needed
-    context = {'avisos': avisos}
-    return render(request, 'residente/avisos.html', context)
+    return render(request, 'residente/avisos.html', {})
 
 def reclamos(request):
-    reclamos = Multa.objects.filter(run_residente__user=request.user)
-    context = {'reclamos': reclamos}
-    return render(request, 'residente/reclamos.html', context)
+    return render(request, 'residente/reclamos.html', {})
 
 ## ADMINISTRADOR
 def admin(request):
