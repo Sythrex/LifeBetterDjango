@@ -5,7 +5,6 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import logout
-
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
@@ -14,6 +13,7 @@ from transbank.error.transbank_error import TransbankError
 from transbank.error.transaction_create_error import TransactionCreateError
 from django.contrib.auth.decorators import login_required
 from LifeBetterApp.forms import CrearUsuarioForm, PagarGastosComunesForm
+from .models import Residente, Encomienda, Visitante, Anuncio, Multa
 
 def index(request):
     return render(request, 'index.html', {})
@@ -49,49 +49,9 @@ def complete(request):
         template_name='password_reset/complete.html'
     )(request)
 
-
 def nosotros(request):
     return render(request, 'sitio/nosotros.html', {})
 
-def conserje(request):
-    return render(request, 'conserje/conserje.html', {})
-
-def residente(request):
-    return render(request, 'residente/residente.html', {})
-
-def gastoscomunes(request):
-    if request.method == 'POST':
-        form = PagarGastosComunesForm(request.POST)
-        if form.is_valid():
-            mes = form.cleaned_data['mes']
-            amount = form.cleaned_data['amount']
-            print(f"Mes: {mes}, Amount: {amount}")  # Agrega esta línea
-            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})
-
-    else:
-        form = PagarGastosComunesForm()
-    return render(request, 'sitio/gastoscomunes.html', {'form': form})
-
-## ADMINISTRADOR
-def admin(request):
-    return render(request, 'administrador/adminedificio.html', {})
-
-def crear_usuario(request):
-    if request.method == 'POST':
-        form = CrearUsuarioForm(request.POST)
-        if form.is_valid():
-            # Obtenemos la contraseña del formulario
-            password = form.cleaned_data['password']
-            
-            # Hasheamos la contraseña antes de guardarla en la base de datos
-            form.instance.password = make_password(password)
-
-            # Guardamos el usuario en la base de datos
-            form.save()
-            return redirect('home')  # Redirigir a la página de inicio después de crear el usuario
-    else:
-        form = CrearUsuarioForm()
-    return render(request, 'administrador/crearusuario.html', {'form': form})
 
 VALOR_MESES = {
     'Enero': 100,
@@ -107,7 +67,6 @@ VALOR_MESES = {
     'Noviembre': 1100,
     'Diciembre': 1200,
 }
-
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -154,13 +113,6 @@ def webpay_plus_commit(request):
             
     return render(request, 'webpay/plus/commit.html', {'token': token, 'response': response})
 
-## GESTIÓN DE ENCOMIENDAS
-@login_required
-def gestionencomienda(request):
-    encomienda = encomienda.objects.all()
-    context = {"encomienda": encomienda}
-    return render(request, 'conserje/gestion/gestion.html', context)
-
 
 # GESTIÓN DE USUARIOS
 def login(request):
@@ -170,6 +122,64 @@ def login(request):
 def salir(request):
     logout(request)
     return redirect("home")
+
+def conserje(request):
+    return render(request, 'conserje/conserje.html', {})
+
+# RESIDENTE
+def residente(request):
+    return render(request, 'residente/residente.html', {})
+
+def perfil(request):
+    residente = Residente.objects.get(user=request.user)
+    context = {'residente': residente}
+    return render(request, 'residente/perfil.html', context)
+
+def encomienda(request):
+    encomiendas = Encomienda.objects.filter(run_residente__user=request.user)
+    context = {'encomiendas': encomiendas}
+    return render(request, 'residente/encomienda.html', context)
+
+def visitas(request):
+    visitas = Visitante.objects.filter(run_residente__user=request.user)
+    context = {'visitas': visitas}
+    return render(request, 'residente/visitas.html', context)
+
+def avisos(request):
+    avisos = Anuncio.objects.all()  # Adjust the filter as needed
+    context = {'avisos': avisos}
+    return render(request, 'residente/avisos.html', context)
+
+def reclamos(request):
+    reclamos = Multa.objects.filter(run_residente__user=request.user)
+    context = {'reclamos': reclamos}
+    return render(request, 'residente/reclamos.html', context)
+
+## ADMINISTRADOR
+def admin(request):
+    return render(request, 'administrador/adminedificio.html', {})
+
+@login_required
+def crear_usuario(request):
+    if request.method == 'POST':
+        form = CrearUsuarioForm(request.POST)
+        if form.is_valid():
+            
+            # Obtenemos la contraseña del formulario
+            password = form.cleaned_data['password']
+            
+            # Hasheamos la contraseña antes de guardarla en la base de datos
+            form.instance.password = make_password(password)
+
+            # Guardamos el usuario en la base de datos
+            form.save()
+
+            return redirect('home')  # Redirigir a la página de inicio después de crear el usuario
+    else:
+        form = CrearUsuarioForm()
+
+    return render(request, 'administrador/crearusuario.html', {'form': form})
+
 
 #Gestion de botones de conserje
 def encomienda(request):

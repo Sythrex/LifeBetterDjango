@@ -32,7 +32,7 @@ def validar_dv(value):
 # Modelos basados en las tablas SQL proporcionadas
 #1
 class Residente(models.Model):
-    run_residente = models.CharField(primary_key=True, max_length=10)
+    rut_residente = models.CharField(primary_key=True, max_length=10)
     dvrun = models.CharField(max_length=1, validators=[validar_dv])
     pnombre_residente = models.CharField(max_length=50)
     snombre_residente = models.CharField(max_length=50, blank=True, null=True)
@@ -98,8 +98,8 @@ class AdminEmpleadoContratada(models.Model):
 #6
 class RegistroVisitanteDepto(models.Model):
     id_visitante_depto = models.CharField(primary_key=True, max_length=10)
-    run_visitante = models.ForeignKey(Visitante, on_delete=models.CASCADE)
-    run_residente = models.ForeignKey(Residente, on_delete=models.CASCADE)
+    rut_visitante = models.ForeignKey(Visitante, on_delete=models.CASCADE)
+    rut_residente = models.ForeignKey(Residente, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id_visitante_depto

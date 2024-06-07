@@ -1,0 +1,22 @@
+{% extends 'residente.html' %}
+
+{% block content %}
+<h2>Encomienda</h2>
+<div class="p-2">
+  <a href="{% url 'crear' %}" class="btn btn-primary">Agregar Encomienda</a>
+</div>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Estado</th>
+    <th>Fecha y Hora</th>
+  </tr>
+  {% for encomienda in encomiendas %}
+  <tr>
+    <td>{{ encomienda.id_encomienda }}</td>
+    <td>{{ encomienda.estado_encomienda }}</td>
+    <td>{{ encomienda.fecha_hora_encomienda }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
