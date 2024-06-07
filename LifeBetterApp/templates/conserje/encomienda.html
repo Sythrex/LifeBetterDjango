@@ -1,0 +1,16 @@
+{% extends "../index.html" %}
+{% load static %}
+{% block title %} LB | ENCOMIENDAS {% endblock %}
+{% block body %}
+
+<body>
+    <h1>Registro de Encomienda</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+
+
+{% endblock %}

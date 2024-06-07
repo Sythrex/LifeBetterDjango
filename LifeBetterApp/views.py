@@ -172,11 +172,9 @@ def salir(request):
     return redirect("home")
 
 #Gestion de botones de conserje
-def gestion(request):
-    return render(request, 'conserje/gestion/gestion.html', {})
-def editar(request):
-    return render(request, 'conserje/gestion/editar.html', {})
-def form(request):
-    return render(request, 'conserje/gestion/form.html', {})
-def crear(request):
-    return render(request, 'conserje/gestion/crear.html', {})
+def encomienda(request):
+    return render(request, 'conserje/encomienda.html', {})
+def visita(request):
+    return render(request, 'conserje/visita.html', {})
+def multa(request):
+    return render(request, 'conserje/multa.html', {})

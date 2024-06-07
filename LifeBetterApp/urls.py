@@ -30,8 +30,7 @@ urlpatterns = [
     path('logout/', views.salir, name='logout'),  # Ruta para la vista de cerrar sesión
 
     #Gestion de botones de conserje 
-    path('conserje/gestion/', views.gestion, name='gestion'),
-    path('conserje/editar/', views.editar, name='editar'),
-    path('conserje/form/', views.form, name='form'),
-    path('conserje/crear/', views.crear, name='crear'),
+    path('conserje/encomienda/', views.encomienda, name='encomienda'),
+    path('conserje/visita/', views.visita, name='visita'),
+    path('conserje/multa/', views.multa, name='multa'),
 ]
