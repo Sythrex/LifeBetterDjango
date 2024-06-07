@@ -1,0 +1,24 @@
+{% extends 'residente.html' %}
+
+{% block content %}
+<h2>Reclamos</h2>
+<div class="p-2">
+  <a href="{% url 'crear' %}" class="btn btn-primary">Agregar Reclamo</a>
+</div>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Descripción</th>
+    <th>Monto</th>
+    <th>Fecha y Hora</th>
+  </tr>
+  {% for reclamo in reclamos %}
+  <tr>
+    <td>{{ reclamo.id_multa }}</td>
+    <td>{{ reclamo.descripcion_multa }}</td>
+    <td>{{ reclamo.monto_multa }}</td>
+    <td>{{ reclamo.fecha_hora_multa }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

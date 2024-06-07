@@ -1,0 +1,17 @@
+{% extends 'residente.html' %}
+
+{% block content %}
+<h2>Perfil</h2>
+<p><strong>RUN:</strong> {{ residente.rut_residente }}</p>
+<p><strong>DV:</strong> {{ residente.dvrun }}</p>
+<p><strong>Primer Nombre:</strong> {{ residente.pnombre_residente }}</p>
+<p><strong>Segundo Nombre:</strong> {{ residente.snombre_residente }}</p>
+<p><strong>Apellido Paterno:</strong> {{ residente.appaterno_residente }}</p>
+<p><strong>Apellido Materno:</strong> {{ residente.apmaterno_residente }}</p>
+<p><strong>Fecha de Nacimiento:</strong> {{ residente.fecha_nacimiento_residente }}</p>
+<p><strong>Fecha de Contrato:</strong> {{ residente.fecha_contrato_residente }}</p>
+<p><strong>Correo:</strong> {{ residente.correo_residente }}</p>
+<p><strong>Teléfono:</strong> {{ residente.fono_residente }}</p>
+<p><strong>Tipo de Residente:</strong> {{ residente.tipo_residente }}</p>
+<p><strong>Comité:</strong> {{ residente.comite }}</p>
+{% endblock %}

@@ -15,8 +15,15 @@ urlpatterns = [
 
     path('nosotros/', views.nosotros, name='nosotros'),
     path('conserje/', views.conserje, name='conserje'),
-    path('residente/', views.residente, name='residente'),
     path('gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
+
+    # Gestion vista residente
+    path('residente/', views.residente, name='residente'),
+    path('avisos/', views.avisos, name='avisos'),
+    path('encomienda/', views.encomienda, name='encomienda'),
+    path('perfil/', views.perfil, name='perfil'),
+    path('reclamos/', views.reclamos, name='reclamos'),
+    path('visitas/', views.visitas, name='visitas'),
 
     # webpay
     path('webpay/plus/commit/', views.webpay_plus_commit, name='webpay-plus-commit'),

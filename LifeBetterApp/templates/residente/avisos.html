@@ -1,0 +1,24 @@
+{% extends 'residente.html' %}
+
+{% block content %}
+<h2>Avisos</h2>
+<div class="p-2">
+  <a href="{% url 'crear' %}" class="btn btn-primary">Agregar Aviso</a>
+</div>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Asunto</th>
+    <th>Contenido</th>
+    <th>Fecha y Hora</th>
+  </tr>
+  {% for aviso in avisos %}
+  <tr>
+    <td>{{ aviso.id_asunto }}</td>
+    <td>{{ aviso.asunto }}</td>
+    <td>{{ aviso.contenido_asunto }}</td>
+    <td>{{ aviso.fecha_hora_asunto }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
