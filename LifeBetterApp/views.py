@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import logout
+
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
@@ -158,26 +159,21 @@ def reclamos(request):
 ## ADMINISTRADOR
 def admin(request):
     return render(request, 'administrador/adminedificio.html', {})
-
 @login_required
 def crear_usuario(request):
     if request.method == 'POST':
         form = CrearUsuarioForm(request.POST)
         if form.is_valid():
-            
             # Obtenemos la contraseña del formulario
             password = form.cleaned_data['password']
             
             # Hasheamos la contraseña antes de guardarla en la base de datos
             form.instance.password = make_password(password)
-
             # Guardamos el usuario en la base de datos
             form.save()
-
             return redirect('home')  # Redirigir a la página de inicio después de crear el usuario
     else:
         form = CrearUsuarioForm()
-
     return render(request, 'administrador/crearusuario.html', {'form': form})
 
 
@@ -188,3 +184,31 @@ def visita(request):
     return render(request, 'conserje/visita.html', {})
 def multa(request):
     return render(request, 'conserje/multa.html', {})
+@login_required
+def gestionencomienda(request):
+    encomienda = encomienda.objects.all()
+    context = {"encomienda": encomienda}
+    return render(request, 'conserje/gestion/gestion.html', context)
+
+def gastoscomunes(request):
+    if request.method == 'POST':
+        form = PagarGastosComunesForm(request.POST)
+        if form.is_valid():
+            mes = form.cleaned_data['mes']
+            amount = form.cleaned_data['amount']
+            print(f"Mes: {mes}, Amount: {amount}")  # Agrega esta línea
+            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})
+
+    else:
+        form = PagarGastosComunesForm()
+    return render(request, 'sitio/gastoscomunes.html', {'form': form})
+
+
+def gestion(request):
+    return render(request, 'conserje/gestion/gestion.html', {})
+def editar(request):
+    return render(request, 'conserje/gestion/editar.html', {})
+def form(request):
+    return render(request, 'conserje/gestion/form.html', {})
+def crear(request):
+    return render(request, 'conserje/gestion/crear.html', {})
