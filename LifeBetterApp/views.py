@@ -124,10 +124,21 @@ def salir(request):
     logout(request)
     return redirect("home")
 
-def conserje(request):
-    return render(request, 'conserje/conserje.html', {})
 
 # RESIDENTE
+def gastoscomunes(request):
+    if request.method == 'POST':
+        form = PagarGastosComunesForm(request.POST)
+        if form.is_valid():
+            mes = form.cleaned_data['mes']
+            amount = form.cleaned_data['amount']
+            print(f"Mes: {mes}, Amount: {amount}")  # Agrega esta línea
+            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})
+
+    else:
+        form = PagarGastosComunesForm()
+    return render(request, 'sitio/gastoscomunes.html', {'form': form})
+
 def residente(request):
     return render(request, 'residente/residente.html', {})
 
@@ -180,20 +191,6 @@ def gestionencomienda(request):
     context = {"encomienda": encomienda}
     return render(request, 'conserje/gestion/gestion.html', context)
 
-def gastoscomunes(request):
-    if request.method == 'POST':
-        form = PagarGastosComunesForm(request.POST)
-        if form.is_valid():
-            mes = form.cleaned_data['mes']
-            amount = form.cleaned_data['amount']
-            print(f"Mes: {mes}, Amount: {amount}")  # Agrega esta línea
-            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})
-
-    else:
-        form = PagarGastosComunesForm()
-    return render(request, 'sitio/gastoscomunes.html', {'form': form})
-
-
 def gestion(request):
     return render(request, 'conserje/gestion/gestion.html', {})
 def editar(request):
@@ -202,3 +199,5 @@ def form(request):
     return render(request, 'conserje/gestion/form.html', {})
 def crear(request):
     return render(request, 'conserje/gestion/crear.html', {})
+def conserje(request):
+    return render(request, 'conserje/conserje.html', {})
