@@ -1,0 +1,319 @@
+:root {
+    --navigate-color: #048e76;
+    --secondary-color: #15184d;
+    --tertiary-color: #01004e;
+    --text-color: #d0d0d0;
+  }
+  
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body{
+    color: #d0d0d0;
+    background-color: #15184d;
+  }
+  
+  /* Contenedor principal del grid */
+  .grid-container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-areas: 
+    'header header' 
+    'body body' 
+    'footer footer';
+    grid-template-rows: 70px auto 70px;
+    min-height: 100vh;
+    padding: 0;
+  }
+  
+  .grid-header {
+    grid-area: header;
+    background-color: var(--navigate-color); 
+    padding: 10px 0 0 10px;
+  }
+  
+  .grid-navigate {
+    grid-area: navigate;
+    background-color: var(--navigate-color);
+    padding-top: 4px;
+  }
+  
+  .grid-body {
+    grid-area: body;
+    background-color: #15184d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .grid-footer {
+    grid-area: footer;
+    background-color: #01004e;
+    color: darkgrey;
+    text-align: center;
+  }
+  
+  /* Estilo para la barra de navegación */
+  .navbar {
+    background-color: transparent !important ; 
+  }
+  
+  .btn-search{
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: solid 3px var(--text-color);
+  }
+  
+  /*Estilo para carrusel*/
+  .carousel-inner {
+    max-height: 450px;
+  }
+  
+  /* Cambiar el color de fondo y el texto cuando el botón está activo o con el foco */
+  .btn-outline-custom:hover,
+  .btn-outline-custom:focus,
+  .btn-outline-custom:active {
+      color: #ffffff; /* Color del texto al pasar el mouse */
+      background-color: #048e76; /* Color de fondo al pasar el mouse */
+      border-color: #048e76; /* Color del borde al pasar el mouse */
+  }
+  
+  .navbar-collapse {
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  
+  
+  
+  
+  
+  .hero-h2 {
+    color: #d0d0d0;
+    font-size: 2em;
+  }
+  
+  .hero-h3 {
+    color: #048e76;
+    font-size: 1.5em;
+  }
+  
+  .hero-destacado1 {
+    color: #048e76;
+  }
+  
+  .hero-destacado2 {
+    color: #d0d0d0; 
+  }
+  
+  .edificio {
+    opacity: 40%;
+    max-height: 300px;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-h2 {
+      font-size: 1.5em;
+    }
+    .hero-h3 {
+      font-size: 1.2em;
+    }
+    .grid-body {
+      padding: 10px;
+    }
+  }
+  
+  /* Estilo específico para la página de login */
+  .login-page {
+    background: linear-gradient(135deg, #15184d 0%, #048e76 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .login-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  h2 {
+    color: #15184d;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-label {
+    color: #15184d;
+  }
+  
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .btn-primary {
+    background-color: #048e76;
+    border-color: #048e76;
+  }
+  
+  .btn-primary:hover {
+    background-color: #036b5c;
+    border-color: #036b5c;
+  }
+  
+  .form-check-label {
+    color: #15184d;
+  }
+  
+  .help-block a {
+    color: #048e76;
+  }
+  
+  .help-block a:hover {
+    color: #036b5c;
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #01004e;
+    color: darkgrey;
+    width: 100%;
+  }
+  
+  /* Estilo para la página Nosotros */
+  .nosotros-page {
+    background-color: #15184d;
+    padding: 20px;
+    color: #d0d0d0; /* Gris claro para el texto */
+  }
+  
+  .nosotros-page h1 {
+    color: #048e76; /* Dorado para el encabezado principal */
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .nosotros-page h3 {
+    color: #048e76; /* Verde oscuro para los encabezados de secciones */
+    margin-top: 20px;
+  }
+  
+  .nosotros-page p {
+    color: #d0d0d0; /* Gris claro para el texto */
+    margin-bottom: 20px;
+  }
+  
+  .nosotros-page .card {
+    background-color: #fff;
+    color: #15184d; /* Color de texto dentro de las tarjetas */
+  }
+  
+  .nosotros-page .card img {
+    border-radius: 10px 10px 0 0; /* Bordes redondeados solo en la parte superior */
+  }
+  
+  .nosotros-page .card h4 {
+    color: #048e76; /* Verde oscuro para los nombres del equipo */
+  }
+  
+  .nosotros-page .card .card-text {
+    margin-bottom: 10px;
+  }
+  
+  .nosotros-page .card-body p {
+    color: #15184d; /* Texto oscuro para la descripción del equipo */
+  }
+  
+  .nosotros-page .row-cols-1 .col, 
+  .nosotros-page .row-cols-sm-2 .col, 
+  .nosotros-page .row-cols-md-3 .col {
+    margin-bottom: 20px;
+  }
+  
+  .nosotros-page .container-fluid {
+    padding: 0 20px;
+  }
+  
+  .nosotros-page .content {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente para el contenido */
+    border-radius: 10px;
+  }
+  
+  
+  .pago{
+    padding: 2rem;
+  }
+  
+  .pago select{
+    width: 50%;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  /*---------------------------------------------------------------------------------------------------------------------------------
+  /* The side navigation menu */
+  .sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  /* Position and style the close button (top right corner) */
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  #main {
+    transition: margin-left .5s;
+    padding: 20px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }

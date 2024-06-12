@@ -11,7 +11,7 @@
 
   <!-- Enlace a la hoja de estilos de Bootstrap -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styleconserje.css' %}">
 
 </head>
 
@@ -26,15 +26,9 @@
 
     {% endblock %}
 
-  </div>
-
-  <br>
   <!-- Footer -->
-  <div>
-    <footer class="grid-footer">
-      © 2024 Copyright
-    </footer>
-  </div>
+{% include 'componentes/footer.html' %}
+</div>
 
   <!-- Enlace a la hoja de JavaScript -->
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

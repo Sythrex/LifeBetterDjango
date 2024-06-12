@@ -4,12 +4,102 @@
 {% block body %}
 
 <body>
-    <h1>Registro de Encomienda</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar</button>
-    </form>
+    
+    <div class="grid-container">
+        <!-- Header -->
+        {% include 'componentes/header.html' %}
+
+        <!-- Contenedor de paginas -->
+        <div class="grid-item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="text-center">ENCOMIENDAS</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Registrar Encomienda</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'encomienda' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                    </div>
+                                    <div class="form-group
+                                    ">
+                                        <label for="apellido">Apellido</label>
+                                        <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                    </div>
+                                    <div class="form-group
+                                    ">
+                                        <label for="direccion">Direccion</label>
+                                        <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                    </div>
+                                    <div class="form-group
+                                    ">
+                                        <label for="departamento">Departamento</label>
+                                        <input type="text" class="form-control" id="departamento" name="departamento" required>
+                                    </div>
+                                    <div class="form-group
+                                    ">
+                                        <label for="descripcion">Descripcion</label>
+                                        <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Encomiendas</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
+                                            <th>Direccion</th>
+                                            <th>Departamento</th>
+                                            <th>Descripcion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for encomienda in encomiendas %}
+                                        <tr>
+                                            <td>{{ encomienda.nombre }}</td>
+                                            <td>{{ encomienda.apellido }}</td>
+                                            <td>{{ encomienda.direccion }}</td>
+                                            <td>{{ encomienda.departamento }}</td>
+                                            <td>{{ encomienda.descripcion }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        {% include 'componentes/footer.html' %}
+    </div>
+
+    <!-- Enlace a la hoja de JavaScript -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
+    
 </body>
 
 
