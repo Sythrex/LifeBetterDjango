@@ -1,6 +1,7 @@
-{% extends 'residente.html' %}
-
-{% block content %}
+{% extends "residente.html" %}
+{% load static %}
+{% block title %} LB | AVISOS {% endblock %}
+{% block body %}
 <h2>Avisos</h2>
 <div class="p-2">
   <a href="{% url 'crear' %}" class="btn btn-primary">Agregar Aviso</a>

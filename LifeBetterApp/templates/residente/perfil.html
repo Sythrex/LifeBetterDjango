@@ -1,6 +1,7 @@
-{% extends 'residente.html' %}
-
-{% block content %}
+{% extends "residente.html" %}
+{% load static %}
+{% block title %} LB | PERFIL {% endblock %}
+{% block body %}
 <h2>Perfil</h2>
 <p><strong>RUN:</strong> {{ residente.rut_residente }}</p>
 <p><strong>DV:</strong> {{ residente.dvrun }}</p>

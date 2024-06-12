@@ -157,6 +157,9 @@ def avisos(request):
 def reclamos(request):
     return render(request, 'residente/reclamos.html', {})
 
+def espaciocomun(request):
+    return render(request, 'residente/espaciocomun.html', {})
+
 ## ADMINISTRADOR
 def admin(request):
     return render(request, 'administrador/adminedificio.html', {})

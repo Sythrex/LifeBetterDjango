@@ -23,6 +23,7 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('reclamos/', views.reclamos, name='reclamos'),
     path('visitas/', views.visitas, name='visitas'),
+    path('espaciocomun/', views.espaciocomun, name='espaciocomun'),
     path('gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
 
     # webpay

@@ -16,18 +16,18 @@
     <a href="{% url 'avisos' %}">Avisos</a>
     <a href="{% url 'encomienda' %}">Encomienda</a>
     <a href="{% url 'reclamos' %}">Reclamos</a>
+    <a  href="{% url 'gastoscomunes' %}">Pago</a>
     <a href="{% url 'visitas' %}">Visitas</a>
-    <a class="nav-link" href="{% url 'gastoscomunes' %}">Pago</a>
+    <a href="{% url 'espaciocomun' %}">Espacio Común</a>
   </div>
+  <button class="openbtn" onclick="openNav()">&#9776;</button>
 
-  <div class="content">
-    {% block content %}
-  
-    {% endblock %}
+  <div class="grid-container">
+    <!-- Contenedor de paginas -->
+    {% block body %} {% endblock %}
+    <!-- Footer -->
+    {% include 'componentes/footer.html' %}
   </div>
-
-  <!-- Use any element to open the sidenav -->
-  <span onclick="openNav()">open</span>
 
   <!-- Script for sidenav -->
   <script src="{% static 'js/myjs.js' %}"></script>

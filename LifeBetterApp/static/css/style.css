@@ -294,7 +294,7 @@ h2 {
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #036b5c;
 }
 
 /* Position and style the close button (top right corner) */
@@ -316,4 +316,33 @@ h2 {
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+/* Position and style the close button (top right corner) */
+.sidepanel .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style the button that is used to open the sidepanel */
+.openbtn {
+  font-size: 30px; /* Incrementa el tamaño de fuente para agrandar el botón */
+  cursor: pointer;
+  background-color: #036b5c; /* Cambia el color de fondo */
+  color: #d0d0d0; /* Asegúrate de que el texto sea visible */
+  padding: 20px 25px; /* Incrementa el padding para agrandar el botón */
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #048e76; /* Cambia el color de fondo al pasar el ratón */
+}
+
+.residente-page h1 {
+  color: #048e76;
+  text-align: center;
+  margin-bottom: 20px;
 }
