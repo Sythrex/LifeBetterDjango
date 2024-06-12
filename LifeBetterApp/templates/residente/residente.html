@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  {% include 'componentes/header.html' %}
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="{% url 'perfil' %}">Perfil</a>
@@ -31,6 +32,7 @@
 
   <!-- Script for sidenav -->
   <script src="{% static 'js/myjs.js' %}"></script>
+  
 </body>
 
 </html>
