@@ -1,1 +1,172 @@
-index para administrador
+{% extends "../index.html" %} 
+{% block title %} LB | ADMINISTRADOR {% endblock %} 
+{% block body %}
+
+{% include 'componentes/sidenav.html' %} 
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">Edificio</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Información del edificio</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Email</th>
+            <th scope="col">Cantidad de departamentos</th>
+            <th scope="col">Cantidad de estacionamientos</th>
+            <th scope="col">Cantidad de bodegas</th>
+            <th scope="col">Cantidad de locales comerciales</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ edificio.nombre }}</td>
+            <td>{{ edificio.direccion }}</td>
+            <td>{{ edificio.telefono }}</td>
+            <td>{{ edificio.email }}</td>
+            <td>{{ edificio.cantidad_departamentos }}</td>
+            <td>{{ edificio.cantidad_estacionamientos }}</td>
+            <td>{{ edificio.cantidad_bodegas }}</td>
+            <td>{{ edificio.cantidad_locales_comerciales }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Departamentos</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Número</th>
+            <th scope="col">Piso</th>
+            <th scope="col">Cantidad de habitaciones</th>
+            <th scope="col">Cantidad de baños</th>
+            <th scope="col">Cantidad de metros cuadrados</th>
+            <th scope="col">Valor</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for departamento in departamentos %}
+          <tr>
+            <td>{{ departamento.numero }}</td>
+            <td>{{ departamento.piso }}</td>
+            <td>{{ departamento.cantidad_habitaciones }}</td>
+            <td>{{ departamento.cantidad_banos }}</td>
+            <td>{{ departamento.metros_cuadrados }}</td>
+            <td>{{ departamento.valor }}</td>
+            <td>{{ departamento.estado }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Estacionamientos</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Número</th>
+            <th scope="col">Piso</th>
+            <th scope="col">Valor</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for estacionamiento in estacionamientos %}
+          <tr>
+            <td>{{ estacionamiento.numero }}</td>
+            <td>{{ estacionamiento.piso }}</td>
+            <td>{{ estacionamiento.valor }}</td>
+            <td>{{ estacionamiento.estado }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Bodegas</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Número</th>
+            <th scope="col">Piso</th>
+            <th scope="col">Valor</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bodega in bodegas %}
+          <tr>
+            <td>{{ bodega.numero }}</td>
+            <td>{{ bodega.piso }}</td>
+            <td>{{ bodega.valor }}</td>
+            <td>{{ bodega.estado }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">Locales Comerciales</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Número</th>
+            <th scope="col">Piso</th>
+            <th scope="col">Valor</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for local_comercial in locales_comerciales %}
+          <tr>
+            <td>{{ local_comercial.numero }}</td>
+            <td>{{ local_comercial.piso }}</td>
+            <td>{{ local_comercial.valor }}</td>
+            <td>{{ local_comercial.estado }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

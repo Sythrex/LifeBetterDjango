@@ -1,38 +1,11 @@
+{% extends "../index.html" %} 
+{% load static %} 
+{% block title %} LB | RESIDENTE {% endblock %} 
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Residente - LifeBetter</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-</head>
 
-<body>
-  {% include 'componentes/header.html' %}
-  <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="{% url 'perfil' %}">Perfil</a>
-    <a href="{% url 'avisos' %}">Avisos</a>
-    <a href="{% url 'encomienda' %}">Encomienda</a>
-    <a href="{% url 'reclamos' %}">Reclamos</a>
-    <a  href="{% url 'gastoscomunes' %}">Pago</a>
-    <a href="{% url 'visitas' %}">Visitas</a>
-    <a href="{% url 'espaciocomun' %}">Espacio Común</a>
-  </div>
-  <button class="openbtn" onclick="openNav()">&#9776;</button>
+{% block body %}
 
-  <div class="grid-container">
-    <!-- Contenedor de paginas -->
-    {% block body %} {% endblock %}
-    <!-- Footer -->
-    {% include 'componentes/footer.html' %}
-  </div>
+{% include 'componentes/sidenav.html' %} 
 
-  <!-- Script for sidenav -->
-  <script src="{% static 'js/myjs.js' %}"></script>
-  
-</body>
-
-</html>
+{% endblock %}

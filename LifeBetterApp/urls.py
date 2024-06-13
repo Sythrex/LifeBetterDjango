@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('sitio/login/', views.login_view, name='login'),
     path('nosotros/', views.nosotros, name='nosotros'),
+    path('sitio/contacto/', views.contacto, name='contacto'),
     path('conserje/', views.conserje, name='conserje'),
     path('unauthorized/', views.unauthorized, name='unauthorized'),
 
@@ -26,7 +27,6 @@ urlpatterns = [
     path('visitas/', views.visitas, name='visitas'),
     path('espaciocomun/', views.espaciocomun, name='espaciocomun'),
     path('gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
-
     # webpay
     path('webpay/plus/commit/', views.webpay_plus_commit, name='webpay-plus-commit'),
     path('webpay/plus/create/', views.webpay_plus_create, name='webpay-plus-create'),
@@ -38,8 +38,10 @@ urlpatterns = [
     # GESTIÓN DE USUARIOS
     path('logout/', views.salir, name='logout'),  # Ruta para la vista de cerrar sesión
 
-    #Gestion de botones de conserje 
+    # CONSERJE
     path('conserje/encomienda/', views.encomienda, name='encomienda'),
     path('conserje/visita/', views.visita, name='visita'),
     path('conserje/multa/', views.multa, name='multa'),
+    path('conserje/bitacora/', views.bitacora, name='bitacora'),
+    path('conserje/reclamos/', views.reclamos, name='reclamos'),
 ]

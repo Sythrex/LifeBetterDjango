@@ -20,6 +20,9 @@ def index(request):
 def home(request):
     return render(request, 'sitio/home.html', {})
 
+def contacto(request):
+    return render(request, 'sitio/contacto.html', {})
+
 
 ## VISTAS DE ERRORES
 def unauthorized(request): 
@@ -90,7 +93,6 @@ def webpay_plus_create(request):
     
     response = (Transaction()).create(buy_order, session_id, amount, return_url)
         
-
 
     return render(request,'webpay/plus/create.html', {
         'request': create_request,
@@ -205,9 +207,15 @@ def crear_usuario(request):
         return redirect('unauthorized')
 
 
-#Gestion de botones de conserje
+# CONSERJE
 def encomienda(request):
     return render(request, 'conserje/encomienda.html', {})
+
+def bitacora(request):
+    return render(request, 'conserje/bitacora.html', {})
+
+def reclamos(request):
+    return render(request, 'conserje/reclamos.html', {})
 
 @login_required
 def visita(request):
