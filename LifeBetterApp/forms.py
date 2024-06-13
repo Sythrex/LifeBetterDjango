@@ -3,15 +3,18 @@ from LifeBetterApp.models import User
 
 
 class CrearUsuarioForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Contraseña')
+
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role']
+        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'password']
         labels = {
             'username': 'Nombre de usuario',
             'first_name': 'Nombre',
             'last_name': 'Apellido',
             'email': 'Correo electrónico',
             'role': 'Rol',
+            'password': 'Contraseña',
         }
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
@@ -20,6 +23,7 @@ class CrearUsuarioForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'role': forms.Select(attrs={'class': 'form-control'}),
         }
+
 
 
 class PagarGastosComunesForm(forms.Form):

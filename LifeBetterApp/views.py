@@ -1,31 +1,31 @@
 import random
-from urllib import request
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import logout
-
+from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
-from transbank.error.transbank_error import TransbankError
-from transbank.error.transaction_create_error import TransactionCreateError
 from django.contrib.auth.decorators import login_required
 from LifeBetterApp.forms import CrearUsuarioForm, PagarGastosComunesForm
-from .models import Residente, Encomienda, Visitante, Anuncio, Multa
 
+
+## VISTAS DE PAGINAS PRINCIPALES
 def index(request):
     return render(request, 'index.html', {})
 
 def home(request):
     return render(request, 'sitio/home.html', {})
 
-def login(request):
-    return render(request, 'sitio/login.html', {})
 
-# Restablecimiento de contraseña con correo electronico
+## VISTAS DE ERRORES
+def unauthorized(request): 
+    return render(request, 'errores/unauthorized.html', {})
+
+# VISTAS DE AUTENTICACION
 def password_reset(request):
     return auth_views.PasswordResetView.as_view(
         template_name='password_reset/password_reset.html',
@@ -53,7 +53,7 @@ def complete(request):
 def nosotros(request):
     return render(request, 'sitio/nosotros.html', {})
 
-
+#VISTAS DE API WEBPAY
 VALOR_MESES = {
     'Enero': 100,
     'Febrero': 200,
@@ -115,14 +115,28 @@ def webpay_plus_commit(request):
     return render(request, 'webpay/plus/commit.html', {'token': token, 'response': response})
 
 
-# GESTIÓN DE USUARIOS
-def login(request):
-    return render(request, "sitio/login.html")
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.role == 'adminedificio':
+                return redirect('adminedificio')
+            elif user.role == 'residente':
+                return redirect('residente')
+            elif user.role == 'conserje':
+                return redirect('conserje')
+            else:
+                return redirect('home')
+        else:
+            # En caso de que la autenticación falle, puedes enviar un mensaje al template
+            return render(request, "sitio/login.html", {'error': 'Nombre de usuario o contraseña incorrectos'})
+    else:
+        return render(request, "sitio/login.html")
 
-@login_required
-def salir(request):
-    logout(request)
-    return redirect("home")
+
 
 
 # RESIDENTE
@@ -139,9 +153,13 @@ def gastoscomunes(request):
         form = PagarGastosComunesForm()
     return render(request, 'sitio/gastoscomunes.html', {'form': form})
 
+@login_required
 def residente(request):
-    return render(request, 'residente/residente.html', {})
-
+    if request.user.role == 'residente':
+        return render(request, 'residente/residente.html', {})
+    else:
+        return redirect('unauthorized')
+    
 def perfil(request):
     return render(request, 'residente/perfil.html', {})
 
@@ -163,44 +181,65 @@ def espaciocomun(request):
 ## ADMINISTRADOR
 def admin(request):
     return render(request, 'administrador/adminedificio.html', {})
+
 @login_required
 def crear_usuario(request):
-    if request.method == 'POST':
-        form = CrearUsuarioForm(request.POST)
-        if form.is_valid():
-            # Obtenemos la contraseña del formulario
-            password = form.cleaned_data['password']
-            
-            # Hasheamos la contraseña antes de guardarla en la base de datos
-            form.instance.password = make_password(password)
-            # Guardamos el usuario en la base de datos
-            form.save()
-            return redirect('home')  # Redirigir a la página de inicio después de crear el usuario
+    if request.user.role == 'adminedificio':
+
+        if request.method == 'POST':
+            form = CrearUsuarioForm(request.POST)
+            if form.is_valid():
+                # Obtenemos la contraseña del formulario
+                password = form.cleaned_data['password']
+                
+                # Hasheamos la contraseña antes de guardarla en la base de datos
+                form.instance.password = make_password(password)
+                # Guardamos el usuario en la base de datos
+                form.save()
+                return redirect('home')  # Redirigir a la página de inicio después de crear el usuario
+        else:
+            form = CrearUsuarioForm()
+        return render(request, 'administrador/crearusuario.html', {'form': form})
+
     else:
-        form = CrearUsuarioForm()
-    return render(request, 'administrador/crearusuario.html', {'form': form})
+        return redirect('unauthorized')
 
 
 #Gestion de botones de conserje
 def encomienda(request):
     return render(request, 'conserje/encomienda.html', {})
+
+@login_required
 def visita(request):
-    return render(request, 'conserje/visita.html', {})
+    if request.user.role == 'conserje' or request.user.role == 'residente':
+
+        return render(request, 'conserje/visita.html', {})
+    else:
+        return redirect('unauthorized')
+    
+@login_required
 def multa(request):
-    return render(request, 'conserje/multa.html', {})
+    if request.user.role == 'conserje':
+
+        return render(request, 'conserje/multa.html', {})
+    else:
+        return redirect('unauthorized')
+
 @login_required
 def gestionencomienda(request):
     encomienda = encomienda.objects.all()
     context = {"encomienda": encomienda}
     return render(request, 'conserje/gestion/gestion.html', context)
 
-def gestion(request):
-    return render(request, 'conserje/gestion/gestion.html', {})
-def editar(request):
-    return render(request, 'conserje/gestion/editar.html', {})
-def form(request):
-    return render(request, 'conserje/gestion/form.html', {})
-def crear(request):
-    return render(request, 'conserje/gestion/crear.html', {})
+@login_required
 def conserje(request):
-    return render(request, 'conserje/conserje.html', {})
+    if request.user.role == 'conserje':
+
+        return render(request, 'conserje/conserje.html', {})
+    else:
+        return redirect('unauthorized')
+
+
+def salir(request):
+    logout(request)
+    return redirect("home")

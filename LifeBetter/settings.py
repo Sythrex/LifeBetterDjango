@@ -137,3 +137,6 @@ EMAIL_HOST_PASSWORD = 'tu_contraseña'  # Cambia esto a la contraseña de tu ser
 # Configuración adicional para usar la consola en lugar de SMTP en entornos de desarrollo
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# settings.py
+LOGIN_URL = 'login'

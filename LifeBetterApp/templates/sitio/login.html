@@ -1,48 +1,55 @@
-{% extends "../index.html" %}
+{% extends "../index.html" %} {% block title %} LB | Login {% endblock %} {% block body %}
 
-{% block title %} LB | Login {% endblock %}
-
-{% block body %}
-
-<div class="login-page"> <!-- Aplicar la clase login-page -->
-  <div class="login-container row"> <!-- Contenedor principal del login -->
+<div class="login-page">
+  <!-- Aplicar la clase login-page -->
+  <div class="login-container row">
+    <!-- Contenedor principal del login -->
     <h2 class="fw-bold text-center py-5">Inicio de Sesión</h2>
     <div>
       <!-- Formulario de inicio de sesión -->
       <form method="post">
-        {% csrf_token %} <!-- Token CSRF para proteger contra ataques CSRF -->
-        <div class="form-group mb-1"> <!-- Grupo de formulario con margen inferior -->
-          <label for="usuario" class="form-label">Nombre Usuario</label> <!-- Etiqueta para el campo de usuario -->
-          <input type="text" class="form-control" name="username"> <!-- Campo de entrada para el nombre de usuario -->
+        {% csrf_token %}
+        <!-- Token CSRF para proteger contra ataques CSRF -->
+        <div class="form-group mb-1">
+          <!-- Grupo de formulario con margen inferior -->
+          <label for="usuario" class="form-label">Nombre Usuario</label>
+          <!-- Etiqueta para el campo de usuario -->
+          <input type="text" class="form-control" name="username" />
+          <!-- Campo de entrada para el nombre de usuario -->
         </div>
 
-        <div class="form-group mb-2"> <!-- Grupo de formulario con margen inferior -->
-          <label for="password" class="form-label">Contraseña</label> <!-- Etiqueta para el campo de contraseña -->
-          <input type="password" class="form-control" name="password"> <!-- Campo de entrada para la contraseña -->
+        <div class="form-group mb-2">
+          <!-- Grupo de formulario con margen inferior -->
+          <label for="password" class="form-label">Contraseña</label>
+          <!-- Etiqueta para el campo de contraseña -->
+          <input type="password" class="form-control" name="password" />
+          <!-- Campo de entrada para la contraseña -->
         </div>
 
         <!-- Botón para enviar el formulario -->
         <div class="form-group d-grid mb-2">
           <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
         </div>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
 
         <!-- Checkbox para recordar al usuario -->
-        <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" name="remember"> Recuerdame
-        </label>
+        <label class="form-check-label"> <input class="form-check-input" type="checkbox" name="remember" /> Recuerdame </label>
       </form>
       <div class="links">
-        <br>
-        <div class="help-block"> <!-- recuperación de contraseña -->
+        <br />
+        <div class="help-block">
+          <!-- recuperación de contraseña -->
           Olvido Contraseña? <a href="{% url 'password_reset' %}">Clic Aquí</a>
         </div>
-        <div class="help-block"> <!-- registro -->
+        <div class="help-block">
+          <!-- registro -->
           No Tiene Cuenta? <a href="{% url 'crear_usuario' %}">Registrar</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
 {% endblock %}

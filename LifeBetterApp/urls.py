@@ -5,9 +5,10 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('sitio/login/', views.login, name='login'),
+    path('sitio/login/', views.login_view, name='login'),
     path('nosotros/', views.nosotros, name='nosotros'),
     path('conserje/', views.conserje, name='conserje'),
+    path('unauthorized/', views.unauthorized, name='unauthorized'),
 
     # Rutas para el restablecimiento de contraseña
     path('password_reset/', views.password_reset, name='password_reset'),
