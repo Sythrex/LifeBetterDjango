@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
+from .models import Departamento, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
 
 # Registra todos los modelos para que sean visibles en la admin
 admin.site.register(User)
@@ -16,3 +16,4 @@ admin.site.register(Bitacora)
 admin.site.register(Reservacion)
 admin.site.register(Estacionamiento)
 admin.site.register(Encomienda)
+admin.site.register(Departamento)

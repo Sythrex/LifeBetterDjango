@@ -27,6 +27,7 @@ urlpatterns = [
     path('visitas/', views.visitas, name='visitas'),
     path('espaciocomun/', views.espaciocomun, name='espaciocomun'),
     path('gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
+    path('resumen/', views.resumen, name='resumen'),
     # webpay
     path('webpay/plus/commit/', views.webpay_plus_commit, name='webpay-plus-commit'),
     path('webpay/plus/create/', views.webpay_plus_create, name='webpay-plus-create'),

@@ -180,6 +180,9 @@ def reclamos(request):
 def espaciocomun(request):
     return render(request, 'residente/espaciocomun.html', {})
 
+def resumen(request):
+    return render(request, 'residente/resumen.html', {})
+
 ## ADMINISTRADOR
 def admin(request):
     return render(request, 'administrador/adminedificio.html', {})

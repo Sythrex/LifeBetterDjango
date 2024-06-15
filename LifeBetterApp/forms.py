@@ -1,5 +1,6 @@
 from django import forms
-from LifeBetterApp.models import User
+from LifeBetterApp.models import Departamento, Empleado, Encomienda, Residente, User
+from .models import Departamento, Empleado, Encomienda, Residente, User
 
 
 class CrearUsuarioForm(forms.ModelForm):
@@ -59,3 +60,15 @@ class PagarGastosComunesForm(forms.Form):
     }
 
     mes = forms.ChoiceField(choices=MESES, widget=forms.Select(attrs={'class': 'form-control'}))
+
+    
+class EncomiendaForm(forms.ModelForm):
+        class Meta:
+            model = Encomienda
+            fields = ['estado_encomienda', 'fecha_hora_encomienda', 'run_residente', 'run_empleado', 'departamento']
+    
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['run_residente'].queryset = Residente.objects.all()
+            self.fields['run_empleado'].queryset = Empleado.objects.filter(role='conserje')
+            self.fields['departamento'].queryset = Departamento.objects.all()
