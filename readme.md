@@ -10,8 +10,8 @@ python -m venv env
 pip install -r requirements.txt
 
 ### apis
-python manage.py django
-python manage.py transbank-sdk
+pip install django
+pip install transbank-sdk
 
 ### Aplica las migraciones
 python manage.py migrate
