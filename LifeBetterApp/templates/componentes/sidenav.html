@@ -1,7 +1,4 @@
-
-
-
-<div id="mySidenav" class="sidenav">
+<div class="sidenav" id="mySidenav" >
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="bi bi-x"></i></a>
     {% comment %} Botones para conserje {% endcomment %}
     {% if user.role == 'conserje' %}
@@ -19,7 +16,11 @@
     <a href="{% url 'resumen' %}">Resumen</a>
     <a href="{% url 'visitas' %}">Visitas</a>
     {% endif %}
-
+    {% comment %} Botones para Administrador {% endcomment %}
+    {% if user.role == 'adminedificio'%}
+    <a href="{% url 'adminedificio' %}">Inicio</a>
+    <a href="{% url 'crearusuario' %}">Crear Usuario</a>
+    {% endif %}
   </div>
     <a  id="openbtn"  href="javascript:void(0)" class="openbtn" onclick="openNav()"><i class="bi bi-arrow-bar-right"></i></a>
 

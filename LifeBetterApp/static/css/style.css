@@ -1,51 +1,53 @@
 :root {
-  --navigate-color: #048e76;
-  --secondary-color: #15184d;
-  --tertiary-color: #01004e;
-  --text-color: #d0d0d0;
+  --color-navigate: #009797; /* Verde turquesa */
+  --color-fondo: #121212; /* Negro suave */
+  --color-secundario: #1e1e1e; /* Gris oscuro */
+  --color-terciario: #505050;
+  --color-texto: #e0e0e0; /* Gris claro */
 }
 
-*{
+
+/* Reinicio de estilos predeterminados del navegador */
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
-  color: #d0d0d0;
-  background-color: #15184d;
+/* Estilos base */
+body {
+  color: var(--color-texto);
+  background-color: var(--color-secundario);
 }
 
-/* Contenedor principal del grid */
+/* Diseño del contenedor principal de la cuadrícula */
 .grid-container {
   display: grid;
   grid-template-columns: 200px 1fr;
-  grid-template-areas: 
-  'header navigate' 
-  'body body' 
-  'footer footer';
+  grid-template-areas:
+    'header navegacion'
+    'cuerpo cuerpo'
+    'footer footer';
   grid-template-rows: 70px auto 70px;
   min-height: 100vh;
   padding: 0;
 }
 
-
-
+/* Estilos de las áreas de la cuadrícula */
 .grid-header {
   grid-area: header;
-  background-color: var(--navigate-color); 
+  background-color: var(--color-fondo);
   padding: 10px 0 0 10px;
 }
 
 .grid-navigate {
-  grid-area: navigate;
-  background-color: var(--navigate-color);
-  padding-top: 4px;
+  grid-area: navegacion;
+  background-color: var(--color-secundario);
 }
 
 .grid-body {
-  grid-area: body;
-  background-color: #15184d;
+  grid-area: cuerpo;
+  background-color: var(--color-secundario);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,62 +57,88 @@ body{
 
 .grid-footer {
   grid-area: footer;
-  background-color: #01004e;
+  background-color: var(--color-secundario);
   color: darkgrey;
   text-align: center;
 }
 
-/* Estilo para la barra de navegación */
+/* Estilos de la barra de navegación */
 .navbar {
-  background-color: transparent !important ; 
+  background-color: var(--color-fondo);
+  padding: 10px 20px 14px 20px;
 }
 
-.btn-search{
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  border: solid 3px var(--text-color);
+.navbar a{
+  color: var(--color-navigate);
+  font-size: 110%;
+  margin-right: 20px; 
 }
 
-/*Estilo para carrusel*/
-.carousel-inner {
-  max-height: 450px;
-}
-
-/* Cambiar el color de fondo y el texto cuando el botón está activo o con el foco */
-.btn-outline-custom:hover,
-.btn-outline-custom:focus,
-.btn-outline-custom:active {
-    color: #ffffff; /* Color del texto al pasar el mouse */
-    background-color: #048e76; /* Color de fondo al pasar el mouse */
-    border-color: #048e76; /* Color del borde al pasar el mouse */
+.navbar a :hover{
+  color: var(--color-texto);
 }
 
 .navbar-collapse {
   align-items: center;
   justify-content: space-between;
+  width: auto;
+  /*border-radius:10px;*/
 }
 
+.btn-search {
+  background-color: var(--color-secundario);
+  color: var(--color-texto);
+  border: solid 1px var(--color-navigate);
+  width: auto;
+}
 
+.btn-search:hover{
+  background-color: var(--color-fondo);
+  color: var(--color-navigate);
+  border: solid 1px var(--color-texto);
+  width: auto;
+}
 
+/* Estilos del carrusel */
+.carousel-inner {
+  max-height: 450px;
+}
 
+.btn-outline-custom {
+  color: var(--color-navigate);
+  background-color: transparent;
+  border: 1px solid var(--color-navigate);
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
 
+/* Estilos personalizados de botones */
+.btn-outline-custom:hover{
+  color:var(--color-texto);
+  background-color: var(--color-secundario);
+  border-color: var(--color-navigate);
+}
 
+/* Estilos de la sección hero */
 .hero-h2 {
-  color: #d0d0d0;
+  color: var(--color-texto);
   font-size: 2em;
 }
 
 .hero-h3 {
-  color: #048e76;
+  color: var(--color-navigate);
   font-size: 1.5em;
 }
 
 .hero-destacado1 {
-  color: #048e76;
+  color: var(--color-navigate);
 }
 
 .hero-destacado2 {
-  color: #d0d0d0; 
+  color: var(--color-navigate);
 }
 
 .edificio {
@@ -118,6 +146,7 @@ body{
   max-height: 300px;
 }
 
+/* Ajustes responsivos */
 @media (max-width: 768px) {
   .hero-h2 {
     font-size: 1.5em;
@@ -130,29 +159,30 @@ body{
   }
 }
 
-/* Estilo específico para la página de login */
+/* Estilos de la página de login */
 .login-page {
-  background: linear-gradient(135deg, #15184d 0%, #048e76 100%);
+  background: linear-gradient(135deg, var(--color-secundario) 0%, var(--color-navigate)100%);
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content:baseline;
+  align-items:baseline;
   margin: 0;
   border-radius: 10px;
-  padding: 20px;
+  padding: 20px 200px;
+  width: 120%;
 }
 
 .login-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-secundario);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 400px;
+  width: 30%;
+  max-width: auto;
 }
 
 h2 {
-  color: #15184d;
+  color: var(--color-texto);
 }
 
 .form-group {
@@ -160,7 +190,7 @@ h2 {
 }
 
 .form-label {
-  color: #15184d;
+  color: var(--color-navigate);
 }
 
 .form-control {
@@ -170,83 +200,111 @@ h2 {
 }
 
 .btn-primary {
-  background-color: #048e76;
-  border-color: #048e76;
+  background-color: var(--color-navigate);
+  border-color: var(--color-navigate);
 }
 
 .btn-primary:hover {
-  background-color: #036b5c;
-  border-color: #036b5c;
+  background-color:  var(--color-texto);
+  border-color: var(--color-navigate)
 }
 
 .form-check-label {
-  color: #15184d;
+  color: var(--color-terciario);
 }
 
 .help-block a {
-  color: #048e76;
+  color: var(--color-navigate);
 }
 
 .help-block a:hover {
-  color: #036b5c;
+  color: var(--color-navigate)
 }
 
+/* Estilos del pie de página */
 .footer {
   text-align: center;
   padding: 20px;
-  background-color: #01004e;
+  background-color: var(--color-secundario);
   color: darkgrey;
   width: 100%;
 }
 
-/* Estilo para la página Nosotros */
+/* Estilos de la página Nosotros */
+
+.container form{
+  border-radius: 20px;
+  border: solid 1px var(--color-navigate);
+  padding:20px;
+}
+
+.container form legend {
+  font: size 70px;
+}
+
+.btn-enviar {
+  background-color: var(--color-secundario);
+  color: var(--color-texto);
+  border: solid 2px var(--color-navigate);
+  width: auto;
+}
+
+.btn-enviar:hover{
+  background-color: var(--color-navigate);
+  color: var(--color-fondo);
+  border: solid 1px var(--color-navigate);
+  width: auto;
+  border-radius: 10px;
+}
+
 .nosotros-page {
-  background-color: #15184d;
+  background-color: var(--color-secundario);
   padding: 20px;
-  color: #d0d0d0; /* Gris claro para el texto */
+  color: var(--color-texto);
 }
 
 .nosotros-page h1 {
-  color: #048e76; /* Dorado para el encabezado principal */
+  color: var(--color-navigate);
   text-align: center;
   margin-bottom: 20px;
 }
 
 .nosotros-page h3 {
-  color: #048e76; /* Verde oscuro para los encabezados de secciones */
+  color: var(--color-navigate);
   margin-top: 20px;
 }
 
 .nosotros-page p {
-  color: #d0d0d0; /* Gris claro para el texto */
+  color: var(--color-texto);
   margin-bottom: 20px;
 }
 
 .nosotros-page .card {
-  background-color: #fff;
-  color: #15184d; /* Color de texto dentro de las tarjetas */
+  background-color:var(--color-texto);
+  color: var(--color-secundario);
 }
 
 .nosotros-page .card img {
-  border-radius: 10px 10px 0 0; /* Bordes redondeados solo en la parte superior */
+  border-radius: 10px 10px 0 0;
 }
 
 .nosotros-page .card h4 {
-  color: #048e76; /* Verde oscuro para los nombres del equipo */
+  color: var(--color-navigate);
 }
 
 .nosotros-page .card .card-text {
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .nosotros-page .card-body p {
-  color: #15184d; /* Texto oscuro para la descripción del equipo */
+  color: var(--color-secundario);
 }
 
 .nosotros-page .row-cols-1 .col, 
 .nosotros-page .row-cols-sm-2 .col, 
 .nosotros-page .row-cols-md-3 .col {
-  margin-bottom: 20px;
+  margin-bottom:80px;
 }
 
 .nosotros-page .container-fluid {
@@ -255,93 +313,125 @@ h2 {
 
 .nosotros-page .content {
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente para el contenido */
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-
-.pago{
+/* Estilos de la sección de pago */
+.pago {
   padding: 2rem;
 }
 
-.pago select{
+.pago select {
   width: 50%;
   padding: 1rem;
   margin: 1rem 0;
 }
-/*---------------------------------------------------------------------------------------------------------------------------------
-/* The side navigation menu */
+
+/* Estilos de la página Residente */
+.residente-page h1 {
+  color: var(--color-navigate);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Estilos de la barra lateral de navegación */
 .sidenav {
-  position: absolute;
+  /* position: fixed;
   grid-area: sidenav;
-  background-color: #111;
-  overflow-x: hidden;
-  padding-top: 15px;
+  background-color: var(--color-fondo);
+  overflow-x:hidden;
+  padding-top: 20px;
   transition: 0.5s;
   top: 70px;
   left: 0;
-  height: calc(100vh - 70px - 70px) ;
-  width: 225px;
-  transition: 1s ease-in-out;
+  height: 100%;
+  width: 200px;
+  transition: 0.5s ease-in-out;
+  flex: 1;
+  bottom: 0;
+  border-top-right-radius: 20px;
+  z-index: 1000;  */
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: var(--color-fondo);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
 }
 
-
-/* The navigation menu links */
 .sidenav a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: var(--color-text);
   display: block;
   transition: 0.3s;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #036b5c;
+  color: var(--color-navigate)
 }
 
-/* Position and style the close button (top right corner) */
-.closebtn {
-  color: #818181;
-  margin-right: 8px;
-  padding: 0 !important;
+.sidenav .closebtn {
   position: absolute;
   top: 0;
-  right: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: var(--color-texto);
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-
-
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+#grid-container {
+  transition: margin-left .5s;
+  padding: 16px;
 }
 
-/* Position and style the close button (top right corner) */
-
-
-/* Style the button that is used to open the sidepanel */
 .openbtn {
-  color: #818181;
+  /* color: var(--color-texto);
   margin-right: 8px;
   padding: 0 !important;
   position: absolute;
   top: 85px;
   left: 10px;
   opacity: 0;
-  font-size: 40px;
-  transition: 2s linear;
+  transition: 0.5s linear; */
+  color: var(--color-texto);
+  margin-right: 8px;
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 85px;
+  left: 10px;
+  z-index: 2;
+  background: none;
+  border: none;
+  padding: 0 !important;
 }
 
 .openbtn:hover {
-  color: #048e76; /* Cambia el color de fondo al pasar el ratón */
+  color: var(--color-navigate);
 }
 
-.residente-page h1 {
-  color: #048e76;
-  text-align: center;
-  margin-bottom: 20px;
+/* Ajustes responsivos para la barra lateral de navegación */
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+/**************************************************************************/
+/*Estilos*/
+
+.table table-striped{
+  background-color: var(--color-terciario);
+  color: var(--color-texto);
+
 }

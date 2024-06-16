@@ -178,6 +178,8 @@ def reclamos(request):
     return render(request, 'residente/reclamos.html', {})
 
 def espaciocomun(request):
+    espacio = espaciocomun.objects.all()
+    context = {"espacio": espacio}
     return render(request, 'residente/espaciocomun.html', {})
 
 def resumen(request):
@@ -188,7 +190,7 @@ def admin(request):
     return render(request, 'administrador/adminedificio.html', {})
 
 @login_required
-def crear_usuario(request):
+def crearusuario(request):
     if request.user.role == 'adminedificio':
 
         if request.method == 'POST':

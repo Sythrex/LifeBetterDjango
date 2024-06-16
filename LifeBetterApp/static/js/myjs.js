@@ -68,10 +68,11 @@ formulario.addEventListener("submit", (e) => {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("openbtn").style.opacity = 1;
-  }
-  
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("openbtn").style.opacity = 0;
-  }
+    document.getElementById("grid-container").style.marginLeft = "0";
+}
 
+function openNav() {
+    document.getElementById("mySidenav").style.width = "200px";
+    document.getElementById("openbtn").style.opacity = 0;
+    document.getElementById("grid-container").style.marginLeft = "200px";
+}
