@@ -11,6 +11,9 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
 from LifeBetterApp.forms import CrearUsuarioForm, PagarGastosComunesForm
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import Departamento, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
 
 
 ## VISTAS DE PAGINAS PRINCIPALES
@@ -19,6 +22,9 @@ def index(request):
 
 def home(request):
     return render(request, 'sitio/home.html', {})
+
+def servicio(request):
+    return render(request, 'sitio/servicio.html', {})
 
 def contacto(request):
     return render(request, 'sitio/contacto.html', {})
@@ -158,12 +164,17 @@ def gastoscomunes(request):
 @login_required
 def residente(request):
     if request.user.role == 'residente':
-        return render(request, 'residente/residente.html', {})
+        residente = Residente.objects.all()
+        context = {"residente":residente}
+        return render(request, 'residente/residente.html', {context})
     else:
         return redirect('unauthorized')
-    
+
 def perfil(request):
-    return render(request, 'residente/perfil.html', {})
+    if request.user.role == 'residente':
+        perfil = Departamento.objects.all()
+        context = {"perfil":perfil}
+        return render(request, 'residente/perfil.html', {context})
 
 def encomienda(request):
     return render(request, 'residente/encomienda.html', {})
@@ -178,9 +189,17 @@ def reclamos(request):
     return render(request, 'residente/reclamos.html', {})
 
 def espaciocomun(request):
-    espacio = espaciocomun.objects.all()
+    espacio = EspacioComun.objects.all()
     context = {"espacio": espacio}
-    return render(request, 'residente/espaciocomun.html', {})
+    return render(request, 'residente/ecomun/espaciocomun.html', context)
+
+def reservacion(request, id_reservacion):
+    reserva = Reservacion.objects.get(id=id_reservacion)
+    context = {"reserva": reserva}
+    return render(request, 'residente/ecomun/reservacion.html', context)
+
+def crear(request):
+    return render(request, 'residente/crear/crear.html', {})
 
 def resumen(request):
     return render(request, 'residente/resumen.html', {})

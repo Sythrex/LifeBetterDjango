@@ -37,12 +37,15 @@ body {
 .grid-header {
   grid-area: header;
   background-color: var(--color-fondo);
-  padding: 10px 0 0 10px;
+  grid-gap: 20px;
+  padding: 10px 20px 14px 20px;
+  width: 250px;
 }
 
 .grid-navigate {
   grid-area: navegacion;
   background-color: var(--color-secundario);
+  margin-left: 20px; 
 }
 
 .grid-body {
@@ -230,16 +233,17 @@ h2 {
   width: 100%;
 }
 
-/* Estilos de la página Nosotros */
+/* Estilos de la página Nosotros ***********************************************************/
 
 .container form{
   border-radius: 20px;
-  border: solid 1px var(--color-navigate);
+  border: solid 2px var(--color-navigate);
   padding:20px;
 }
 
 .container form legend {
   font: size 70px;
+  color: var(--color-texto);
 }
 
 .btn-enviar {
@@ -313,8 +317,12 @@ h2 {
 
 .nosotros-page .content {
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-terciario);
   border-radius: 10px;
+}
+
+.content .texto{
+  background-color: var(--color-navigate);
 }
 
 /* Estilos de la sección de pago */

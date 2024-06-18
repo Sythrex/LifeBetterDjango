@@ -6,8 +6,8 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('sitio/login/', views.login_view, name='login'),
+    path('sitio/servicio/', views.servicio, name='servicio'),
     path('nosotros/', views.nosotros, name='nosotros'),
-    path('sitio/contacto/', views.contacto, name='contacto'),
     path('conserje/', views.conserje, name='conserje'),
     path('unauthorized/', views.unauthorized, name='unauthorized'),
 
@@ -17,7 +17,6 @@ urlpatterns = [
     path('password_reset/<uidb64>/<token>/', views.confirm, name='confirm'),
     path('password_reset/done/', views.complete, name='complete'),
 
-
     # Gestion vista residente
     path('residente/', views.residente, name='residente'),
     path('avisos/', views.avisos, name='avisos'),
@@ -25,9 +24,13 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('reclamos/', views.reclamos, name='reclamos'),
     path('visitas/', views.visitas, name='visitas'),
-    path('espaciocomun/', views.espaciocomun, name='espaciocomun'),
+    path('residente/crear/crear/', views.crear, name='crear'),
+    #CALENDAR
+    path('residente/ecomun/espaciocomun', views.espaciocomun, name='espaciocomun'),
+    path('residente/ecomun/reservacion', views.reservacion, name='reservacion'),
     path('gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
     path('resumen/', views.resumen, name='resumen'),
+
     # webpay
     path('webpay/plus/commit/', views.webpay_plus_commit, name='webpay-plus-commit'),
     path('webpay/plus/create/', views.webpay_plus_create, name='webpay-plus-create'),

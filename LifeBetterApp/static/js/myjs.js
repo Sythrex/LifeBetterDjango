@@ -76,3 +76,61 @@ function openNav() {
     document.getElementById("openbtn").style.opacity = 0;
     document.getElementById("grid-container").style.marginLeft = "200px";
 }
+
+
+/************************************************************************************* */
+/*funciones para sidenav nuevas*/
+const body = document.querySelector('body'),
+    sidebar = body.querySelector('nav'),
+    toggle = body.querySelector(".toggle"),
+    searchBtn = body.querySelector(".search-box"),
+    modeSwitch = body.querySelector(".toggle-switch"),
+    modeText = body.querySelector(".mode-text");
+
+
+toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+})
+
+searchBtn.addEventListener("click", () => {
+    sidebar.classList.remove("close");
+})
+
+modeSwitch.addEventListener("click", () => {
+    body.classList.toggle("dark");
+
+    if (body.classList.contains("dark")) {
+    modeText.innerText = "Light mode";
+    } else {
+    modeText.innerText = "Dark mode";
+
+    }
+});
+
+
+/***************************************************************************** */
+function showSidebar(){
+    const sidebar = document.querySelector('.sidebar')
+    sidebar.style.display = 'flex'
+}
+function hideSidebar(){
+    const sidebar = document.querySelector('.sidebar')
+    sidebar.style.display = 'none'
+}
+/*--------------------------CALENDARIO----------------------------------------*/
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        },
+        eventos: {
+            url: "{% url 'espaciocomun' %}",
+        }
+    });
+
+    calendar.render();
+});

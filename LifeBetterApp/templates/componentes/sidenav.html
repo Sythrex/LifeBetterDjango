@@ -10,10 +10,12 @@
     {% endif %}
     {% comment %} Botones para residente {% endcomment %}
     {% if user.role == 'residente'%}
-    <a href="{% url 'encomienda' %}">Encomienda</a>
-    <a href="{% url 'avisos' %}">Avisos</a>
+    <a href="{% url 'resumen' %}">Home</a>
     <a href="{% url 'perfil' %}">Perfil</a>
-    <a href="{% url 'resumen' %}">Resumen</a>
+    <a href="{% url 'avisos' %}">Avisos</a>
+    <a href="{% url 'encomienda' %}">Encomienda</a>
+    <a href="{% url 'espaciocomun' %}">Espacio Compún</a>
+    <a href="{% url 'reclamos' %}">Reclamos y Sugerencias</a>
     <a href="{% url 'visitas' %}">Visitas</a>
     {% endif %}
     {% comment %} Botones para Administrador {% endcomment %}
@@ -22,6 +24,160 @@
     <a href="{% url 'crearusuario' %}">Crear Usuario</a>
     {% endif %}
   </div>
-    <a  id="openbtn"  href="javascript:void(0)" class="openbtn" onclick="openNav()"><i class="bi bi-arrow-bar-right"></i></a>
+    <a id="openbtn"  href="javascript:void(0)" class="openbtn" onclick="openNav()"><i class="bi bi-arrow-bar-right"></i></a>
 
-  
+<!-- <i class='bx bx-chevron-right toggle'></i>
+<nav class="sidebar close">
+  <div class="text logo-text">
+    <span class="name"> BetterLife </span>
+    <span class="profession"> Gestiona mejor tu vida </span>
+  </div>
+  <div class="menu-bar">
+    <div class="menu">
+
+      <li class="search-box">
+        <i class='bx bx-search icon'></i>
+        <input type="text" placeholder="Search...">
+      </li>
+
+      <ul class="menu-links">
+      {% comment %} Botones para conserje {% endcomment %}
+      {% if user.role == 'conserje' %}
+        <li class="nav-link">
+          <a href="{% url 'resumen' %}">
+            <i class='bx bx-home-alt icon'></i>
+            <span class="text nav-text">Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="{% url 'bitacora' %}">
+            <i class='bx bx-bar-chart-alt-2 icon'></i>
+            <span class="text nav-text">Bitácora</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="{% url 'encomienda' %}">
+            <i class='bx bx-bell icon'></i>
+            <span class="text nav-text">Encomienda</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="{% url 'multa' %}">
+            <i class='bx bx-pie-chart-alt icon'></i>
+            <span class="text nav-text">Multas</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="{% url 'reclamos' %}">
+            <i class='bx bx-heart icon'></i>
+            <span class="text nav-text">Reclamos</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="{% url 'visitas' %}">
+            <i class='bx bx-wallet icon'></i>
+            <span class="text nav-text">Visitas</span>
+          </a>
+        </li>
+      {% endif %}
+      {% comment %} Botones para residente {% endcomment %}
+      {% if user.role == 'residente'%}
+        <li class="nav-link">
+          <a href="{% url 'resumen' %}">
+            <i class='bx bx-home-alt icon'></i>
+            <span class="text nav-text">Dashboard</span>
+          </a>
+        </li>
+        
+        <li class="nav-link">
+          <a href="{% url 'perfil' %}">
+            <i class='bx bx-bar-chart-alt-2 icon'></i>
+            <span class="text nav-text">Perfil</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="{% url 'avisos' %}">
+            <i class='bx bx-bar-chart-alt-2 icon'></i>
+            <span class="text nav-text">Avisos</span>
+          </a>
+        </li>
+        
+        <li class="nav-link">
+          <a href="{% url 'encomienda' %}">
+            <i class='bx bx-bell icon'></i>
+            <span class="text nav-text">Encomienda</span>
+          </a>
+        </li>
+        
+        <li class="nav-link">
+          <a href="{% url 'multa' %}">
+            <i class='bx bx-pie-chart-alt icon'></i>
+            <span class="text nav-text">Multas</span>
+          </a>
+        </li>
+        
+        <li class="nav-link">
+          <a href="{% url 'reclamos' %}">
+            <i class='bx bx-heart icon'></i>
+            <span class="text nav-text">Reclamos</span>
+          </a>
+        </li>
+        
+        <li class="nav-link">
+          <a href="{% url 'visitas' %}">
+            <i class='bx bx-wallet icon'></i>
+            <span class="text nav-text">Visitas</span>
+          </a>
+        </li>
+      {% endif %}
+      {% comment %} Botones para Administrador {% endcomment %}
+      {% if user.role == 'adminedificio'%}
+        <li class="nav-link">
+          <a href="{% url 'adminedificio' %}">
+            <i class='bx bx-home-alt icon'></i>
+            <span class="text nav-text">Inicio</span>
+          </a>
+        </li>
+        
+        <li class="nav-link">
+          <a href="{% url 'crearusuario' %}">
+            <i class='bx bx-bar-chart-alt-2 icon'></i>
+            <span class="text nav-text">Crear Usuario</span>
+          </a>
+        </li>
+      {% endif %}
+      </ul>
+    </div>
+
+    <div class="bottom-content">
+      {% if user.is_authenticated %}
+      <li class="">
+        <a class="nav-link" href="{% url 'logout' %}">
+          <i class='bx bx-log-out icon'></i>
+          <span class="text nav-text">Cerrar Sesión</span>
+        </a>
+      </li>
+      {% endif %}
+
+
+      <li class="mode">
+        <div class="sun-moon">
+          <i class='bx bx-moon icon moon'></i>
+          <i class='bx bx-sun icon sun'></i>
+        </div>
+        <span class="mode-text text">Dark mode</span>
+
+        <div class="toggle-switch">
+          <span class="switch"></span>
+        </div>
+      </li>
+
+    </div>
+  </div>
+</nav> -->

@@ -21,3 +21,6 @@ _pycache/
 *.sqlite3
 db.sqlite3
 env/
+
+#Ignorar archivos de node_modules y directorios generados
+*node_modules/

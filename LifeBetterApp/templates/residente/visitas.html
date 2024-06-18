@@ -1,6 +1,8 @@
-{% extends 'residente.html' %}
-
-{% block content %}
+{% extends "../index.html" %}
+{% load static %}
+{% block title %} LB | VISITAS {% endblock %}
+{% block body %}
+{% include 'componentes/sidenav.html' %}
 <h2>Visitas</h2>
 <div class="p-2">
   <a href="{% url 'crear' %}" class="btn btn-primary">Agregar Visitante</a>

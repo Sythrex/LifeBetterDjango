@@ -1,7 +1,8 @@
-{% extends "residente.html" %}
+{% extends "../index.html" %}
 {% load static %}
 {% block title %} LB | AVISOS {% endblock %}
 {% block body %}
+{% include 'componentes/sidenav.html' %}
 <h2>Avisos</h2>
 <div class="p-2">
   <a href="{% url 'crear' %}" class="btn btn-primary">Agregar Aviso</a>

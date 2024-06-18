@@ -1,6 +1,6 @@
 from django import forms
 from LifeBetterApp.models import Departamento, Empleado, Encomienda, Residente, User
-from .models import Departamento, Empleado, Encomienda, Residente, User
+from .models import Departamento, Empleado, Encomienda, Residente, User, Reclamo
 
 
 class CrearUsuarioForm(forms.ModelForm):
@@ -72,3 +72,17 @@ class EncomiendaForm(forms.ModelForm):
             self.fields['run_residente'].queryset = Residente.objects.all()
             self.fields['run_empleado'].queryset = Empleado.objects.filter(role='conserje')
             self.fields['departamento'].queryset = Departamento.objects.all()
+
+class ReclamoForm(forms.ModelForm):
+    class Meta: 
+        model = Reclamo
+        fields =['asunto', 'contenido_reclamo']
+        widgets = {
+            'asunto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese un asunto'}),'contenido_reclamo': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Ingrese el detalle del reclamo o sugerencia'}),
+    }
+
+    def __init__(self, *args, **kwargs):
+        super(ReclamoForm, self).__init__(*args, **kwargs)
+        # Set hidden fields if needed (e.g., for logged-in user or department)
+        # self.fields['run_residente'].widget = forms.HiddenInput()
+        # self.fields['departamento'].widget = forms.HiddenInput()

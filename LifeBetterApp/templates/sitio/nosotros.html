@@ -102,38 +102,57 @@
         </div>
     </div>
 
-    <div class="container form"> <!-- Contenedor del formulario con clases de Bootstrap -->
-        <form action="respuesta.html" method="get" class="form-contacto" id="Form_Contacto">
-            <!-- Formulario de contacto con método GET -->
-            <fieldset> <!-- Agrupa los campos del formulario -->
-                <legend class="text-center header">Formulario de Contacto</legend> <!-- Leyenda del formulario -->
-    
-                <div class="mb-2"> <!-- Margen inferior para el campo del nombre -->
-                    <input class="form-control" id="userName" type="text" placeholder="Nombre" required />
-                    <!-- Campo de entrada para el nombre -->
+    <div class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="container form">
+                    <div class="form-contacto">
+                        <legend class="text-center header">Transparencia y Eficiencia para su Comunidad</legend>
+                    </div>
+                    <div class="">
+                        <p class="">Descubra cómo nuestro sistema de gestión de edificios y condominios puede
+                            transformar su comunidad, mejorando la transparencia, la eficiencia y la rentabilidad.</p>
+                        <ul class="p">
+                            <li class=""> Mejora de la transparencia</li>
+                            <li class=""> Gestión eficiente</li>
+                            <li class=""> Toma de decisiones informadas</li>
+                            <li class=""> Mayor satisfacción de los residentes</li>
+                        </ul>
+                        <h4 >Solicite una demostración gratuita</h4>
+                    </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="container form">
+                    <form action="respuesta.html" method="get" class="form-contacto" id="Form_Contacto">
+                        <fieldset>
+                            <legend class="text-center header">Formulario de Contacto</legend>
     
-                <div class="mb-2"> <!-- Margen inferior para el campo del correo electrónico -->
-                    <input class="form-control" id="userEmail" type="email" placeholder="Correo Electrónico" required />
-                    <!-- Campo de entrada para el correo electrónico -->
-                </div>
+                            <div class="mb-2">
+                                <input class="form-control" id="userName" type="text" placeholder="Nombre" required />
+                            </div>
     
-                <div class="mb-2"> <!-- Margen inferior para el campo del mensaje -->
-                    <textarea class="form-control" id="userMens" type="text"
-                        placeholder="Introduzca su masaje para nosotros aquí. Nos pondremos en contacto con usted" rows="5"
-                        required></textarea> <!-- Área de texto para el mensaje -->
-                </div>
+                            <div class="mb-2">
+                                <input class="form-control" id="userEmail" type="email" placeholder="Correo Electrónico"
+                                    required />
+                            </div>
     
-                <div class="mb-3 d-grid"> <!-- Margen inferior y estilo de cuadrícula para el botón -->
-                    <button class="btn-enviar" type="submit">Enviar</button>
-                    <!-- Botón para enviar el formulario -->
-                    <!-- <button class="btn btn-primary btn-lg" type="button" onclick="valForm()">Enviar</button> -->
-                    <!-- Botón de envío comentado con función de validación -->
+                            <div class="mb-2">
+                                <textarea class="form-control" id="userMens" type="text"
+                                    placeholder="Introduzca su mensaje para nosotros aquí. Nos pondremos en contacto con usted"
+                                    rows="5" required></textarea>
+                            </div>
+    
+                            <div class="mb-3 d-grid">
+                                <button class="btn-enviar" type="submit">Enviar</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div class="alert alert-success mt-2 d-none" id="alertSuccess"></div>
                 </div>
-            </fieldset>
-        </form>
-        <div class="alert alert-success mt-2 d-none" id="alertSuccess"></div> <!-- Alerta de éxito oculta inicialmente -->
+            </div>
+        </div>
     </div>
 </div>
 
-{% endblock %} <!-- Cierra el bloque 'body' -->
+{% endblock %} 
