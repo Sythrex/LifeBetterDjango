@@ -20,6 +20,8 @@
     {% if user.role == 'adminedificio'%}
     <a href="{% url 'adminedificio' %}">Inicio</a>
     <a href="{% url 'crearusuario' %}">Crear Usuario</a>
+    <a href="{% url 'creardepartamento' %}">Habilitar Departamento</a>
+    <a href="{% url 'multas' %}">Multas</a>
     {% endif %}
   </div>
     <a  id="openbtn"  href="javascript:void(0)" class="openbtn" onclick="openNav()"><i class="bi bi-arrow-bar-right"></i></a>

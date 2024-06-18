@@ -28,6 +28,7 @@ urlpatterns = [
     path('espaciocomun/', views.espaciocomun, name='espaciocomun'),
     path('gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
     path('resumen/', views.resumen, name='resumen'),
+    path('multasrev/', views.multasrev, name='multasrev'),
     # webpay
     path('webpay/plus/commit/', views.webpay_plus_commit, name='webpay-plus-commit'),
     path('webpay/plus/create/', views.webpay_plus_create, name='webpay-plus-create'),
@@ -35,6 +36,7 @@ urlpatterns = [
     # administrador
     path('adminedificio/', views.admin, name='adminedificio'),
     path('administrador/crearusuario/', views.crearusuario, name='crearusuario'),
+    path('administrador/creardepartamento/', views.creardepartamento, name='creardepartamento'),
     
     # GESTIÓN DE USUARIOS
     path('logout/', views.salir, name='logout'),  # Ruta para la vista de cerrar sesión

@@ -185,6 +185,9 @@ def espaciocomun(request):
 def resumen(request):
     return render(request, 'residente/resumen.html', {})
 
+def multasrev(request):
+    return render(request, 'residente/multasrev.html', {})
+
 ## ADMINISTRADOR
 def admin(request):
     return render(request, 'administrador/adminedificio.html', {})
@@ -210,6 +213,9 @@ def crearusuario(request):
 
     else:
         return redirect('unauthorized')
+    
+def creardepartamento(request):
+    return render(request, 'administrador/creardepartamento.html', {})
 
 
 # CONSERJE
