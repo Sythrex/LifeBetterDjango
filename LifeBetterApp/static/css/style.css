@@ -162,17 +162,19 @@ body {
   }
 }
 
+
 /* Estilos de la página de login */
 .login-page {
   background: linear-gradient(135deg, var(--color-secundario) 0%, var(--color-navigate)100%);
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
-  justify-content:baseline;
-  align-items:baseline;
+  justify-content:center;
+  /* align-items:baseline; */
   margin: 0;
   border-radius: 10px;
   padding: 20px 200px;
   width: 120%;
+  align-items: center;
 }
 
 .login-container {
@@ -181,7 +183,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 30%;
-  max-width: auto;
+  height: 50%;
 }
 
 h2 {

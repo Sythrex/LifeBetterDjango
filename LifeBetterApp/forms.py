@@ -6,9 +6,11 @@ from .models import Departamento, Empleado, Encomienda, Residente, User, Reclamo
 class CrearUsuarioForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Contraseña')
 
+    departamento = forms.ModelChoiceField(queryset=Departamento.objects.all(), required=False)
+
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'password']
+        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'password', 'departamento']
         labels = {
             'username': 'Nombre de usuario',
             'first_name': 'Nombre',
@@ -16,13 +18,14 @@ class CrearUsuarioForm(forms.ModelForm):
             'email': 'Correo electrónico',
             'role': 'Rol',
             'password': 'Contraseña',
+            'departamento': 'Departamento',
         }
         widgets = {
+            'role': forms.Select(attrs={'class': 'form-control', 'id': 'id_role'}),            
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'role': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
