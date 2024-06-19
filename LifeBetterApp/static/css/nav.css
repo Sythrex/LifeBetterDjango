@@ -1,36 +1,91 @@
-:root {
-    --primary-color: #009797;
-    --body-color: #121212;
-    --sidebar-color: #1e1e1e;
-    --text-color: #e0e0e0;
+/* Barra de navegación (navbar) */
+.navbar {
+    background-color: var(--background-color);
+    padding: 5px 10px 5px 20px;
+    margin-left: 10%;
 }
-/* Estilo para la sección de perfil */
-.profile-section {
-    padding: 20px;
-    background-color: var(--sidebar-color); /* Fondo similar al sidebar para coherencia */
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para destacar la sección */
+.navbar .button{
+    border: solid 4px var(--primary-color);
 }
 
-.profile-section h2 {
+.navbar a {
     color: var(--primary-color);
-    margin-bottom: 15px;
+    font-size: 100%;
+    margin-right: 20px;
 }
 
-.profile-section p {
-    margin-bottom: 8px;
+.navbar a:hover {
+    color: var(--text-color);
 }
 
-/* Estilos para tablas (si decides usarlas para mostrar datos) */
-.profile-section table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 15px;
+.navbar-collapse {
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    max-height: 250px; /* Altura máxima del menú colapsado */
+    overflow-y: auto;  /* Mostrar barra de desplazamiento si el contenido excede la altura */
 }
 
-.profile-section th,
-.profile-section td {
-    padding: 8px;
-    border-bottom: 1px solid var(--text-color);
-    text-align: left;
+/* Botón de búsqueda en la barra de navegación */
+.btn-search {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: solid 1px var(--background-color);
+    width: auto;
+}
+
+.btn-search:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: solid 1px var(--text-color);
+}
+
+/* Barra lateral (sidebar) */
+/* Barra lateral (sidebar) - ELIMINAR ESTOS ESTILOS */
+/* .sidenav { ... } */
+/* .sidenav a, .dropdown-btn { ... } */
+/* ... (otros estilos relacionados con el sidenav anterior) ... */
+
+/* Offcanvas */
+.offcanvas {
+    width: 50%; /* Ancho del offcanvas */
+    background-color: var(--background-color); /* Color de fondo */
+    color: var(--text-color); /* Color del texto */
+}
+
+.offcanvas-header {
+    background-color: var(--primary-color); /* Color de fondo del encabezado */
+    color: #fff; /* Color del texto del encabezado */
+}
+
+.offcanvas-title {
+    font-weight: bold;
+}
+
+.offcanvas-body .navbar-nav {
+    padding: 1rem 0; /* Espaciado interno */
+}
+
+.offcanvas-body .nav-link {
+    color: var(--text-color); /* Color de los enlaces */
+}
+
+.offcanvas-body .nav-link:hover {
+    background-color: var(--secondary-color); /* Color de fondo al pasar el mouse */
+    color: var(--background-color); /* Color del texto al pasar el mouse */
+}
+
+/* Botón para abrir el offcanvas */
+.btn-primary[data-bs-toggle="offcanvas"] {
+    position: fixed; /* Fijar el botón en la esquina superior izquierda */
+    top: 100px;
+    left: 10px;
+    z-index: 1030; /* Asegurarse de que esté por encima del offcanvas */
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+    .offcanvas {
+        width: 75%; /* Ajustar el ancho del offcanvas en pantallas pequeñas */
+    }
 }

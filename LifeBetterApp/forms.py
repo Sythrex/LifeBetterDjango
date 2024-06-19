@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.hashers import make_password
 from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
 
 
@@ -126,6 +127,9 @@ class CrearDepartamentoForm(forms.ModelForm):
 
 
 class CrearResidenteForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
+
     class Meta:
         model = Residente
         fields = [
@@ -143,3 +147,31 @@ class CrearResidenteForm(forms.ModelForm):
             'comite',
             'departamento',
         ]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password != confirm_password:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+
+    def save(self, commit=True):
+        residente = super().save(commit=False)
+        # Hashear la contraseña antes de guardarla
+        residente.password = make_password(self.cleaned_data.get('password')) 
+        if commit:
+            residente.save()
+
+            # Crear un usuario asociado al residente
+            user = User.objects.create_user(
+                username=residente.rut_residente,  # Usar el rut como nombre de usuario
+                password=self.cleaned_data.get('password'),
+                email=residente.correo_residente,
+                first_name=residente.pnombre_residente,
+                last_name=residente.appaterno_residente,
+                role='residente'
+            )
+            user.save()  # No es necesario si commit=True
+
+        return residente

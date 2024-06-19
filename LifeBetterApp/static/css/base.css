@@ -1,0 +1,131 @@
+/* Google Font Import - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Variables de colores */
+:root {
+    --primary-color: #009797;        /* Verde turquesa */
+    --secondary-color: #e0e0e0;      /* Gris claro */
+    --background-color: #121212;    /* Negro suave */
+    --sidebar-background: #1e1e1e; /* Gris oscuro */
+    --text-color: var(--secondary-color); 
+    --tertiary-color: #505050; /* Gris medio */
+}
+
+.container {
+    position: relative;
+    max-width: 800px; /* Maximum width */
+    margin: 0 auto; /* Center it */
+}
+
+.container .content {
+    position: absolute; /* Position the background text */
+    bottom: 0; /* At the bottom. Use top:0 to append it to the top */
+    background: rgb(0, 0, 0); /* Fallback color */
+    background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+    color: #f1f1f1; /* Grey text */
+    width: 100%; /* Full width */
+    padding: 20px; /* Some padding */
+}
+
+/* Estilos base */
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.5s ease; 
+}
+
+/* Selección de texto */
+::selection {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* Modo oscuro (opcional) */
+body.dark {
+    --background-color: #18191a;
+    --text-color: #ccc;
+}
+
+/* Diseño del contenedor principal (grid) */
+.grid-container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-areas:
+        "header navegacion"
+        "cuerpo cuerpo"
+        "footer footer";
+    grid-template-rows: 70px auto 70px;
+    min-height: 100vh;
+    padding: 0;
+}
+
+/* Estilos de las áreas de la cuadrícula */
+.grid-header {
+    grid-area: header;
+    background-color: var(--color-fondo);
+    grid-gap: 20px;
+    padding: 10px 20px 10px 20px;
+    width: 250px;
+}
+
+.grid-navigate {
+    grid-area: navegacion;
+    background-color: var(--color-secundario);
+    margin-left: 20px; 
+}
+
+.grid-body { 
+    grid-area: cuerpo; 
+    background-color: var(--sidebar-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.grid-footer { grid-area: footer; background-color: var(--sidebar-background); color: darkgrey; text-align: center; }
+
+/* Estilos del carrusel */
+.carousel-inner {
+    max-height: 450px;
+}
+
+/* Estilos de la sección hero */
+.hero-h2 { color: var(--text-color); font-size: 2em; }
+.hero-h3 { color: var(--primary-color); font-size: 1.5em; }
+
+.hero-destacado1, .hero-destacado2 {
+    color: var(--primary-color);
+}
+
+.edificio {
+    opacity: 50%;
+    max-height: 300px;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .hero-h2 {
+        font-size: 1.5em;
+    }
+    .hero-h3 {
+        font-size: 1.2em;
+    }
+    .grid-body {
+        padding: 10px;
+    }
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}

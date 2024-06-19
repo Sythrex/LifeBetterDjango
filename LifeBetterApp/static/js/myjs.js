@@ -65,75 +65,23 @@ formulario.addEventListener("submit", (e) => {
     pintarMensajeExito();
 });
 
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("openbtn").style.opacity = 1;
-    document.getElementById("grid-container").style.marginLeft = "0";
-}
-
-function openNav() {
-    document.getElementById("mySidenav").style.width = "200px";
-    document.getElementById("openbtn").style.opacity = 0;
-    document.getElementById("grid-container").style.marginLeft = "200px";
-}
-
-
-/************************************************************************************* */
-/*funciones para sidenav nuevas*/
-const body = document.querySelector('body'),
-    sidebar = body.querySelector('nav'),
-    toggle = body.querySelector(".toggle"),
-    searchBtn = body.querySelector(".search-box"),
-    modeSwitch = body.querySelector(".toggle-switch"),
-    modeText = body.querySelector(".mode-text");
-
-
-toggle.addEventListener("click", () => {
-    sidebar.classList.toggle("close");
-})
-
-searchBtn.addEventListener("click", () => {
-    sidebar.classList.remove("close");
-})
-
-modeSwitch.addEventListener("click", () => {
-    body.classList.toggle("dark");
-
-    if (body.classList.contains("dark")) {
-    modeText.innerText = "Light mode";
-    } else {
-    modeText.innerText = "Dark mode";
-
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    document.documentElement.style.setProperty(
+        --background-image-url, 
+        url(img/kawaiefdificiouwu.png)
+    );
 });
 
-
-/***************************************************************************** */
-function showSidebar(){
-    const sidebar = document.querySelector('.sidebar')
-    sidebar.style.display = 'flex'
-}
-function hideSidebar(){
-    const sidebar = document.querySelector('.sidebar')
-    sidebar.style.display = 'none'
-}
-
-//* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
-
-for (i = 0; i < dropdown.length; i++) {
-    dropdown[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var dropdownContent = this.nextElementSibling;
-        if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-        } else {
-        dropdownContent.style.display = "block";
-        }
-    });
-}
+/***********************************************************************
 /*--------------------------CALENDARIO----------------------------------------*/
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth'
+    });
+    calendar.render();
+});
+
 document.addEventListener('DOMContentLoaded', function () {
   // Obtener todos los elementos con ID que comienza por "calendar-"
     var calendarElements = document.querySelectorAll('[id^="calendar-"]');
