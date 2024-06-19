@@ -48,6 +48,10 @@ class Departamento(models.Model):
         return f'Departamento {self.numero_depto} - Piso {self.piso}'
 
 class Residente(models.Model):
+    Tipo_residente = (
+        ('dueño', 'Dueño'),
+        ('arrendatario', 'Arrendatario'),        
+    )
     rut_residente = models.CharField(primary_key=True, max_length=10)
     dvrun = models.CharField(max_length=1, validators=[validar_dv])
     pnombre_residente = models.CharField(max_length=50)
@@ -58,9 +62,9 @@ class Residente(models.Model):
     fecha_contrato_residente = models.DateField()
     correo_residente = models.EmailField(max_length=50, blank=True, null=True, unique=True)
     fono_residente = models.CharField(max_length=15)
-    tipo_residente = models.IntegerField()
+    tipo_residente = models.CharField(max_length=20, choices=Tipo_residente)
     comite = models.BooleanField()
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, blank=False, null=False)
 
     class Meta:
         db_table = 'residente'

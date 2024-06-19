@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %} LB | CR {% endblock %}
+{% block body %}
+{% include 'componentes/sidenav.html' %}
+
+<h1>Nuevo Residente</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+{% endblock %}

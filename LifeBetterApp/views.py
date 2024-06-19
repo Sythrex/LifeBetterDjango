@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
-from LifeBetterApp.forms import CrearDepartamentoForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
+from LifeBetterApp.forms import CrearDepartamentoForm, CrearResidenteForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Departamento, GastosComunes, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
@@ -271,6 +271,16 @@ def crear(request):
     return render(request, 'residente/crear/crear.html', {})
 
 ##ADMINISTRADOR------------------------------------------------------------------------------------------
+
+def crear_residente(request):
+    if request.method == 'POST':
+        form = CrearResidenteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adminedificio')
+    else:
+        form = CrearResidenteForm()
+    return render(request, 'administrador/crear_residente.html', {'form': form})
 
 @login_required
 def admin(request):

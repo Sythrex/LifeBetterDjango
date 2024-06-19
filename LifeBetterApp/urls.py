@@ -44,6 +44,7 @@ urlpatterns = [
     # administrador
     path('adminedificio/', views.admin, name='adminedificio'),
     path('administrador/crearusuario/', views.crearusuario, name='crearusuario'),
+    path('administrador/residente/crear/', views.crear_residente, name='crear_residente'),
     path('administrador/creardepartamento/', views.creardepartamento, name='creardepartamento'),
     path('administrador/crear_ecomun/', views.crear_ecomun, name='crear_ecomun'),
     path('administrador/multasadmin/', views.multasadmin, name='multasadmin'),

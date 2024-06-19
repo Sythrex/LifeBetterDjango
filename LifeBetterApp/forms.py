@@ -119,3 +119,23 @@ class CrearDepartamentoForm(forms.ModelForm):
     class Meta:
         model = Departamento
         fields = ['numero_depto', 'piso']
+
+
+class CrearResidenteForm(forms.ModelForm):
+    class Meta:
+        model = Residente
+        fields = [
+            'rut_residente',
+            'dvrun',
+            'pnombre_residente',
+            'snombre_residente',
+            'appaterno_residente',
+            'apmaterno_residente',
+            'fecha_nacimiento_residente',
+            'fecha_contrato_residente',
+            'correo_residente',
+            'fono_residente',
+            'tipo_residente',
+            'comite',
+            'departamento',
+        ]
