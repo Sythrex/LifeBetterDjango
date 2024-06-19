@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %} LB | CR {% endblock %}
+{% block body %}
+{% include 'componentes/sidenav.html' %}
+
+
+
+  <h2>Crear Empleado</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ empleado_form.as_p }}
+    <button type="submit">Crear</button>
+  </form>
+
+{% endblock %}

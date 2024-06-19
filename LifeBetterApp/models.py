@@ -90,20 +90,13 @@ class AdministracionExterna(models.Model):
         return self.nombre_admin
 
 class Empleado(models.Model):
-    Tipo_empleado = (
-        ('conserje', 'Conserje'),
-        ('aseo', 'Aseo'),        
-    )
     run_empleado = models.CharField(primary_key=True, max_length=10)
     dvrun_empleado = models.CharField(max_length=1, validators=[validar_dv])
-    pnombre_empleado = models.CharField(max_length=50)
-    snombre_empleado = models.CharField(max_length=50, blank=True, null=True)
-    appaterno_empleado = models.CharField(max_length=50)
-    apmaterno_empleado = models.CharField(max_length=50, blank=True, null=True)
     fecha_nacimiento_empleado = models.DateField()
     fecha_contrato_empleado = models.DateField()
-    correo_empleado = models.EmailField(max_length=50, blank=True, null=True, unique=True)
     fono_empleado = models.CharField(max_length=15)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    sueldo_empleado = models.DecimalField(max_digits=8, decimal_places=2)
     
 
     class Meta:
@@ -112,7 +105,7 @@ class Empleado(models.Model):
         verbose_name_plural = 'Empleados'
 
     def __str__(self):
-        return f'{self.pnombre_empleado} {self.appaterno_empleado}'
+        return f'{self.usuario.first_name} {self.usuario.last_name}'
 
 class Visitante(models.Model):
     id = models.AutoField(primary_key=True)

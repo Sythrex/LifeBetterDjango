@@ -1,32 +1,7 @@
 from django import forms
-from django.contrib.auth.hashers import make_password
-from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
+from .models import Departamento, GastosComunes, Reclamo, User, Visitante, Residente, Empleado, RegistroVisitanteDepto, EspacioComun, Bitacora, Reservacion, Encomienda
+from django.contrib.auth.forms import UserCreationForm
 
-
-class CrearUsuarioForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Contraseña')
-
-    departamento = forms.ModelChoiceField(queryset=Departamento.objects.all(), required=False)
-
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'password', 'departamento']
-        labels = {
-            'username': 'Nombre de usuario',
-            'first_name': 'Nombre',
-            'last_name': 'Apellido',
-            'email': 'Correo electrónico',
-            'role': 'Rol',
-            'password': 'Contraseña',
-            'departamento': 'Departamento',
-        }
-        widgets = {
-            'role': forms.Select(attrs={'class': 'form-control', 'id': 'id_role'}),            
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-        }
 
 class PagarGastosComunesForm(forms.Form):
 
@@ -150,6 +125,19 @@ class CrearResidenteForm(forms.ModelForm):
 
 
 class CrearBitacoraForm(forms.ModelForm):
+    contenido = forms.CharField(widget=forms.Textarea)
+
     class Meta:
         model = Bitacora
-        fields = ['id_bitacora','asunto','contenido','fecha_hora','empleado']
+        fields = ['id_bitacora', 'asunto', 'contenido', 'fecha_hora', 'empleado']
+
+class UserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'role']
+
+class CrearEmpleadoForm(forms.ModelForm):
+    class Meta:
+        model = Empleado
+        fields = ['run_empleado', 'dvrun_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
+

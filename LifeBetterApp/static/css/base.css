@@ -129,3 +129,44 @@ body.dark {
     border-color: #f5c6cb;
     color: #721c24;
 }
+
+/* Estilos de formularios */
+
+form {
+    width: 100%;
+} 
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--tertiary-color);
+    border-radius: 5px;
+    background-color: var(--sidebar-background);
+    color: var(--text-color);
+}
+
+form button {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+}
+
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--tertiary-color);
+    border-radius: 5px;
+    background-color: var(--sidebar-background);
+    color: var(--text-color);
+}
+
+
+
+

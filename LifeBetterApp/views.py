@@ -1,5 +1,4 @@
 from datetime import timezone
-import re
 import random
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,14 +9,13 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from marshmallow import ValidationError
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
-from LifeBetterApp.forms import CrearBitacoraForm, CrearDepartamentoForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm, PerfilForm, CrearResidenteForm
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
+from django.contrib.auth.models import User
+from .models import Empleado
+from LifeBetterApp.forms import CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
+from .models import Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, Encomienda
 
 
 ## VISTAS DE PAGINAS PRINCIPALES
@@ -295,20 +293,23 @@ def crear(request):
 
 ##ADMINISTRADOR------------------------------------------------------------------------------------------
 
-def crear_conserje(request):
-    if request.method == 'POST':
-        form = CrearUsuarioForm(request.POST)
-        if form.is_valid():
-            # Obtenemos la contraseña del formulario
-            password = form.cleaned_data['password']
-            # Hasheamos la contraseña antes de guardarla en la base de datos
-            form.instance.password = make_password(password)
-            # Guardamos el usuario en la base de datos
-            form.save()
-            return redirect('adminedificio')  # Redirigir a la página de inicio después de crear el usuario
+def crear_empleado(request):
+    if request.user.role == 'adminedificio':
+        if request.method == 'POST':
+            user_form = UserForm(request.POST)
+            empleado_form = CrearEmpleadoForm(request.POST)
+            if user_form.is_valid() and empleado_form.is_valid():
+                user = user_form.save()
+                empleado = empleado_form.save(commit=False)
+                empleado.usuario = user
+                empleado.save()
+                return redirect('adminedificio')
+        else:
+            user_form = UserForm()
+            empleado_form = CrearEmpleadoForm()
+        return render(request, 'administrador/crear_empleado.html',{'user_form': user_form, 'empleado_form': empleado_form})
     else:
-        form = CrearUsuarioForm()
-    return render(request, 'administrador/crear_conserje.html', {'form': form})
+        return redirect('unauthorized')
 
 
 def crear_residente(request):
@@ -339,24 +340,7 @@ def admin(request):
     else:
         return redirect('unauthorized')
 
-@login_required
-def crearusuario(request):
-    if request.user.role == 'adminedificio':
-        if request.method == 'POST':
-            form = CrearUsuarioForm(request.POST)
-            if form.is_valid():
-                # Obtenemos la contraseña del formulario
-                password = form.cleaned_data['password']
-                # Hasheamos la contraseña antes de guardarla en la base de datos
-                form.instance.password = make_password(password)
-                # Guardamos el usuario en la base de datos
-                form.save()
-                return redirect('home')  # Redirigir a la página de inicio después de crear el usuario
-        else:
-            form = CrearUsuarioForm()
-        return render(request, 'administrador/crearusuario.html', {'form': form})
-    else:
-        return redirect('unauthorized') 
+
 
 @login_required
 def creardepartamento(request):
@@ -469,18 +453,18 @@ def eliminar_visita(request, id):
     if request.user.role == 'conserje':
         visita = Visitante.objects.get(id=id)
         visita.delete()
-        return redirect('visita')
+        return redirect('visita_conserje')
     else:
         return redirect('unauthorized')
 
 @login_required
 def nueva_visita(request):
-    if request.user.role == 'conserje' or request.user.role == 'residente':
+    if request.user.role == 'conserje':
         if request.method == 'POST':
             form1 = VisitanteForm(request.POST, prefix='form1')
             if form1.is_valid():
                 form1.save()
-                return redirect('visita')
+                return redirect('visita_conserje')
         else:
             form1 = VisitanteForm(prefix='form1')
         return render(request, 'conserje/nuevavisita.html', {'form1': form1})
