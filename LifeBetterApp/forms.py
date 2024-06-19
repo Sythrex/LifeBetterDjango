@@ -138,3 +138,9 @@ class CrearResidenteForm(forms.ModelForm):
             'comite',
             'departamento',
         ]
+
+
+class CrearBitacoraForm(forms.ModelForm):
+    class Meta:
+        model = Bitacora
+        fields = ['id_bitacora','asunto','contenido','fecha_hora','empleado']
