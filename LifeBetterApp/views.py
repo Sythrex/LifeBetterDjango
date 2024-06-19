@@ -10,7 +10,7 @@ from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
-from LifeBetterApp.forms import CrearUsuarioForm, EspacioComunForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
+from LifeBetterApp.forms import CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Departamento, GastosComunes, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
@@ -180,7 +180,7 @@ def crear_reservacion(request):
     return render(request, 'residente/ecomun/crear_reservacion.html', {'form': form})
 @login_required
 def gcomunes(request):
-    form = PagarGastosComunesForm()
+    form = PagarGComunesForm()
     context = {
         'form': form,
     }
@@ -254,11 +254,26 @@ def gastoscomunes(request):
             mes = form.cleaned_data['mes']
             amount = form.cleaned_data['amount']
             print(f"Mes: {mes}, Amount: {amount}")  # Agrega esta línea
-            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})
+            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})  
 
     else:
         form = PagarGastosComunesForm()
     return render(request, 'sitio/gastoscomunes.html', {'form': form})
+
+VALOR_MESES = {
+    'Enero': 100,
+    'Febrero': 200,
+    'Marzo': 300,
+    'Abril': 400,
+    'Mayo': 500,
+    'Junio': 600,
+    'Julio': 700,
+    'Agosto': 800,
+    'Septiembre': 900,
+    'Octubre': 1000,
+    'Noviembre': 1100,
+    'Diciembre': 1200,
+}
 # CONSERJE------------------------------------------------------------------------------------------
 @login_required
 def conserje(request):
