@@ -1,6 +1,7 @@
 from django import forms
 from LifeBetterApp.models import Departamento, Empleado, Encomienda, Residente, User
-from .models import Departamento, Empleado, Encomienda, Residente, User, Reclamo
+from .models import Departamento, Empleado, Encomienda, Residente, User, Reclamo,EspacioComun, Reservacion, GastosComunes
+from LifeBetterApp import models
 
 
 class CrearUsuarioForm(forms.ModelForm):
@@ -28,41 +29,13 @@ class CrearUsuarioForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
-
-
 class PagarGastosComunesForm(forms.Form):
-    
-    MESES = (
-        ('Enero', 'Enero'),
-        ('Febrero', 'Febrero'),
-        ('Marzo', 'Marzo'),
-        ('Abril', 'Abril'),
-        ('Mayo', 'Mayo'),
-        ('Junio', 'Junio'),
-        ('Julio', 'Julio'),
-        ('Agosto', 'Agosto'),
-        ('Septiembre', 'Septiembre'),
-        ('Octubre', 'Octubre'),
-        ('Noviembre', 'Noviembre'),
-        ('Diciembre', 'Diciembre'),
-    )
+    mes = forms.ChoiceField(choices=[], label='Mes a Pagar', widget=forms.Select(attrs={'class': 'form-control'}))
+    amount = forms.DecimalField(label='Monto', widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
-    VALOR_MESES = {
-        'Enero': 100,
-        'Febrero': 200,
-        'Marzo': 300,
-        'Abril': 400,
-        'Mayo': 500,
-        'Junio': 600,
-        'Julio': 700,
-        'Agosto': 800,
-        'Septiembre': 900,
-        'Octubre': 1000,
-        'Noviembre': 1100,
-        'Diciembre': 1200,
-    }
-
-    mes = forms.ChoiceField(choices=MESES, widget=forms.Select(attrs={'class': 'form-control'}))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['mes'].choices = GastosComunes.MESES
 
     
 class EncomiendaForm(forms.ModelForm):
@@ -89,3 +62,13 @@ class ReclamoForm(forms.ModelForm):
         # Set hidden fields if needed (e.g., for logged-in user or department)
         # self.fields['run_residente'].widget = forms.HiddenInput()
         # self.fields['departamento'].widget = forms.HiddenInput()
+
+class EspacioComunForm(forms.ModelForm):
+    class Meta:
+        model = EspacioComun
+        fields = ['nombre_ec', 'descripcion_ec', 'capacidad_ec']
+
+class ReservacionForm(forms.ModelForm):
+    class Meta:
+        model = Reservacion
+        fields = ['estado_reservacion', 'inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion']

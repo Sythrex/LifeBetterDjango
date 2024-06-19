@@ -1,10 +1,13 @@
-{% extends "../index.html" %}
+{% extends "index.html" %}
 {% load static %}
 {% block title %} LB | EC {% endblock %}
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<h1>Calendario de Reservas</h1>
+<h1>Reservas</h1>
+<div class="p-2">
+  <a href="{% url 'crear_reservacion' %}" class="btn btn-primary">Reservar</a>
+</div>
 <div id="calendar"></div>
   {% for ec in espacio%}
   <table>
@@ -14,6 +17,5 @@
     </td>
   </table>
   {% endfor%}
-<a href="{% url 'reservacion' %}">Reservar</a>
 
 {% endblock %}

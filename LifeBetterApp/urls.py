@@ -20,15 +20,16 @@ urlpatterns = [
     # Gestion vista residente
     path('residente/', views.residente, name='residente'),
     path('avisos/', views.avisos, name='avisos'),
-    path('encomienda/', views.encomienda, name='encomienda'),
+    path('encoresidente/', views.encoresidente, name='encoresidente'),
     path('perfil/', views.perfil, name='perfil'),
     path('reclamos/', views.reclamos, name='reclamos'),
     path('visitas/', views.visitas, name='visitas'),
     path('residente/crear/crear/', views.crear, name='crear'),
     #CALENDAR
     path('residente/ecomun/espaciocomun', views.espaciocomun, name='espaciocomun'),
-    path('residente/ecomun/reservacion', views.reservacion, name='reservacion'),
-    path('gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
+    path('residente/ecomun/crear_reservacion', views.crear_reservacion, name='crear_reservacion'),
+    path('residente/ecomun/listar_reservaciones', views.listar_reservaciones, name='listar_reservaciones'),
+    path('gcomunes/', views.gcomunes, name='gcomunes'),
     path('resumen/', views.resumen, name='resumen'),
     path('multasrev/', views.multasrev, name='multasrev'),
     # webpay
@@ -39,6 +40,9 @@ urlpatterns = [
     path('adminedificio/', views.admin, name='adminedificio'),
     path('administrador/crearusuario/', views.crearusuario, name='crearusuario'),
     path('administrador/creardepartamento/', views.creardepartamento, name='creardepartamento'),
+    path('administrador/crear_ecomun/', views.crear_ecomun, name='crear_ecomun'),
+    path('administrador/multasadmin/', views.multasadmin, name='multasadmin'),
+    path('sitio/gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
     
     # GESTIÓN DE USUARIOS
     path('logout/', views.salir, name='logout'),  # Ruta para la vista de cerrar sesión

@@ -1,4 +1,4 @@
-{% extends "../index.html" %}
+{% extends "index.html" %}
 {% load static %}
 {% block title %} LB | AVISOS {% endblock %}
 {% block body %}
@@ -7,7 +7,7 @@
 <div class="p-2">
   <a href="{% url 'crear' %}" class="btn btn-primary">Agregar Aviso</a>
 </div>
-<table>
+<table class="table-style">
   <tr>
     <th>ID</th>
     <th>Asunto</th>

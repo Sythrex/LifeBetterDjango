@@ -14,7 +14,13 @@
     <a href="{% url 'perfil' %}">Perfil</a>
     <a href="{% url 'avisos' %}">Avisos</a>
     <a href="{% url 'encomienda' %}">Encomienda</a>
-    <a href="{% url 'espaciocomun' %}">Espacio Compún</a>
+    <a href="{% url 'espaciocomun' %}" class="dropdown-btn">Espacio Común<i class="fa fa-caret-down"></i></a>
+      <div class="dropdown-container">
+        <a href="{% url 'listar_reservaciones' %}">Historial</a>
+        <a href="{% url 'crear_reservacion' %}">Reservar</a>
+      </div>
+    <a href="{% url 'gcomunes' %}">Gasto Común</a>
+    <a href="{% url 'multasrev' %}">Multas</a>
     <a href="{% url 'reclamos' %}">Reclamos y Sugerencias</a>
     <a href="{% url 'visitas' %}">Visitas</a>
     {% endif %}
@@ -23,7 +29,7 @@
     <a href="{% url 'adminedificio' %}">Inicio</a>
     <a href="{% url 'crearusuario' %}">Crear Usuario</a>
     <a href="{% url 'creardepartamento' %}">Habilitar Departamento</a>
-    <a href="{% url 'multas' %}">Multas</a>
+    <a href="{% url 'multasadmin' %}">Multas</a>
     {% endif %}
   </div>
     <a id="openbtn"  href="javascript:void(0)" class="openbtn" onclick="openNav()"><i class="bi bi-arrow-bar-right"></i></a>

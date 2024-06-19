@@ -13,11 +13,8 @@ pip install -r requirements.txt
 pip install django
 pip install transbank-sdk
 pip install djangorestframework
-
-
-## FullCalendar
 npm install fullcalendar
-npm install moment jquery
+
 
 ### Aplica las migraciones
 python manage.py migrate
