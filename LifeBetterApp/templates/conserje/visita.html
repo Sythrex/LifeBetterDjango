@@ -2,6 +2,19 @@
 {% load static %}
 {% block title %} LB | VISITAS {% endblock %}
 {% block body %}
+{% include 'componentes/sidenav.html' %} 
+
+<form method="post">
+    {% csrf_token %}
+    {{ form2.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form1.as_p }}
+    <button type="submit">Submit</button>
+</form>
 
 
 

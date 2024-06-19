@@ -54,7 +54,7 @@ urlpatterns = [
 
     # CONSERJE
     path('conserje/encomienda/', views.encomienda, name='encomienda'),
-    path('conserje/visita/', views.visita, name='visita'),
+    path('conserje/visita/', views.registro_visitante_depto, name='visita'),
     path('conserje/multa/', views.multa, name='multa'),
     path('conserje/bitacora/', views.bitacora, name='bitacora'),
     path('conserje/reclamos/', views.reclamos, name='reclamos'),

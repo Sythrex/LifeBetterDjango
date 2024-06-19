@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
-from LifeBetterApp.forms import CrearUsuarioForm, EspacioComunForm, PagarGastosComunesForm, ReservacionForm, PagarGComunesForm
+from LifeBetterApp.forms import CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Departamento, GastosComunes, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
@@ -369,3 +369,17 @@ def gestionencomienda(request):
     enco = encomienda.objects.all()
     context = {"enco": enco}
     return render(request, 'conserje/gestion/gestion.html', context)
+
+def registro_visitante_depto(request):
+    if request.method == 'POST':
+        form1 = RegistroVisitanteDeptoForm(request.POST, prefix='form1')
+        form2 = VisitanteForm(request.POST, prefix='form2')
+        if form1.is_valid() and form2.is_valid():
+            form1.save()
+            form2.save()
+            return redirect('visita')
+    else:
+        form1 = RegistroVisitanteDeptoForm(prefix='form1')
+        form2 = VisitanteForm(prefix='form2')
+
+    return render(request, 'conserje/visita.html', {'form1': form1, 'form2': form2})
