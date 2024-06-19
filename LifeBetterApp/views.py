@@ -13,7 +13,7 @@ from marshmallow import ValidationError
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
-from LifeBetterApp.forms import CrearDepartamentoForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
+from LifeBetterApp.forms import CrearDepartamentoForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, PerfilForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
@@ -140,12 +140,18 @@ def residente(request):
         return render(request, 'residente/residente.html', context)
     else:
         return redirect('unauthorized')
-@login_required    
-def perfil(request):
-    if request.user.role == 'residente':
-        perfil = Departamento.objects.all()
-        context = {"perfil":perfil}
-        return render(request, 'residente/perfil.html', context)
+
+@login_required
+def editar_perfil(request):
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('residente/perfil/perfil.html')  # Redirige a la vista de perfil después de guardar
+    else:
+        form = PerfilForm(instance=request.user)
+    return render(request, 'editar_perfil.html', {'form': form})
+
 @login_required
 def avisos(request):
     if request.user.role == 'residente':

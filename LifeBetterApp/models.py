@@ -171,6 +171,7 @@ class EspacioComun(models.Model):
     nombre_ec = models.CharField(max_length=60)
     descripcion_ec = models.CharField(max_length=60)
     capacidad_ec = models.IntegerField()
+    estado_ec = models.CharField(max_length=20, default='disponible') 
 
     class Meta:
         db_table = 'espacio_comun'
@@ -212,7 +213,6 @@ class Bitacora(models.Model):
 
 class Reservacion(models.Model):
     id_reservacion = models.AutoField(primary_key=True)
-    estado_reservacion = models.CharField(max_length=20)
     inicio_fecha_hora_reservacion = models.DateTimeField()
     fin_fecha_hora_reservacion = models.DateTimeField()
     cantidad_personas = models.IntegerField(null=False)
@@ -226,7 +226,7 @@ class Reservacion(models.Model):
         verbose_name_plural = 'Reservaciones'
 
     def __str__(self):
-        return f'Reservación {self.id_reservacion} - {self.espacio_comun.nombre_ec}'
+        return f'Reservación {self.id_reservacion} - {self.id_ec.nombre_ec}'
     
     def clean(self):
         # Validar que la fecha de inicio sea anterior a la fecha de fin

@@ -68,6 +68,11 @@ class PagarGComunesForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['mes'].choices = GastosComunes.MESES
+
+class PerfilForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email','password',]
     
 class EncomiendaForm(forms.ModelForm):
         class Meta:
@@ -97,12 +102,12 @@ class ReclamoForm(forms.ModelForm):
 class EspacioComunForm(forms.ModelForm):
     class Meta:
         model = EspacioComun
-        fields = ['nombre_ec', 'descripcion_ec', 'capacidad_ec']
+        fields = ['nombre_ec', 'descripcion_ec', 'capacidad_ec','estado_ec']
 
 class ReservacionForm(forms.ModelForm):
     class Meta:
         model = Reservacion
-        fields = ['estado_reservacion', 'inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion']
+        fields = ['inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion']
 
 class RegistroVisitanteDeptoForm(forms.ModelForm):
     class Meta:
