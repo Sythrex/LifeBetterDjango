@@ -12,6 +12,35 @@
     <button type="submit">Guardar</button>
 </form>
 
+<h1>Visitas Activas</h1>
 
+<table>
+  <thead>
+    <tr>
+      <th>Rut</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Patente</th>
+      <th>Departamento</th>
+      <th>Hora de Ingreso</th>
+      <th>Salida</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for visita in visitas %}
+    <tr>
+      <td>{{ visita.rut_visitante.rut_visitante }}-{{visita.rut_visitante.dv_visitante}} </td>
+      <td>{{ visita.rut_visitante.nombres_visitante }}</td>
+      <td>{{ visita.rut_visitante.apellido_visitante }}</td>
+      <td>{{ visita.rut_visitante.patente }}</td>
+      <td>{{ visita.rut_visitante.departamento }}</td>
+      <td>{{ visita.fecha_hora_ingreso }}</td>
+      <td>
+        <a href="{% url 'salida_visita' id=visita.id_visitante_depto %}">Marcar Salida</a> 
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}

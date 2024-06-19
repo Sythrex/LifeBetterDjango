@@ -48,6 +48,10 @@ class Departamento(models.Model):
         return f'Departamento {self.numero_depto} - Piso {self.piso}'
 
 class Residente(models.Model):
+    Tipo_residente = (
+        ('dueño', 'Dueño'),
+        ('arrendatario', 'Arrendatario'),        
+    )
     rut_residente = models.CharField(primary_key=True, max_length=10)
     dvrun = models.CharField(max_length=1, validators=[validar_dv])
     pnombre_residente = models.CharField(max_length=50)
@@ -58,9 +62,9 @@ class Residente(models.Model):
     fecha_contrato_residente = models.DateField()
     correo_residente = models.EmailField(max_length=50, blank=True, null=True, unique=True)
     fono_residente = models.CharField(max_length=15)
-    tipo_residente = models.IntegerField()
+    tipo_residente = models.CharField(max_length=20, choices=Tipo_residente)
     comite = models.BooleanField()
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, blank=False, null=False)
 
     class Meta:
         db_table = 'residente'
@@ -112,7 +116,7 @@ class Visitante(models.Model):
     dv_visitante = models.CharField(max_length=1, validators=[validar_dv])
     nombres_visitante = models.CharField(max_length=80)
     apellido_visitante = models.CharField(max_length=80)
-    estacionamiento = models.BooleanField()
+    patente = models.CharField(max_length=6, blank=True, null=True)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
 
     class Meta:
@@ -138,10 +142,9 @@ class AdminEmpleadoContratada(models.Model):
 
 class RegistroVisitanteDepto(models.Model):
     id_visitante_depto = models.AutoField(primary_key=True)
-    rut_visitante = models.ForeignKey(Visitante, on_delete=models.CASCADE, related_name='registros')
-    rut_residente = models.ForeignKey(Residente, on_delete=models.CASCADE, related_name='visitas')
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
-
+    rut_visitante = models.ForeignKey(Visitante, on_delete=models.CASCADE)
+    fecha_hora_ingreso = models.DateTimeField(default=timezone.now)
+    fecha_hora_salida = models.DateTimeField(null=True, blank=True)
     class Meta:
         db_table = 'registro_visitante_depto'
         verbose_name = 'Registro Visitante Depto'

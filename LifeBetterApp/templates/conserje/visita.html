@@ -1,9 +1,7 @@
 {% extends "../index.html" %} {% load static %} {% block title %} LB | VISITAS {% endblock %} {% block body %} {% include 'componentes/sidenav.html'%}
 
 
-
-
-<h1>Lista de Visitas</h1>
+<h1>Listado de Visitantes</h1>
 
 <button onclick="location.href='{% url 'nueva_visita' %}'">Nuevo Visitante</button>
 
@@ -13,8 +11,8 @@
       <th>Rut</th>
       <th>Nombre</th>
       <th>Apellido</th>
+      <th>Patente</th>
       <th>Departamento</th>
-      <th>Estacionamiento</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -24,7 +22,7 @@
       <td>{{ visita.rut_visitante }}-{{visita.dv_visitante}} </td>
       <td>{{ visita.nombres_visitante }}</td>
       <td>{{ visita.apellido_visitante }}</td>
-      <td>{{ visita.estacionamiento }}</td>
+      <td>{{ visita.patente }}</td>
       <td>{{ visita.departamento }}</td>
       <td>
         <a href="{% url 'editar_visita' id=visita.id %}">Editar</a>

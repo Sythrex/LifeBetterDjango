@@ -24,8 +24,9 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('residente/perfil/editar_perfil/', views.editar_perfil, name='editar_perfil'),
     path('reclamos/', views.reclamos, name='reclamos'),
-    path('visitas/', views.visitas, name='visitas'),
     path('residente/crear/crear/', views.crear, name='crear'),
+    path('residente/visita/', views.visita, name='visita_residente'),
+
     #CALENDAR
     path('residente/ecomun/espaciocomun/', views.espaciocomun, name='espaciocomun'),
     path('residente/ecomun/crear_reservacion/', views.crear_reservacion, name='crear_reservacion'),
@@ -45,6 +46,7 @@ urlpatterns = [
     # administrador
     path('adminedificio/', views.admin, name='adminedificio'),
     path('administrador/crearusuario/', views.crearusuario, name='crearusuario'),
+    path('administrador/residente/crear/', views.crear_residente, name='crear_residente'),
     path('administrador/creardepartamento/', views.creardepartamento, name='creardepartamento'),
     path('administrador/crear_ecomun/', views.crear_ecomun, name='crear_ecomun'),
     path('administrador/multasadmin/', views.multasadmin, name='multasadmin'),
@@ -55,9 +57,10 @@ urlpatterns = [
 
     # CONSERJE
     path('conserje/encomienda/', views.encomienda, name='encomienda'),
-    path('conserje/visita/', views.visita, name='visita'),
+    path('conserje/visita/', views.visita, name='visita_conserje'),
     path('conserje/visita/crear', views.nueva_visita, name='nueva_visita'),
     path('conserje/registro/visita', views.registro_visitante_depto, name='registro_visitante_depto'),
+    path('conserje/visita/salida_visita/<int:id>/', views.salida_visita, name='salida_visita'),
     path('conserje/visita/editar/<int:id>/', views.editar_visita, name='editar_visita'),
     path('conserje/visita/eliminar/<int:id>/', views.eliminar_visita, name='eliminar_visita'),
     path('conserje/multa/', views.multa, name='multa'),
