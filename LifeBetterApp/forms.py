@@ -1,6 +1,6 @@
 from django import forms
 from LifeBetterApp.models import Departamento, Empleado, Encomienda, Residente, User
-from .models import Departamento, Empleado, Encomienda, Residente, User, Reclamo,EspacioComun, Reservacion, GastosComunes
+from .models import Departamento, Empleado, Encomienda, RegistroVisitanteDepto, Residente, User, Reclamo,EspacioComun, Reservacion, GastosComunes, Visitante
 from LifeBetterApp import models
 
 
@@ -72,3 +72,13 @@ class ReservacionForm(forms.ModelForm):
     class Meta:
         model = Reservacion
         fields = ['estado_reservacion', 'inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion']
+
+class RegistroVisitanteDeptoForm(forms.ModelForm):
+    class Meta:
+        model = RegistroVisitanteDepto
+        fields = ['rut_visitante', 'rut_residente', 'departamento']
+
+class VisitanteForm(forms.ModelForm):
+    class Meta:
+        model = Visitante
+        fields = ['rut_visitante', 'dv_visitante', 'nombres_visitante', 'apellido_visitante', 'departamento']

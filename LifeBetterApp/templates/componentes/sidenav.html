@@ -2,7 +2,7 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="bi bi-x"></i></a>
     {% comment %} Botones para conserje {% endcomment %}
     {% if user.role == 'conserje' %}
-    <a href="{% url 'visitas' %}">Visitas</a>
+    <a href="{% url 'visita' %}">Visitas</a>
     <a href="{% url 'encomienda' %}">Encomienda</a>
     <a href="{% url 'multa' %}">Multas</a>
     <a href="{% url 'reclamos' %}">Reclamos</a>
