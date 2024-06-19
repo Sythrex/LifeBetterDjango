@@ -14,7 +14,7 @@ from marshmallow import ValidationError
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
-from LifeBetterApp.forms import CrearDepartamentoForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm, PerfilForm, CrearResidenteForm
+from LifeBetterApp.forms import CrearBitacoraForm, CrearDepartamentoForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm, PerfilForm, CrearResidenteForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
@@ -23,12 +23,16 @@ from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visit
 ## VISTAS DE PAGINAS PRINCIPALES
 def index(request):
     return render(request, 'index.html', {})
+
 def home(request):
     return render(request, 'sitio/home.html', {})
+
 def servicio(request):
     return render(request, 'sitio/servicio.html', {})
+
 def nosotros(request):
     return render(request, 'sitio/nosotros.html', {})
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -265,12 +269,15 @@ def gcomunes(request):
         'form': form,
     }
     return render(request, 'sitio/gastoscomunes.html', context)
+
 @login_required
 def multasrev(request):
     return render(request, 'residente/multasrev.html', {})
+
 @login_required
 def reclamos(request):
     return render(request, 'residente/reclamos.html', {})
+
 @login_required
 def visitas(request):
     if request.user.role == 'residente':
@@ -281,6 +288,7 @@ def visitas(request):
 
 def resumen(request):
     return render(request, 'residente/resumen.html', {})
+
 @login_required
 def crear(request):
     return render(request, 'residente/crear/crear.html', {})
@@ -379,10 +387,11 @@ def conserje(request):
         return redirect('unauthorized')
 def encomienda(request):
     return render(request, 'conserje/encomienda.html', {})
-def bitacora(request):
-    return render(request, 'conserje/bitacora.html', {})
+
+
 def reclamos(request):
     return render(request, 'conserje/reclamos.html', {})
+
 @login_required
 def multa(request):
     if request.user.role == 'conserje':
@@ -406,7 +415,7 @@ def visita(request):
     
 @login_required
 def editar_visita(request, id):
-    if request.user.role == 'conserje' or request.user.role == 'residente':
+    if request.user.role == 'conserje':
         visita = Visitante.objects.get(id=id)
         if request.method == 'POST':
             form1 = VisitanteForm(request.POST, instance=visita, prefix='form1')
@@ -421,7 +430,7 @@ def editar_visita(request, id):
     
 @login_required
 def eliminar_visita(request, id):
-    if request.user.role == 'conserje' or request.user.role == 'residente':
+    if request.user.role == 'conserje':
         visita = Visitante.objects.get(id=id)
         visita.delete()
         return redirect('visita')
@@ -458,7 +467,7 @@ def registro_visitante_depto(request):
     return render(request, 'conserje/agregarvisita.html', {'form1': form1, 'visitas': visitas})
 
 def salida_visita(request,id):
-    if request.user.role == 'conserje' or request.user.role == 'residente':
+    if request.user.role == 'conserje':
         visita = RegistroVisitanteDepto.objects.get(id_visitante_depto=id)
         visita.fecha_hora_salida = timezone.now()
         visita.save()
@@ -466,6 +475,25 @@ def salida_visita(request,id):
     else:
         return redirect('unauthorized')
     
+def bitacora(request):
+    if request.user.role == 'conserje':
+        return render(request, 'conserje/bitacora.html', {})
+    
+def crear_bitacora(request):
+    if request.user.role == 'conserje':
+        if request.method == 'POST':
+            form = CrearBitacoraForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('bitacora')
+        else:
+            form = CrearBitacoraForm()   
+        return render(request, 'conserje/crearbitacora.html', {'form': form})
+    else:
+        return redirect('unauthorized')
+    
+
+        
 def crear_residente(request):
     if request.method == 'POST':
         form = CrearResidenteForm(request.POST)

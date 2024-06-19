@@ -148,30 +148,8 @@ class CrearResidenteForm(forms.ModelForm):
             'departamento',
         ]
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
 
-        if password != confirm_password:
-            raise forms.ValidationError("Las contraseñas no coinciden.")
-
-    def save(self, commit=True):
-        residente = super().save(commit=False)
-        # Hashear la contraseña antes de guardarla
-        residente.password = make_password(self.cleaned_data.get('password')) 
-        if commit:
-            residente.save()
-
-            # Crear un usuario asociado al residente
-            user = User.objects.create_user(
-                username=residente.rut_residente,  # Usar el rut como nombre de usuario
-                password=self.cleaned_data.get('password'),
-                email=residente.correo_residente,
-                first_name=residente.pnombre_residente,
-                last_name=residente.appaterno_residente,
-                role='residente'
-            )
-            user.save()  # No es necesario si commit=True
-
-        return residente
+class CrearBitacoraForm(forms.ModelForm):
+    class Meta:
+        model = Bitacora
+        fields = ['id_bitacora','asunto','contenido','fecha_hora','empleado']

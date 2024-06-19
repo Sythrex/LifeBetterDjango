@@ -4,6 +4,36 @@
 {% block body %}
 {% include 'componentes/sidenav.html' %} 
 
+<h1>Bitácoras</h1>
 
+<button onclick="location.href='{% url 'crear_bitacora' %}'">Nueva Bitacora</button>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Asunto</th>
+            <th>Contenido</th>
+            <th>Fecha y Hora</th>
+            <th>Empleado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bitacora in bitacoras %}
+            <tr>
+                <td>{{ bitacora.id_bitacora }}</td>
+                <td>{{ bitacora.asunto }}</td>
+                <td>{{ bitacora.contenido }}</td>
+                <td>{{ bitacora.fecha_hora }}</td>
+                <td>{{ bitacora.empleado }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No hay bitácoras disponibles.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

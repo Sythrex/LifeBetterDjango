@@ -65,6 +65,7 @@ urlpatterns = [
     path('conserje/visita/eliminar/<int:id>/', views.eliminar_visita, name='eliminar_visita'),
     path('conserje/multa/', views.multa, name='multa'),
     path('conserje/bitacora/', views.bitacora, name='bitacora'),
+    path('conserje/bitacora/crear', views.crear_bitacora, name='crear_bitacora'),
     path('conserje/reclamos/', views.reclamos, name='reclamos'),
 
 

@@ -90,6 +90,10 @@ class AdministracionExterna(models.Model):
         return self.nombre_admin
 
 class Empleado(models.Model):
+    Tipo_empleado = (
+        ('conserje', 'Conserje'),
+        ('aseo', 'Aseo'),        
+    )
     run_empleado = models.CharField(primary_key=True, max_length=10)
     dvrun_empleado = models.CharField(max_length=1, validators=[validar_dv])
     pnombre_empleado = models.CharField(max_length=50)
@@ -100,7 +104,7 @@ class Empleado(models.Model):
     fecha_contrato_empleado = models.DateField()
     correo_empleado = models.EmailField(max_length=50, blank=True, null=True, unique=True)
     fono_empleado = models.CharField(max_length=15)
-    tipo_empleado = models.IntegerField()
+    
 
     class Meta:
         db_table = 'empleado'
@@ -203,8 +207,8 @@ class Bitacora(models.Model):
     id_bitacora = models.AutoField(primary_key=True)
     asunto = models.CharField(max_length=60)
     contenido = models.CharField(max_length=200)
-    fecha_hora = models.DateTimeField()
-    run_empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='bitacoras')
+    fecha_hora =  models.DateTimeField(default=timezone.now)
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='bitacoras')
 
     class Meta:
         db_table = 'bitacora'
@@ -270,7 +274,7 @@ class Estacionamiento(models.Model):
 class Encomienda(models.Model):
     id_encomienda = models.AutoField(primary_key=True)
     estado_encomienda = models.CharField(max_length=20)
-    fecha_hora_encomienda = models.DateTimeField()
+    fecha_hora_encomienda =  models.DateTimeField(default=timezone.now)
     run_residente = models.ForeignKey(Residente, on_delete=models.CASCADE, related_name='encomiendas')
     run_empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='encomiendas')
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
