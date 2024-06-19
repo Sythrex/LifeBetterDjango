@@ -1,0 +1,19 @@
+{% extends "../index.html" %} 
+{% block title %} LB | ADMINISTRADOR {% endblock %} 
+{% block body %}
+
+{% include 'componentes/sidenav.html' %} 
+
+
+<h1>Crear Departamento</h1>
+
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear</button>
+</form>
+
+
+
+{% endblock %}

@@ -13,7 +13,7 @@ from marshmallow import ValidationError
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
-from LifeBetterApp.forms import CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
+from LifeBetterApp.forms import CrearDepartamentoForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
@@ -273,6 +273,7 @@ def crear(request):
     return render(request, 'residente/crear/crear.html', {})
 
 ##ADMINISTRADOR------------------------------------------------------------------------------------------
+
 @login_required
 def admin(request):
     if request.user.role == 'adminedificio':
@@ -281,6 +282,16 @@ def admin(request):
         return render(request, 'administrador/adminedificio.html', context)
     else:
         return redirect('unauthorized')
+    
+@login_required
+def admin(request):
+    if request.user.role == 'adminedificio':
+        adminedificio = Residente.objects.all()
+        context = {"adminedificio":adminedificio}
+        return render(request, 'administrador/adminedificio.html', context)
+    else:
+        return redirect('unauthorized')
+    
 @login_required
 def crearusuario(request):
     if request.user.role == 'adminedificio':
@@ -298,9 +309,24 @@ def crearusuario(request):
             form = CrearUsuarioForm()
         return render(request, 'administrador/crearusuario.html', {'form': form})
     else:
-        return redirect('unauthorized')   
+        return redirect('unauthorized') 
+      
+@login_required
 def creardepartamento(request):
-    return render(request, 'administrador/creardepartamento.html', {})
+    if request.user.role == 'adminedificio':
+        if request.method == 'POST':
+            form = CrearDepartamentoForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('adminedificio')
+        else:
+            form = CrearDepartamentoForm()
+        return render(request, 'administrador/creardepto.html', {'form': form})
+    else:
+        return redirect('unauthorized')
+
+
+
 @login_required
 def crear_ecomun(request):
     if request.method == 'POST':
@@ -313,6 +339,7 @@ def crear_ecomun(request):
     return render(request, 'administrador/crear_ecomun.html', {'form': form})
 def multasadmin(request):
     return render(request, 'administrador/multasadmin.html', {})
+
 @login_required
 def gastoscomunes(request):
     if request.method == 'POST':
@@ -355,12 +382,6 @@ def bitacora(request):
 def reclamos(request):
     return render(request, 'conserje/reclamos.html', {})
 @login_required
-def visita(request):
-    if request.user.role == 'conserje' or request.user.role == 'residente':
-        return render(request, 'conserje/visita.html', {})
-    else:
-        return redirect('unauthorized')    
-@login_required
 def multa(request):
     if request.user.role == 'conserje':
         return render(request, 'conserje/multa.html', {})
@@ -372,16 +393,64 @@ def gestionencomienda(request):
     context = {"enco": enco}
     return render(request, 'conserje/gestion/gestion.html', context)
 
+
+@login_required
+def visita(request):
+    if request.user.role == 'conserje' or request.user.role == 'residente':     
+        visitas = Visitante.objects.all()
+        return render(request, 'conserje/visita.html', {'visitas': visitas})
+    else:
+        return redirect('unauthorized')   
+    
+@login_required
+def editar_visita(request, id):
+    if request.user.role == 'conserje' or request.user.role == 'residente':
+        visita = Visitante.objects.get(id=id)
+        if request.method == 'POST':
+            form1 = VisitanteForm(request.POST, instance=visita, prefix='form1')
+            if form1.is_valid():
+                form1.save()
+                return redirect('visita')
+        else:
+            form1 = VisitanteForm(instance=visita, prefix='form1')
+        return render(request, 'conserje/editarvisita.html', {'form1': form1})
+    else:
+        return redirect('unauthorized')
+    
+@login_required
+def eliminar_visita(request, id):
+    if request.user.role == 'conserje' or request.user.role == 'residente':
+        visita = Visitante.objects.get(id=id)
+        visita.delete()
+        return redirect('visita')
+    else:
+        return redirect('unauthorized')
+
+@login_required
+def nueva_visita(request):
+    if request.user.role == 'conserje' or request.user.role == 'residente':
+        if request.method == 'POST':
+            form1 = VisitanteForm(request.POST, prefix='form1')
+            if form1.is_valid():
+                form1.save()
+                return redirect('visita')
+        else:
+            form1 = VisitanteForm(prefix='form1')
+        return render(request, 'conserje/nuevavisita.html', {'form1': form1})
+    else:
+        return redirect('unauthorized')   
+    
+@login_required 
 def registro_visitante_depto(request):
     if request.method == 'POST':
         form1 = RegistroVisitanteDeptoForm(request.POST, prefix='form1')
-        form2 = VisitanteForm(request.POST, prefix='form2')
-        if form1.is_valid() and form2.is_valid():
+        if form1.is_valid():
             form1.save()
-            form2.save()
             return redirect('visita')
     else:
         form1 = RegistroVisitanteDeptoForm(prefix='form1')
-        form2 = VisitanteForm(prefix='form2')
 
-    return render(request, 'conserje/visita.html', {'form1': form1, 'form2': form2})
+    return render(request, 'conserje/agregarvisita.html', {'form1': form1})
+
+
+

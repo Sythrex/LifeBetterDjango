@@ -103,3 +103,18 @@ class ReservacionForm(forms.ModelForm):
     class Meta:
         model = Reservacion
         fields = ['estado_reservacion', 'inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion']
+
+class RegistroVisitanteDeptoForm(forms.ModelForm):
+    class Meta:
+        model = RegistroVisitanteDepto
+        fields = ['rut_visitante', 'rut_residente', 'departamento']
+
+class VisitanteForm(forms.ModelForm):
+    class Meta:
+        model = Visitante
+        fields = ['rut_visitante', 'dv_visitante', 'nombres_visitante', 'apellido_visitante', 'departamento','estacionamiento']
+
+class CrearDepartamentoForm(forms.ModelForm):
+    class Meta:
+        model = Departamento
+        fields = ['numero_depto', 'piso']
