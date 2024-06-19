@@ -5,15 +5,15 @@
 {% block body %}
 
 <h1>Pago Gastos Comunes</h1>
-<div class="pago" style="width: 100%; max-width: 600px;">
-<form method="post" action="../webpay/plus/create/">
-    {% csrf_token %}
-    
-    {{ form.as_p }}
-    <button type="submit">Pagar</button>
-</form>
+<div class="pago">
+    <form method="post" action="../webpay/plus/create/">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        <button type="submit">Pagar</button>
+    </form>
 </div>
 
 
-    
+
 {% endblock %}
