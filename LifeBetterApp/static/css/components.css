@@ -1,0 +1,187 @@
+/* Estilos de botones */
+.btn-outline-custom {
+    color: var(--primary-color);
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.btn-outline-custom:hover {
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-enviar {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: solid 2px var(--primary-color);
+    width: auto;
+}
+
+.btn-enviar:hover{
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: solid 1px var(--primary-color);
+    width: auto;
+    border-radius: 10px;
+}
+
+
+/* Estilos para tablas */
+.table .table-style{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+}
+
+th, td {
+    border: 1px solid var(--primary-color); 
+    padding: 8px; 
+    text-align: left; 
+    margin: 10px;
+}
+
+th {
+    background-color: var(--tertiary-color); 
+}
+
+tr:hover {
+    background-color:var(--primary-color); 
+}
+
+/* Estilos de la sección de pago */
+.pago {
+    padding: 2rem;
+}
+
+.pago select {
+    width: 50%;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+/* Estilos de la página Residente */
+.residente-page h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos de la página Nosotros */
+.nosotros-page {
+    background-color: var(--sidebar-background);
+    padding: 20px;
+}
+
+.nosotros-page .card-body .h4 {
+    color: var(--primary-color);
+}
+.nosotros-page .card {
+    margin-bottom: 200px;
+}
+
+.content .texto{
+    background-color: var(--primary-color);
+}
+
+.nosotros-page .content-contacto{
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+/* Estilos de la página de login */
+.login-page {
+    background: linear-gradient(135deg, var(--sidebar-background), var(--primary-color));
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ancho fijo para mejor control en pantallas pequeñas */
+}
+
+.login-container {
+    background: var(--sidebar-background);
+    padding: 30px; /* Más espacio interior */
+    border-radius: 15px; /* Bordes más redondeados */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+    width: 400px; /* Ancho fijo para mejor control en pantallas pequeñas */
+    text-align: center; /* Centra el contenido del formulario */
+}
+
+.login-container h2 {
+    color: var(--text-color);
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: var(--text-color); /* Etiqueta del mismo color que el texto */
+    display: block; /* Para que la etiqueta quede encima del input */
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border-radius: 8px; /* Bordes más redondeados */
+    border: 2px solid var(--primary-color); /* Borde con el color primario */
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box; /* Incluye el borde y el padding en el ancho total */
+    transition: border-color 0.3s ease; /* Transición suave para el color del borde */
+}
+
+.form-control:focus {
+    border-color: var(--primary-color); /* Color del borde al hacer foco */
+    outline: none; /* Elimina el contorno predeterminado del navegador */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 12px 24px; /* Botón más grande */
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+.btn-primary:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+/* Checkbox */
+.form-check-label {
+    color: var(--text-color); 
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.help-block a {
+    color: var(--primary-color);
+}
+
+.help-block a:hover {
+    color: var(--primary-color);
+}
+
+/* Estilos del pie de página */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--sidebar-background);
+    color: darkgrey;
+    width: 100%;
+}

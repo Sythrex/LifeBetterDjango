@@ -1,6 +1,7 @@
+from datetime import timezone
+import re
 import random
 from django.http import JsonResponse
-from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
@@ -9,6 +10,7 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from marshmallow import ValidationError
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
@@ -144,6 +146,11 @@ def residente(request):
     else:
         return redirect('unauthorized')
 
+@login_required    
+def perfil(request):
+    usuario = request.user  # Obtener el usuario actual
+    return render(request, 'residente/perfil.html', {'usuario': usuario})
+
 @login_required
 def editar_perfil(request):
     if request.method == 'POST':
@@ -161,6 +168,7 @@ def avisos(request):
         avi = Anuncio.objects.all()
         context ={"avisos": avi}
         return render(request, 'residente/avisos.html', context) 
+
 @login_required       
 def encoresidente(request):
     if request.user.role == 'residente':
@@ -330,7 +338,7 @@ def admin(request):
         return render(request, 'administrador/adminedificio.html', context)
     else:
         return redirect('unauthorized')
-    
+
 @login_required
 def crearusuario(request):
     if request.user.role == 'adminedificio':
@@ -349,7 +357,7 @@ def crearusuario(request):
         return render(request, 'administrador/crearusuario.html', {'form': form})
     else:
         return redirect('unauthorized') 
-      
+
 @login_required
 def creardepartamento(request):
     if request.user.role == 'adminedificio':
@@ -364,8 +372,6 @@ def creardepartamento(request):
     else:
         return redirect('unauthorized')
 
-
-
 @login_required
 def crear_ecomun(request):
     if request.method == 'POST':
@@ -376,6 +382,7 @@ def crear_ecomun(request):
     else:
         form = EspacioComunForm()
     return render(request, 'administrador/crear_ecomun.html', {'form': form})
+
 def multasadmin(request):
     return render(request, 'administrador/multasadmin.html', {})
 
@@ -434,7 +441,6 @@ def gestionencomienda(request):
     context = {"enco": enco}
     return render(request, 'conserje/gestion/gestion.html', context)
 
-
 @login_required
 def visita(request):
     if request.user.role == 'conserje' or request.user.role == 'residente':     
@@ -480,7 +486,7 @@ def nueva_visita(request):
         return render(request, 'conserje/nuevavisita.html', {'form1': form1})
     else:
         return redirect('unauthorized')   
-    
+
 @login_required 
 def registro_visitante_depto(request):
     if request.user.role == 'conserje' or request.user.role == 'residente':
@@ -524,3 +530,12 @@ def crear_bitacora(request):
     
 
         
+def crear_residente(request):
+    if request.method == 'POST':
+        form = CrearResidenteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adminedificio')
+    else:
+        form = CrearResidenteForm()
+    return render(request, 'administrador/crear_residente.html', {'form': form})

@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.hashers import make_password
 from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
 
 
@@ -126,6 +127,9 @@ class CrearDepartamentoForm(forms.ModelForm):
 
 
 class CrearResidenteForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
+
     class Meta:
         model = Residente
         fields = [
