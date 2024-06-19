@@ -1,21 +1,50 @@
 {% extends "index.html" %}
 {% load static %}
+
 {% block title %} LB | EC {% endblock %}
+
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
 <h1>Reservas</h1>
+
 <div class="p-2">
   <a href="{% url 'crear_reservacion' %}" class="btn btn-primary">Reservar</a>
 </div>
-<div id="calendar"></div>
-  {% for ec in espacio%}
-  <table>
-    <th>Espacios Comunes</th>
-    <td>
 
-    </td>
-  </table>
-  {% endfor%}
+{% for espacio in espacios %}
+<h2>{{ espacio.nombre_ec }}</h2>
+<div id="calendar-{{ espacio.id_ec }}" data-bs-toggle="modal" data-bs-target="#reservarModal"></div>
+{% endfor %}
+
+<div class="modal fade" id="reservarModal" tabindex="-1" aria-labelledby="reservarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservarModalLabel">Nueva Reserva</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="reservacionForm" method="post">
+          {% csrf_token %}
+          <input type="hidden" id="espacioId" name="espacio_id">
+          <div class="mb-3">
+            <label for="inicio" class="form-label">Fecha y hora de inicio:</label>
+            <input type="datetime-local" class="form-control" id="inicio" name="inicio">
+          </div>
+          <div class="mb-3">
+            <label for="fin" class="form-label">Fecha y hora de fin:</label>
+            <input type="datetime-local" class="form-control" id="fin" name="fin">
+          </div>
+          <div class="mb-3">
+            <label for="cantidad_personas" class="form-label">Cantidad de personas:</label>
+            <input type="number" class="form-control" id="cantidad_personas" name="cantidad_personas">
+          </div>
+          <button type="submit" class="btn btn-primary">Reservar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

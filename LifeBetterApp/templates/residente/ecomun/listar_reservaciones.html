@@ -4,5 +4,18 @@
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
+<h2>Mis Reservas</h2>
+
+<ul>
+  {% for reserva in reservaciones %}
+  <li>
+    {{ reserva.id_ec }} - {{ reserva.inicio_fecha_hora_reservacion }} - {{ reserva.fin_fecha_hora_reservacion }}
+    <a href="{% url 'editar_reservacion' reserva.id_reservacion %}">Editar</a>
+    <a href="{% url 'eliminar_reservacion' reserva.id_reservacion %}">Eliminar</a>
+  </li>
+  {% empty %}
+  <li>No tienes reservas aún.</li>
+  {% endfor %}
+</ul>
 
 {% endblock %}

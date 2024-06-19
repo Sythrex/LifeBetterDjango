@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %} LB | ELR {% endblock %}
+{% block body %}
+{% include 'componentes/sidenav.html' %}
+
+<h2>Eliminar Reserva</h2>
+
+<p>¿Estás seguro de que quieres eliminar la reserva para {{ reservacion.id_ec }} el {{
+  reservacion.inicio_fecha_hora_reservacion }}?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Eliminar</button>
+</form>
+
+{% endblock %}

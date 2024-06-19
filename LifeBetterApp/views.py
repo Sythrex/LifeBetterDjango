@@ -1,5 +1,6 @@
 import random
-from django.shortcuts import redirect, render
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.hashers import make_password
@@ -155,29 +156,93 @@ def encoresidente(request):
         encom = Encomienda.objects.all()
         context ={"encom": encom}
     return render(request, 'residente/encoresidente.html', context)
+
 @login_required
 def espaciocomun(request):
     espacios = EspacioComun.objects.all()
-    return render(request, 'residente/ecomun/espaciocomun.html', {'espacios': espacios})
+    # Obtener las reservas para cada espacio
+    reservas_por_espacio = {}
+    for espacio in espacios:
+        reservas_por_espacio[espacio.id_ec] = Reservacion.objects.filter(id_ec=espacio)
+    return render(request, 'residente/ecomun/espaciocomun.html', {
+        'espacios': espacios,
+        'reservas_por_espacio': reservas_por_espacio,
+    })
+
 @login_required
 def listar_reservaciones(request):
-    reservaciones = Reservacion.objects.filter(residente=request.user)
+    try:
+        residente = Reservacion.objects.filter(run_residente__user=request.user).first().run_residente
+        reservaciones = Reservacion.objects.filter(run_residente=residente)
+    except AttributeError: # Manejo de error en caso que el usuario no tenga reservas
+        reservaciones = Reservacion.objects.none()
     return render(request, 'residente/ecomun/listar_reservaciones.html', {'reservaciones': reservaciones})
+
 @login_required
 def reservacion(request, id_reservacion):
     reserva = Reservacion.objects.get(id=id_reservacion)
     context = {"reserva": reserva}
     return render(request, 'residente/ecomun/reservacion.html', context)
+
 @login_required
 def crear_reservacion(request):
     if request.method == 'POST':
         form = ReservacionForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('listar_reservaciones')
+            # Validar disponibilidad antes de guardar
+            reservacion = form.save(commit=False)
+            if not reservacion.id_ec.reservaciones.filter(
+                inicio_fecha_hora_reservacion__lt=reservacion.fin_fecha_hora_reservacion,
+                fin_fecha_hora_reservacion__gt=reservacion.inicio_fecha_hora_reservacion
+            ).exists():
+                reservacion.save()
+                return redirect('listar_reservaciones')
+            else:
+                form.add_error(None, "Ya existe una reserva en este espacio y horario.")
     else:
         form = ReservacionForm()
     return render(request, 'residente/ecomun/crear_reservacion.html', {'form': form})
+
+@login_required
+def detalle_espacio(request, id_ec):
+    espacio = get_object_or_404(EspacioComun, id_ec=id_ec)
+    reservas = Reservacion.objects.filter(id_ec=espacio)
+    return render(request, 'residente/ecomun/detalle_espacio.html', {'espacio': espacio, 'reservas': reservas})
+
+@login_required
+def editar_reservacion(request, id_reservacion):
+    reservacion = get_object_or_404(Reservacion, id=id_reservacion, run_residente=request.user)
+    if request.method == 'POST':
+        form = ReservacionForm(request.POST, instance=reservacion)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_reservaciones')
+    else:
+        form = ReservacionForm(instance=reservacion)
+    return render(request, 'residente/ecomun/editar_reservacion.html', {'form': form, 'reservacion': reservacion})
+
+@login_required
+def eliminar_reservacion(request, id_reservacion):
+    reservacion = get_object_or_404(Reservacion, id=id_reservacion, run_residente=request.user)
+    if request.method == 'POST':
+        reservacion.delete()
+        return redirect('listar_reservaciones')
+    return render(request, 'residente/ecomun/eliminar_reservacion.html', {'reservacion': reservacion})
+
+def validar_disponibilidad(request):
+    espacio_id = request.GET.get('espacio_id')
+    inicio = request.GET.get('inicio')
+    fin = request.GET.get('fin')
+
+    # Realiza la validación de disponibilidad (similar a la vista crear_reservacion)
+    disponible = not Reservacion.objects.filter(
+        id_ec=espacio_id,
+        inicio_fecha_hora_reservacion__lt=fin,
+        fin_fecha_hora_reservacion__gt=inicio
+    ).exists()
+
+    return JsonResponse({'disponible': disponible})
+
 @login_required
 def gcomunes(request):
     form = PagarGComunesForm()
