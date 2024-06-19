@@ -1,5 +1,5 @@
 from django import forms
-from .models import Departamento, GastosComunes, Reclamo, RegistroVisitanteDepto, User, Residente, Empleado, EspacioComun, Reservacion, Encomienda, Visitante
+from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
 
 
 class CrearUsuarioForm(forms.ModelForm):
@@ -68,7 +68,6 @@ class PagarGComunesForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['mes'].choices = GastosComunes.MESES
-
     
 class EncomiendaForm(forms.ModelForm):
         class Meta:

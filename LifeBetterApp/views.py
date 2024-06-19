@@ -1,3 +1,4 @@
+import re
 import random
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,13 +9,14 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from marshmallow import ValidationError
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
 from LifeBetterApp.forms import CrearDepartamentoForm, CrearResidenteForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Departamento, GastosComunes, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
+from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
 
 
 ## VISTAS DE PAGINAS PRINCIPALES
