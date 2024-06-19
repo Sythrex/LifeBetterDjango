@@ -1,6 +1,5 @@
 from django import forms
-from LifeBetterApp.models import Departamento, Empleado, Encomienda, Residente, User
-from .models import Departamento, Empleado, Encomienda, RegistroVisitanteDepto, Residente, User, Reclamo,EspacioComun, Reservacion, GastosComunes, Visitante
+from .models import Departamento, User, Residente, Empleado, EspacioComun, Reservacion, Encomienda
 
 
 class CrearUsuarioForm(forms.ModelForm):
