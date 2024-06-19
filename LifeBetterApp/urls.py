@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.urls import reverse_lazy
 from . import views
 from django.contrib.auth import views as auth_views
@@ -26,9 +26,14 @@ urlpatterns = [
     path('visitas/', views.visitas, name='visitas'),
     path('residente/crear/crear/', views.crear, name='crear'),
     #CALENDAR
-    path('residente/ecomun/espaciocomun', views.espaciocomun, name='espaciocomun'),
-    path('residente/ecomun/crear_reservacion', views.crear_reservacion, name='crear_reservacion'),
-    path('residente/ecomun/listar_reservaciones', views.listar_reservaciones, name='listar_reservaciones'),
+    path('residente/ecomun/espaciocomun/', views.espaciocomun, name='espaciocomun'),
+    path('residente/ecomun/crear_reservacion/', views.crear_reservacion, name='crear_reservacion'),
+    path('residente/ecomun/listar_reservaciones/', views.listar_reservaciones, name='listar_reservaciones'),
+    path('residente/ecomun/detalle_espacio/<int:id_ec>/', views.detalle_espacio, name='detalle_espacio'),
+    path('residente/ecomun/editar_reservacion/<int:id_reservacion>/', views.editar_reservacion, name='editar_reservacion'),
+    path('residente/ecomun/eliminar_reservacion/<int:id_reservacion>/', views.eliminar_reservacion, name='eliminar_reservacion'),
+    path('residente/ecomun/validar_disponibilidad/', views.validar_disponibilidad, name='validar_disponibilidad'),
+
     path('gcomunes/', views.gcomunes, name='gcomunes'),
     path('resumen/', views.resumen, name='resumen'),
     path('multasrev/', views.multasrev, name='multasrev'),

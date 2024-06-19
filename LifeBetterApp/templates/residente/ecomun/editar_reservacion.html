@@ -1,15 +1,15 @@
 {% extends "index.html" %}
 {% load static %}
-{% block title %} LB | CR {% endblock %}
+{% block title %} LB | ER {% endblock %}
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<h2>Crear Reserva</h2>
+<h2>Editar Reserva</h2>
 
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Crear Reserva</button>
+  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
 </form>
 
 {% endblock %}

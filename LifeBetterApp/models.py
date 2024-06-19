@@ -2,6 +2,7 @@ from django import forms
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 import re
 
 # Usuarios
@@ -212,7 +213,8 @@ class Reservacion(models.Model):
     estado_reservacion = models.CharField(max_length=20)
     inicio_fecha_hora_reservacion = models.DateTimeField()
     fin_fecha_hora_reservacion = models.DateTimeField()
-    run_residente = models.ForeignKey('Residente', on_delete=models.CASCADE, related_name='reservaciones')
+    cantidad_personas = models.IntegerField(null=False)
+    run_residente = models.ForeignKey(Residente, on_delete=models.CASCADE, related_name='reservaciones')
     id_ec = models.ForeignKey(EspacioComun, on_delete=models.CASCADE, related_name='reservaciones')
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
 
@@ -223,6 +225,25 @@ class Reservacion(models.Model):
 
     def __str__(self):
         return f'Reservación {self.id_reservacion} - {self.espacio_comun.nombre_ec}'
+    
+    def clean(self):
+        # Validar que la fecha de inicio sea anterior a la fecha de fin
+        if self.inicio_fecha_hora_reservacion >= self.fin_fecha_hora_reservacion:
+            raise ValidationError("La fecha y hora de inicio deben ser anteriores a la fecha y hora de fin.")
+
+        # Validar que la cantidad de personas no exceda la capacidad del espacio
+        if self.cantidad_personas > self.id_ec.capacidad_ec:
+            raise ValidationError(f"La cantidad de personas excede la capacidad del espacio ({self.id_ec.capacidad_ec}).")
+
+        # Validar que no haya superposiciones con otras reservas
+        superposiciones = Reservacion.objects.filter(
+            id_ec=self.id_ec,
+            inicio_fecha_hora_reservacion__lt=self.fin_fecha_hora_reservacion,
+            fin_fecha_hora_reservacion__gt=self.inicio_fecha_hora_reservacion
+        ).exclude(pk=self.pk)  # Excluir la reserva actual si estamos editando
+
+        if superposiciones.exists():
+            raise ValidationError("Ya existe una reserva en este espacio y horario.")
 
 class Estacionamiento(models.Model):
     id_estacionamiento = models.AutoField(primary_key=True)

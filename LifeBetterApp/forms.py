@@ -1,7 +1,6 @@
 from django import forms
 from LifeBetterApp.models import Departamento, Empleado, Encomienda, Residente, User
 from .models import Departamento, Empleado, Encomienda, Residente, User, Reclamo,EspacioComun, Reservacion, GastosComunes
-from LifeBetterApp import models
 
 
 class CrearUsuarioForm(forms.ModelForm):
@@ -105,4 +104,12 @@ class EspacioComunForm(forms.ModelForm):
 class ReservacionForm(forms.ModelForm):
     class Meta:
         model = Reservacion
-        fields = ['estado_reservacion', 'inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion']
+        fields = ['estado_reservacion', 'inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion', 'cantidad_personas', 'id_ec']
+        widgets = {
+            'inicio_fecha_hora_reservacion': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'fin_fecha_hora_reservacion': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['id_ec'].queryset = EspacioComun.objects.all()
