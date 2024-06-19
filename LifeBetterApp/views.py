@@ -287,6 +287,22 @@ def crear(request):
 
 ##ADMINISTRADOR------------------------------------------------------------------------------------------
 
+def crear_conserje(request):
+    if request.method == 'POST':
+        form = CrearUsuarioForm(request.POST)
+        if form.is_valid():
+            # Obtenemos la contraseña del formulario
+            password = form.cleaned_data['password']
+            # Hasheamos la contraseña antes de guardarla en la base de datos
+            form.instance.password = make_password(password)
+            # Guardamos el usuario en la base de datos
+            form.save()
+            return redirect('adminedificio')  # Redirigir a la página de inicio después de crear el usuario
+    else:
+        form = CrearUsuarioForm()
+    return render(request, 'administrador/crear_conserje.html', {'form': form})
+
+
 def crear_residente(request):
     if request.method == 'POST':
         form = CrearResidenteForm(request.POST)
