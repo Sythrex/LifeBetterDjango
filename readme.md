@@ -13,14 +13,13 @@ pip install -r requirements.txt
 pip install django
 pip install transbank-sdk
 pip install djangorestframework
-npm install fullcalendar
-
 
 ### Aplica las migraciones
 python manage.py migrate
 
 ### Crea un usuario
 python manage.py createsuperuser
+
 
 ### Ejecuta la APP
 python manage.py runserver
