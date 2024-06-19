@@ -2,11 +2,12 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="bi bi-x"></i></a>
     {% comment %} Botones para conserje {% endcomment %}
     {% if user.role == 'conserje' %}
-    <a href="{% url 'visita' %}">Visitas</a>
+    <a href="{% url 'visita' %}">Nuevas Visitas</a>
     <a href="{% url 'encomienda' %}">Encomienda</a>
     <a href="{% url 'multa' %}">Multas</a>
     <a href="{% url 'reclamos' %}">Reclamos</a>
     <a href="{% url 'bitacora' %}">Bitácoras</a>
+    <a href="{% url 'registro_visitante_depto' %}">Agregar Visita</a>
     {% endif %}
     {% comment %} Botones para residente {% endcomment %}
     {% if user.role == 'residente'%}
@@ -30,6 +31,7 @@
     <a href="{% url 'crearusuario' %}">Crear Usuario</a>
     <a href="{% url 'creardepartamento' %}">Habilitar Departamento</a>
     <a href="{% url 'multasadmin' %}">Multas</a>
+
     {% endif %}
   </div>
     <a id="openbtn"  href="javascript:void(0)" class="openbtn" onclick="openNav()"><i class="bi bi-arrow-bar-right"></i></a>

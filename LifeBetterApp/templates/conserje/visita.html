@@ -1,21 +1,38 @@
-{% extends "../index.html" %}
-{% load static %}
-{% block title %} LB | VISITAS {% endblock %}
-{% block body %}
-{% include 'componentes/sidenav.html' %} 
-
-<form method="post">
-    {% csrf_token %}
-    {{ form2.as_p }}
-    <button type="submit">Submit</button>
-</form>
-
-<form method="post">
-    {% csrf_token %}
-    {{ form1.as_p }}
-    <button type="submit">Submit</button>
-</form>
+{% extends "../index.html" %} {% load static %} {% block title %} LB | VISITAS {% endblock %} {% block body %} {% include 'componentes/sidenav.html'%}
 
 
+
+
+<h1>Lista de Visitas</h1>
+
+<button onclick="location.href='{% url 'nueva_visita' %}'">Nuevo Visitante</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rut</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Departamento</th>
+      <th>Estacionamiento</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for visita in visitas %}
+    <tr>
+      <td>{{ visita.rut_visitante }}-{{visita.dv_visitante}} </td>
+      <td>{{ visita.nombres_visitante }}</td>
+      <td>{{ visita.apellido_visitante }}</td>
+      <td>{{ visita.estacionamiento }}</td>
+      <td>{{ visita.departamento }}</td>
+      <td>
+        <a href="{% url 'editar_visita' id=visita.id %}">Editar</a>
+        <a href="{% url 'eliminar_visita' id=visita.id %}">Eliminar</a> 
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}

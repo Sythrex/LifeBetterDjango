@@ -106,10 +106,12 @@ class Empleado(models.Model):
         return f'{self.pnombre_empleado} {self.appaterno_empleado}'
 
 class Visitante(models.Model):
-    rut_visitante = models.CharField(primary_key=True, max_length=8, validators=[validar_rut])
+    id = models.AutoField(primary_key=True)
+    rut_visitante = models.CharField(max_length=8, validators=[validar_rut])
     dv_visitante = models.CharField(max_length=1, validators=[validar_dv])
     nombres_visitante = models.CharField(max_length=80)
     apellido_visitante = models.CharField(max_length=80)
+    estacionamiento = models.BooleanField()
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
 
     class Meta:

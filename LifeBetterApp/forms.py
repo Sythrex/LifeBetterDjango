@@ -115,4 +115,9 @@ class RegistroVisitanteDeptoForm(forms.ModelForm):
 class VisitanteForm(forms.ModelForm):
     class Meta:
         model = Visitante
-        fields = ['rut_visitante', 'dv_visitante', 'nombres_visitante', 'apellido_visitante', 'departamento']
+        fields = ['rut_visitante', 'dv_visitante', 'nombres_visitante', 'apellido_visitante', 'departamento','estacionamiento']
+
+class CrearDepartamentoForm(forms.ModelForm):
+    class Meta:
+        model = Departamento
+        fields = ['numero_depto', 'piso']
