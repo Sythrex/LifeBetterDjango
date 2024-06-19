@@ -58,6 +58,7 @@ urlpatterns = [
     path('conserje/visita/', views.visita, name='visita'),
     path('conserje/visita/crear', views.nueva_visita, name='nueva_visita'),
     path('conserje/registro/visita', views.registro_visitante_depto, name='registro_visitante_depto'),
+    path('conserje/visita/salida_visita/<int:id>/', views.salida_visita, name='salida_visita'),
     path('conserje/visita/editar/<int:id>/', views.editar_visita, name='editar_visita'),
     path('conserje/visita/eliminar/<int:id>/', views.eliminar_visita, name='eliminar_visita'),
     path('conserje/multa/', views.multa, name='multa'),

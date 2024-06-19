@@ -116,7 +116,7 @@ class Visitante(models.Model):
     dv_visitante = models.CharField(max_length=1, validators=[validar_dv])
     nombres_visitante = models.CharField(max_length=80)
     apellido_visitante = models.CharField(max_length=80)
-    estacionamiento = models.BooleanField()
+    patente = models.CharField(max_length=6, blank=True, null=True)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
 
     class Meta:
@@ -142,10 +142,9 @@ class AdminEmpleadoContratada(models.Model):
 
 class RegistroVisitanteDepto(models.Model):
     id_visitante_depto = models.AutoField(primary_key=True)
-    rut_visitante = models.ForeignKey(Visitante, on_delete=models.CASCADE, related_name='registros')
-    rut_residente = models.ForeignKey(Residente, on_delete=models.CASCADE, related_name='visitas')
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
-
+    rut_visitante = models.ForeignKey(Visitante, on_delete=models.CASCADE)
+    fecha_hora_ingreso = models.DateTimeField(default=timezone.now)
+    fecha_hora_salida = models.DateTimeField(null=True, blank=True)
     class Meta:
         db_table = 'registro_visitante_depto'
         verbose_name = 'Registro Visitante Depto'

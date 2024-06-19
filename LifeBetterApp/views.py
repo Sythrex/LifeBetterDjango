@@ -1,6 +1,6 @@
-import re
 import random
 from django.http import JsonResponse
+from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views
@@ -9,14 +9,11 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from marshmallow import ValidationError
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
 from LifeBetterApp.forms import CrearDepartamentoForm, CrearResidenteForm, CrearUsuarioForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, VisitanteForm
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .models import Departamento, GastosComunes, Reclamo, Respuesta, User, Visitante, Residente, AdministracionExterna, Empleado, AdminEmpleadoContratada, RegistroVisitanteDepto, Multa, EspacioComun, Anuncio, Bitacora, Reservacion, Estacionamiento, Encomienda
+from .models import Departamento, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, Encomienda
 
 
 ## VISTAS DE PAGINAS PRINCIPALES
@@ -452,15 +449,25 @@ def nueva_visita(request):
     
 @login_required 
 def registro_visitante_depto(request):
-    if request.method == 'POST':
-        form1 = RegistroVisitanteDeptoForm(request.POST, prefix='form1')
-        if form1.is_valid():
-            form1.save()
-            return redirect('visita')
+    if request.user.role == 'conserje' or request.user.role == 'residente':
+        if request.method == 'POST':
+            form1 = RegistroVisitanteDeptoForm(request.POST, prefix='form1')
+            if form1.is_valid():
+                form1.save()
+                return redirect('registro_visitante_depto')
+        else:
+            form1 = RegistroVisitanteDeptoForm(prefix='form1')
+        visitas = RegistroVisitanteDepto.objects.filter(fecha_hora_salida__isnull=True)
     else:
-        form1 = RegistroVisitanteDeptoForm(prefix='form1')
+        return redirect('unauthorized')
+    return render(request, 'conserje/agregarvisita.html', {'form1': form1, 'visitas': visitas})
 
-    return render(request, 'conserje/agregarvisita.html', {'form1': form1})
-
-
-
+def salida_visita(request,id):
+    if request.user.role == 'conserje' or request.user.role == 'residente':
+        visita = RegistroVisitanteDepto.objects.get(id_visitante_depto=id)
+        visita.fecha_hora_salida = timezone.now()
+        visita.save()
+        return redirect('registro_visitante_depto')
+    else:
+        return redirect('unauthorized')
+    
