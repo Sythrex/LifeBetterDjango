@@ -1,35 +1,44 @@
 from datetime import timezone
 import random
+from django import views
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth import logout
-from django.contrib.auth import authenticate, login
+from django.urls import path, reverse, reverse_lazy
+from django.contrib.auth import views as auth_views, logout, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from .models import Empleado
-from LifeBetterApp.forms import CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm, MultaForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
-from .models import Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, Encomienda
+from .forms import (
+    CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
+    MultaForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
+    ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
+)
+from .models import (
+    Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
+    Encomienda, Empleado
+)
 
+# ================================================
+#                VISTAS PRINCIPALES
+# ================================================
 
-## VISTAS DE PAGINAS PRINCIPALES
 def index(request):
-    return render(request, 'index.html', {})
+    return render(request, 'index.html')
 
 def home(request):
-    return render(request, 'sitio/home.html', {})
+    return render(request, 'sitio/home.html')
 
 def servicio(request):
-    return render(request, 'sitio/servicio.html', {})
+    return render(request, 'sitio/servicio.html')
 
 def nosotros(request):
-    return render(request, 'sitio/nosotros.html', {})
+    return render(request, 'sitio/nosotros.html')
+
+# ================================================
+#          VISTAS DE AUTENTICACIÓN Y LOGIN
+# ================================================
 
 def login_view(request):
     if request.method == 'POST':
@@ -38,28 +47,18 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            if user.role == 'adminedificio':
-                return redirect('adminedificio')
-            elif user.role == 'residente':
-                return redirect('residente')
-            elif user.role == 'conserje':
-                return redirect('conserje')
-            else:
-                return redirect('home')
+            return redirect(user.role)  # Redirige según el rol del usuario
         else:
-            # En caso de que la autenticación falle, puedes enviar un mensaje al template
-            return render(request, "sitio/login.html", {'error': 'Nombre de usuario o contraseña incorrectos'})
+            return render(request, "sitio/login.html", {'error': 'Credenciales incorrectas'})
     else:
         return render(request, "sitio/login.html")
+
 def salir(request):
     logout(request)
     return redirect("home")
 
-## VISTAS DE ERRORES
-def unauthorized(request): 
-    return render(request, 'errores/unauthorized.html', {})
 
-# VISTAS DE AUTENTICACION
+# Rutas para el restablecimiento de contraseña
 def password_reset(request):
     return auth_views.PasswordResetView.as_view(
         template_name='password_reset/password_reset.html',
@@ -81,7 +80,14 @@ def complete(request):
         template_name='password_reset/complete.html'
     )(request)
 
-#VISTAS DE API WEBPAY
+## VISTAS DE ERRORES
+def unauthorized(request): 
+    return render(request, 'errores/unauthorized.html', {})
+
+# ================================================
+#                  VISTAS WEBPAY
+# ================================================
+
 VALOR_MESES = {
     'Enero': 100,
     'Febrero': 200,
@@ -131,20 +137,23 @@ def webpay_plus_commit(request):
     except TransactionCommitError as e:
         print("TransactionCommitError: {}".format(e.message))
         return render(request, 'webpay/plus/error.html', {'error': str(e)})
-            
+        
     return render(request, 'webpay/plus/commit.html', {'token': token, 'response': response})
 
-#RESIDENTE-----------------------------------------------------------------------------------------------
+# ================================================
+#                 VISTAS RESIDENTE
+# ================================================
+
 @login_required
 def residente(request):
     if request.user.role == 'residente':
         residente = Residente.objects.all()
-        context = {"residente":residente}
+        context = {"residente": residente}
         return render(request, 'residente/residente.html', context)
     else:
         return redirect('unauthorized')
 
-@login_required    
+@login_required
 def perfil(request):
     usuario = request.user  # Obtener el usuario actual
     return render(request, 'residente/perfil.html', {'usuario': usuario})
@@ -155,7 +164,7 @@ def editar_perfil(request):
         form = PerfilForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('residente/perfil/perfil.html')  # Redirige a la vista de perfil después de guardar
+            return redirect('perfil')  
     else:
         form = PerfilForm(instance=request.user)
     return render(request, 'editar_perfil.html', {'form': form})
@@ -164,23 +173,28 @@ def editar_perfil(request):
 def avisos(request):
     if request.user.role == 'residente':
         avi = Anuncio.objects.all()
-        context ={"avisos": avi}
+        context = {"avisos": avi}
         return render(request, 'residente/avisos.html', context) 
 
-@login_required       
+@login_required
 def encoresidente(request):
     if request.user.role == 'residente':
         encom = Encomienda.objects.all()
-        context ={"encom": encom}
-    return render(request, 'residente/encoresidente.html', context)
+        context = {"encom": encom}
+        return render(request, 'residente/encoresidente.html', context)
+
+
+# --------------------------- ESPACIO COMUN -------------------------- #
 
 @login_required
 def espaciocomun(request):
     espacios = EspacioComun.objects.all()
+
     # Obtener las reservas para cada espacio
     reservas_por_espacio = {}
     for espacio in espacios:
         reservas_por_espacio[espacio.id_ec] = Reservacion.objects.filter(id_ec=espacio)
+
     return render(request, 'residente/ecomun/espaciocomun.html', {
         'espacios': espacios,
         'reservas_por_espacio': reservas_por_espacio,
@@ -206,16 +220,27 @@ def crear_reservacion(request):
     if request.method == 'POST':
         form = ReservacionForm(request.POST)
         if form.is_valid():
-            # Validar disponibilidad antes de guardar
             reservacion = form.save(commit=False)
-            if not reservacion.id_ec.reservaciones.filter(
+            reservacion.run_residente = request.user.residente
+            
+            # Verificar si hay superposición de horarios
+            conflicts = Reservacion.objects.filter(
+                id_ec=reservacion.id_ec,
                 inicio_fecha_hora_reservacion__lt=reservacion.fin_fecha_hora_reservacion,
                 fin_fecha_hora_reservacion__gt=reservacion.inicio_fecha_hora_reservacion
-            ).exists():
-                reservacion.save()
-                return redirect('listar_reservaciones')
-            else:
+            ).exclude(id_reservacion=reservacion.id_reservacion) # Excluir la reserva que se está editando
+            if conflicts.exists():
                 form.add_error(None, "Ya existe una reserva en este espacio y horario.")
+            else:
+                reservacion.save()
+                if request.is_ajax():  
+                    return JsonResponse({'success': True})
+                else:
+                    return redirect('listar_reservaciones')
+            
+        # Manejo de errores para solicitudes AJAX
+        if request.is_ajax():  
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = ReservacionForm()
     return render(request, 'residente/ecomun/crear_reservacion.html', {'form': form})
@@ -228,7 +253,7 @@ def detalle_espacio(request, id_ec):
 
 @login_required
 def editar_reservacion(request, id_reservacion):
-    reservacion = get_object_or_404(Reservacion, id=id_reservacion, run_residente=request.user)
+    reservacion = get_object_or_404(Reservacion, id=id_reservacion, run_residente=request.user.residente)
     if request.method == 'POST':
         form = ReservacionForm(request.POST, instance=reservacion)
         if form.is_valid():
@@ -240,12 +265,13 @@ def editar_reservacion(request, id_reservacion):
 
 @login_required
 def eliminar_reservacion(request, id_reservacion):
-    reservacion = get_object_or_404(Reservacion, id=id_reservacion, run_residente=request.user)
+    reservacion = get_object_or_404(Reservacion, id=id_reservacion, run_residente=request.user.residente)
     if request.method == 'POST':
         reservacion.delete()
         return redirect('listar_reservaciones')
     return render(request, 'residente/ecomun/eliminar_reservacion.html', {'reservacion': reservacion})
 
+@login_required
 def validar_disponibilidad(request):
     espacio_id = request.GET.get('espacio_id')
     inicio = request.GET.get('inicio')
@@ -280,19 +306,37 @@ def reclamos(request):
 def visitas(request):
     if request.user.role == 'residente':
         visi = Visitante.objects.all()
-        context ={"visi": visi}
-    return render(request, 'residente/visitas.html', context)
-
-
-def resumen(request):
-    return render(request, 'residente/resumen.html', {})
-
+        context = {"visi": visi}
+        return render(request, 'residente/visitas.html', context)
+    
 @login_required
 def crear(request):
     return render(request, 'residente/crear/crear.html', {})
 
-##ADMINISTRADOR------------------------------------------------------------------------------------------
+@login_required
+def resumen(request):
+    return render(request, 'residente/resumen.html', {})
 
+# ================================================
+#                 VISTAS ADMINISTRADOR
+# ================================================
+@login_required
+def admin(request):
+    if request.user.role == 'adminedificio':
+        # Aquí deberías obtener los datos que necesitas para la vista del administrador,
+        # por ejemplo, la lista de residentes, anuncios, etc.
+        residentes = Residente.objects.all()
+        anuncios = Anuncio.objects.all()
+        context = {
+            "residentes": residentes,
+            "anuncios": anuncios,
+            # Agrega más datos según tus necesidades
+        }
+        return render(request, 'administrador/adminedificio.html', context)
+    else:
+        return redirect('unauthorized')
+
+@login_required
 def crear_empleado(request):
     if request.user.role == 'adminedificio':
         if request.method == 'POST':
@@ -311,7 +355,7 @@ def crear_empleado(request):
     else:
         return redirect('unauthorized')
 
-
+@login_required
 def crear_residente(request):
     if request.method == 'POST':
         form = CrearResidenteForm(request.POST)
@@ -321,26 +365,6 @@ def crear_residente(request):
     else:
         form = CrearResidenteForm()
     return render(request, 'administrador/crear_residente.html', {'form': form})
-
-@login_required
-def admin(request):
-    if request.user.role == 'adminedificio':
-        adminedificio = Residente.objects.all()
-        context = {"adminedificio":adminedificio}
-        return render(request, 'administrador/adminedificio.html', context)
-    else:
-        return redirect('unauthorized')
-    
-@login_required
-def admin(request):
-    if request.user.role == 'adminedificio':
-        adminedificio = Residente.objects.all()
-        context = {"adminedificio":adminedificio}
-        return render(request, 'administrador/adminedificio.html', context)
-    else:
-        return redirect('unauthorized')
-
-
 
 @login_required
 def creardepartamento(request):
@@ -410,17 +434,20 @@ VALOR_MESES = {
     'Noviembre': 1100,
     'Diciembre': 1200,
 }
-# CONSERJE------------------------------------------------------------------------------------------
+
+# ================================================
+#                 VISTAS CONSERJE
+# ================================================
 @login_required
 def conserje(request):
     if request.user.role == 'conserje':
         return render(request, 'conserje/conserje.html', {})
     else:
         return redirect('unauthorized')
+@login_required
 def encomienda(request):
     return render(request, 'conserje/encomienda.html', {})
-
-
+@login_required
 def reclamos(request):
     return render(request, 'conserje/reclamos.html', {})
 
@@ -498,6 +525,7 @@ def registro_visitante_depto(request):
         return redirect('unauthorized')
     return render(request, 'conserje/agregarvisita.html', {'form1': form1, 'visitas': visitas})
 
+@login_required
 def salida_visita(request,id):
     if request.user.role == 'conserje':
         visita = RegistroVisitanteDepto.objects.get(id_visitante_depto=id)
@@ -507,10 +535,12 @@ def salida_visita(request,id):
     else:
         return redirect('unauthorized')
     
+@login_required    
 def bitacora(request):
     if request.user.role == 'conserje':
         return render(request, 'conserje/bitacora.html', {})
     
+@login_required    
 def crear_bitacora(request):
     if request.user.role == 'conserje':
         if request.method == 'POST':
@@ -523,15 +553,3 @@ def crear_bitacora(request):
         return render(request, 'conserje/crearbitacora.html', {'form': form})
     else:
         return redirect('unauthorized')
-    
-
-        
-def crear_residente(request):
-    if request.method == 'POST':
-        form = CrearResidenteForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('adminedificio')
-    else:
-        form = CrearResidenteForm()
-    return render(request, 'administrador/crear_residente.html', {'form': form})

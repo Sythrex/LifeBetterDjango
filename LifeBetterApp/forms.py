@@ -100,9 +100,7 @@ class CrearDepartamentoForm(forms.ModelForm):
         fields = ['numero_depto', 'piso']
 
 class CrearResidenteForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
-
+    #  Password fields removed
     fecha_nacimiento_residente = forms.DateField(
         label="Fecha de nacimiento",
         required=True,
@@ -115,7 +113,6 @@ class CrearResidenteForm(forms.ModelForm):
         widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
         input_formats=["%Y-%m-%d"]
     )
-
 
     class Meta:
         model = Residente
@@ -133,6 +130,7 @@ class CrearResidenteForm(forms.ModelForm):
             'tipo_residente',
             'comite',
             'departamento',
+            # 'Contraseña', 'Confirmar Contraseña' removed
         ]
 
 class CrearBitacoraForm(forms.ModelForm):
