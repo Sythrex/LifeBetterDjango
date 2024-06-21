@@ -1,11 +1,50 @@
+/* Google Font Import - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Variables de colores - Modo claro y oscuro */
+:root {
+    /* Modo claro */
+    --primary-color: #009797;        /* Verde turquesa */
+    --secondary-color: #000000;      /* Gris oscuro */
+    --background-color: #ffffff;     /* Blanco */
+    --sidebar-background: #e0e0e0;   /* Gris claro */
+    --text-color: var(--secondary-color);
+    --tertiary-color: #505050;       /* Gris medio */
+}
+
+body.dark {
+    --primary-color: #009797;        /* Verde turquesa */
+    --secondary-color: #e0e0e0;      /* Gris claro */
+    --background-color: #0D1117;     /* Negro suave */
+    --sidebar-background: #010409;   /* Gris oscuro */
+    --text-color: var(--secondary-color); 
+    --tertiary-color: #505050;       /* Gris medio */
+}
+
 /* Barra de navegación (navbar) */
 .navbar {
     background-color: var(--background-color);
-    padding: 5px 10px 5px 20px;
-    margin-left: 10%;
+    display: flex; /* Enable flexbox layout */
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center; /* Align content vertically (optional) */
+    margin-left: 0 !important;
 }
-.navbar .button{
+
+.navbar .button {
     border: solid 4px var(--primary-color);
+}
+
+.navbar .navbar-expand-lg {
+    margin-left: 0 !important;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 10px; /* Espacio entre las imágenes */
 }
 
 .navbar a {
@@ -39,12 +78,6 @@
     color: var(--background-color);
     border: solid 1px var(--text-color);
 }
-
-/* Barra lateral (sidebar) */
-/* Barra lateral (sidebar) - ELIMINAR ESTOS ESTILOS */
-/* .sidenav { ... } */
-/* .sidenav a, .dropdown-btn { ... } */
-/* ... (otros estilos relacionados con el sidenav anterior) ... */
 
 /* Offcanvas */
 .offcanvas {

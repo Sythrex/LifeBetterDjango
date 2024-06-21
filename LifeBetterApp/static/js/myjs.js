@@ -72,6 +72,24 @@ document.addEventListener('DOMContentLoaded', function() {
     );
 });
 
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Cargar preferencia al iniciar
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    body.classList.add(savedTheme);
+}
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark');
+
+    // Guardar preferencia
+    const currentTheme = body.classList.contains('dark') ? 'dark' : 'light';
+    localStorage.setItem('theme', currentTheme);
+});
+
+
 /***********************************************************************
 /*--------------------------CALENDARIO----------------------------------------*/
 document.addEventListener('DOMContentLoaded', function () {

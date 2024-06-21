@@ -1,8 +1,16 @@
 {% load static %}
 
-<div class="grid-navigate">
+<div class="grid-header">
   <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid justify-content-end">
+    <div class="container-fluid">
+      <div class="navbar-brand">
+        <!-- <button id="theme-toggle">
+          <i class="fas fa-sun light-icon"></i>
+          <i class="fas fa-moon dark-icon"></i>
+        </button> -->
+        <img src="{% static 'img/logo/logoventana.png' %}" width="50" height="50" alt="Logo Ventana" />
+        <img src="{% static 'img/logo/LOGOBETTERLIFE.png' %}" width="150" height="50" alt="Logo Better Life" />
+      </div>
       <button
         class="navbar-toggler"
         type="button"
@@ -14,7 +22,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{% url 'home' %}">Inicio</a>
@@ -25,39 +33,29 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a>
           </li>
-
           <li class="nav-item">
-
             {% if user.is_authenticated %}
             <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
             {% else %}
             <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
             {% endif %}
-
           </li>
-
           {% if request.user.role == 'conserje' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'conserje' %}">Volver a Menú Conserje</a>
           </li>
           {% endif %} 
-
           {% if request.user.role == 'adminedificio' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'adminedificio' %}">Volver a Menú Administrador</a>
           </li>
           {% endif %} 
-          
           {% if request.user.role == 'residente' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'residente' %}">Volver a Menú Residente</a>
           </li>
           {% endif %}
         </ul>
-        <form class="d-flex search" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" />
-          <button class="btn btn-search" type="submit">Buscar</button>
-        </form>
       </div>
     </div>
   </nav>

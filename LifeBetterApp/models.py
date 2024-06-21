@@ -6,21 +6,16 @@ from django.utils import timezone
 import re
 
 # Usuarios
-class User(AbstractUser): 
-    Roles = (
+class User(AbstractUser):
+    ROLES = (
         ('adminedificio', 'Administrador'),
         ('conserje', 'Conserje'),
         ('residente', 'Residente'),
     )
-    role = models.CharField(max_length=100, choices=Roles, default='adminedificio')
+    role = models.CharField(max_length=13, choices=ROLES, default='residente')  # Aumentado max_length para 'adminedificio'
 
     def __str__(self):
         return self.username
-
-    class Meta:
-        db_table = 'auth_user'
-        verbose_name = 'Usuario'
-        verbose_name_plural = 'Usuarios'
 
 # Validaciones para RUT y DV
 def validar_rut(value):
@@ -46,6 +41,34 @@ class Departamento(models.Model):
 
     def __str__(self):
         return f'Departamento {self.numero_depto} - Piso {self.piso}'
+    
+class Edificio(models.Model):
+    # ... (tus campos para el modelo Edificio) ...
+    administrador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'role': 'adminedificio'})
+    
+    def __str__(self):
+        return self.nombre
+    
+class Bodega(models.Model):
+    numero = models.IntegerField()
+    piso = models.IntegerField()
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    estado = models.CharField(max_length=20, choices=[('disponible', 'Disponible'), ('ocupada', 'Ocupada')], default='disponible')
+    edificio = models.ForeignKey(Edificio, on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return f'Bodega {self.numero}'
+    
+class LocalComercial(models.Model):
+    numero = models.IntegerField()
+    piso = models.IntegerField()
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    estado = models.CharField(max_length=20, choices=[('disponible', 'Disponible'), ('ocupado', 'Ocupado')], default='disponible')
+    edificio = models.ForeignKey(Edificio, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Local Comercial {self.numero}'
+
 
 class Residente(models.Model):
     Tipo_residente = (
@@ -96,6 +119,7 @@ class Empleado(models.Model):
     fecha_contrato_empleado = models.DateField()
     fono_empleado = models.CharField(max_length=15)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    edificio = models.ForeignKey('Edificio', on_delete=models.SET_NULL, null=True, blank=True)  # Relación con Edificio
     sueldo_empleado = models.DecimalField(max_digits=8, decimal_places=2)
     
 
@@ -328,11 +352,12 @@ class GastosComunes(models.Model):
     )
 
     mes = models.CharField(max_length=20, choices=MESES)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)  # Cambiado a 'monto' en lugar de 'amount'
     fecha_pago = models.DateTimeField(auto_now_add=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='gastos_comunes', default=1) 
 
     def __str__(self):
-        return f"{self.mes} - ${self.amount}"
+        return f"{self.mes} - ${self.monto}"
 
     mes = forms.ChoiceField(choices=MESES, widget=forms.Select(attrs={'class': 'form-control'}))

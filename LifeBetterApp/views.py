@@ -14,7 +14,7 @@ from transbank.error.transaction_commit_error import TransactionCommitError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Empleado
-from LifeBetterApp.forms import CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
+from LifeBetterApp.forms import CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm, MultaForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
 from .models import Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, Encomienda
 
 
@@ -369,6 +369,18 @@ def crear_ecomun(request):
 
 def multasadmin(request):
     return render(request, 'administrador/multasadmin.html', {})
+
+@login_required
+def crear_multa(request):
+    if request.method == 'POST':
+        form = MultaForm(request.POST)
+        if form.is_valid():
+            multa = form.save(commit=False)
+            multa.save()
+            return redirect('multas')  # Redirige a la vista de multas
+    else:
+        form = MultaForm()
+    return render(request, 'administrador/crear_multa.html', {'form': form})
 
 @login_required
 def gastoscomunes(request):

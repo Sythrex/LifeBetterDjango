@@ -1,31 +1,40 @@
 {% extends "../index.html" %}
-
 {% load static %}
+{% block title %} LB | Registro de Usuarios {% endblock %}
 
 {% block body %}
-
 {% include 'componentes/sidenav.html' %}
 
-<h1>Registro de Usuarios</h1>
-
-<form method="post">
-    <br>
-    <div>
-        {% csrf_token %}
-        {{ form.as_p }}
-    </div>
-    <!-- Botón para enviar el formulario -->
-    <div class="form-group d-grid mb-2">
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </div>
-</form>
-
-<div class="links">
-    <br>
-    <div class="help-block"> <!-- inicio de sesión -->
-        ¿Ya tiene Cuenta? <a href="{% url 'login' %}">Iniciar Sesión</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center">Registro de Usuarios</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="invalid-feedback">
+                                {{ field.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    ¿Ya tiene Cuenta? <a href="{% url 'login' %}">Iniciar Sesión</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-    
 {% endblock %}

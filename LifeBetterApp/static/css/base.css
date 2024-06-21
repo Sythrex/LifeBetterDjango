@@ -1,30 +1,24 @@
 /* Google Font Import - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Variables de colores */
+/* Variables de colores - Modo claro y oscuro */
 :root {
+    /* Modo claro */
+    --primary-color: #009797;        /* Verde turquesa */
+    --secondary-color: #000000;      /* Gris oscuro */
+    --background-color: #ffffff;     /* Blanco */
+    --sidebar-background: #e0e0e0;   /* Gris claro */
+    --text-color: var(--secondary-color);
+    --tertiary-color: #505050;       /* Gris medio */
+}
+
+body.dark {
     --primary-color: #009797;        /* Verde turquesa */
     --secondary-color: #e0e0e0;      /* Gris claro */
-    --background-color: #121212;    /* Negro suave */
-    --sidebar-background: #1e1e1e; /* Gris oscuro */
+    --background-color: #0D1117;     /* Negro suave */
+    --sidebar-background: #010409;   /* Gris oscuro */
     --text-color: var(--secondary-color); 
-    --tertiary-color: #505050; /* Gris medio */
-}
-
-.container {
-    position: relative;
-    max-width: 800px; /* Maximum width */
-    margin: 0 auto; /* Center it */
-}
-
-.container .content {
-    position: absolute; /* Position the background text */
-    bottom: 0; /* At the bottom. Use top:0 to append it to the top */
-    background: rgb(0, 0, 0); /* Fallback color */
-    background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
-    color: #f1f1f1; /* Grey text */
-    width: 100%; /* Full width */
-    padding: 20px; /* Some padding */
+    --tertiary-color: #505050;       /* Gris medio */
 }
 
 /* Estilos base */
@@ -33,140 +27,160 @@ body {
     min-height: 100vh;
     background-color: var(--background-color);
     color: var(--text-color);
-    transition: background-color 0.5s ease; 
+    transition: background-color 0.5s ease, color 0.5s ease; 
 }
 
-/* Selección de texto */
-::selection {
-    background-color: var(--primary-color);
-    color: #fff;
+/* Estilos para secciones */
+section {
+    padding: 40px 0; /* Espacio vertical alrededor de cada sección */
 }
 
-/* Modo oscuro (opcional) */
-body.dark {
-    --background-color: #18191a;
-    --text-color: #ccc;
-}
-
-/* Diseño del contenedor principal (grid) */
-.grid-container {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-template-areas:
-        "header navegacion"
-        "cuerpo cuerpo"
-        "footer footer";
-    grid-template-rows: 70px auto 70px;
-    min-height: 100vh;
-    padding: 0;
-}
-
-/* Estilos de las áreas de la cuadrícula */
-.grid-header {
-    grid-area: header;
-    background-color: var(--color-fondo);
-    grid-gap: 20px;
-    padding: 10px 20px 10px 20px;
-    width: 250px;
-}
-
-.grid-navigate {
-    grid-area: navegacion;
-    background-color: var(--color-secundario);
-    margin-left: 20px; 
-}
-
-.grid-body { 
-    grid-area: cuerpo; 
-    background-color: var(--sidebar-background);
+/* Hero Section */
+.hero {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
-}
-.grid-footer { grid-area: footer; background-color: var(--sidebar-background); color: darkgrey; text-align: center; }
-
-/* Estilos del carrusel */
-.carousel-inner {
-    max-height: 450px;
+    justify-content: space-around; /* Distribuye el contenido horizontalmente */
+    background-color: #f0f0f0; /* Fondo gris claro para el hero */
 }
 
-/* Estilos de la sección hero */
-.hero-h2 { color: var(--text-color); font-size: 2em; }
-.hero-h3 { color: var(--primary-color); font-size: 1.5em; }
+.hero-content {
+    text-align: center; /* Centra el texto en el contenedor */
+    max-width: 50%; /* Limita el ancho del contenido para mejor legibilidad */
+}
 
-.hero-destacado1, .hero-destacado2 {
+.hero-content h1 {
+    font-size: 2.5rem;
     color: var(--primary-color);
+    margin-bottom: 1rem;
 }
 
-.edificio {
-    opacity: 50%;
-    max-height: 300px;
+.hero-image img {
+    max-width: 100%; /* La imagen se ajusta al ancho del contenedor */
+    height: auto;  /* Mantiene la proporción de aspecto de la imagen */
+    border-radius: 8px; /* Bordes redondeados para la imagen */
 }
 
-/* Ajustes responsivos */
+/* Features Section */
+.features {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en varias filas */
+    justify-content: space-around;
+}
+
+.feature {
+    width: 30%; /* Ancho de cada característica */
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd; /* Borde sutil para cada característica */
+    border-radius: 8px;
+}
+
+.feature img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+/* Call to Action Section */
+.cta {
+    background-color: var(--primary-color); /* Fondo turquesa para la llamada a la acción */
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.cta-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.cta-content p {
+    margin-bottom: 2rem;
+}
+
+/* Botón */
+.btn-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fff; /* Fondo blanco para el botón */
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Media queries para ajustar el diseño en diferentes tamaños de pantalla */
 @media (max-width: 768px) {
-    .hero-h2 {
-        font-size: 1.5em;
+    .hero {
+        flex-direction: column; /* Apila el contenido en pantallas pequeñas */
     }
-    .hero-h3 {
-        font-size: 1.2em;
+    .hero-content, .hero-image {
+        width: 100%;
     }
-    .grid-body {
-        padding: 10px;
+
+    .feature {
+        width: 45%; /* Ajusta el ancho de las características en pantallas pequeñas */
     }
 }
 
-.alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
+@media (max-width: 480px) {
+    .feature {
+        width: 90%; /* Ancho completo en pantallas muy pequeñas */
+    }
 }
 
-.alert-danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
+/* Estilos para la página del administrador */
+.administrador-page {
+    padding: 80px 0; /* Espacio vertical alrededor del contenido */
 }
 
-/* Estilos de formularios */
-
-form {
-    width: 100%;
-} 
-
-form input, form select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid var(--tertiary-color);
-    border-radius: 5px;
-    background-color: var(--sidebar-background);
-    color: var(--text-color);
+.administrador-page h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
 }
 
-form button {
-    width: 300px;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
+.administrador-page h2 {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.administrador-page .card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra sutil para las tarjetas */
+}
+
+.administrador-page .card-header {
     background-color: var(--primary-color);
-    color: #fff;
-    cursor: pointer;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px 8px 0 0; /* Bordes redondeados solo en la parte superior */
 }
 
-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid var(--tertiary-color);
+.administrador-page .table th,
+.administrador-page .table td {
+    vertical-align: middle; /* Alinea el texto verticalmente al centro de las celdas */
+}
+
+
+.card-header {
+    background-color: var(--primary-color) !important; /* Color de fondo turquesa */
+    color: white;
+}
+
+.form-control {
     border-radius: 5px;
-    background-color: var(--sidebar-background);
-    color: var(--text-color);
+    border: 1px solid #ced4da;
+    padding: 10px;
 }
 
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 151, 151, 0.25);
+}
 
-
-
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}

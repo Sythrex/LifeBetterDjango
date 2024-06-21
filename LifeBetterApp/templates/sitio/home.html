@@ -3,15 +3,58 @@
 {% block title %} LB | INICIO {% endblock %}
 {% block body %}
 
-<div class="container">
-    <img src="{% static 'img/carrucel/kawaiefdificiouwu.png'%}" style="width:100%;">
-    <div class="content">
-        <h2 class="hero-h2">HERRAMIENTA PARA LA <span class="hero-destacado1">ADMINISTRACION</span><br> DE EDIFICIOS Y
-            CONDOMINIOS</h2>
-        <h3 class="hero-h3">Administra edificios con <span class="hero-destacado2">Betterlife</span>: la página web
-            ideal<br> para tu comunidad. Administración de conserjería, comité<br> residentes, votaciones en línea y
-            mucho más.</h3>
+<section class="hero">
+    <div class="hero-content">
+        <h1>¡Simplifica la gestión de tu edificio o condominio con Betterlife!</h1>
+        <p>Nuestra plataforma integral te ofrece todas las herramientas que necesitas para una administración eficiente
+            y transparente.</p>
+        <a href="#" class="btn btn-primary">Solicitar demostración</a>
     </div>
-</div>
+    <div class="hero-image">
+        <img src="{% static 'img/carrucel/edificios.jpg'%}" alt="Edificios">
+    </div>
+</section>
 
+<section class="features">
+    <div class="feature">
+        <img src="{% static 'img/carrucel/comunicacion.jpg'%}" alt="Reservación">
+        <h2>Comunicación fluida</h2>
+        <p>Mantén informados a residentes y propietarios con avisos, comunicados y un foro de discusión exclusivo.</p>
+    </div>
+    <div class="feature">
+        <img src="{% static 'img/carrucel/finanzas.jpg'%}" alt="Endomiendas">
+        <h2>Administración financiera transparente</h2>
+        <p>Gestiona gastos comunes, pagos en línea, presupuestos y estados financieros de manera clara y organizada.</p>
+    </div>
+    <div class="feature">
+        <img src="{% static 'img/carrucel/reserva.jpg'%}" alt="Comunicación">
+        <h2>Gestión de reservas</h2>
+        <p>Facilita la reserva de espacios comunes como quinchos, salas de eventos o estacionamientos de visitas.</p>
+    </div>
+</section>
+<section class="features">
+    <div class="feature">
+        <img src="{% static 'img/carrucel/invitados.jpg'%}" alt="Edificios">
+        <h2>Control de acceso y seguridad</h2>
+        <p>Registra visitas, controla accesos y lleva un registro detallado de incidentes para mayor tranquilidad.</p>
+    </div>
+    <div class="feature">
+        <img src="{% static 'img/carrucel/ReclamosySugerencias.jpg'%}" alt="Reservación">
+        <h2>Votaciones y encuestas en línea</h2>
+        <p>Toma decisiones importantes de forma democrática y eficiente, sin necesidad de reuniones presenciales.</p>
+    </div>
+    <div class="feature">
+        <img src="{% static 'img/carrucel/encomiendas.jpg'%}" alt="Endomiendas">
+        <h2>Recepción de encomiendas</h2>
+        <p>Notifica a los residentes sobre la llegada de sus paquetes y facilita su entrega de forma segura y organizada.</p>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="cta-content">
+        <h3>¡Únete a la comunidad Betterlife y descubre cómo podemos transformar la administración de tu edificio!</h3>
+        <p>Solicita una demostración gratuita y comprueba por ti mismo todas las ventajas que ofrecemos.</p>
+        <a href="#" class="btn btn-primary">Solicitar demostración</a>
+    </div>
+</section>
 {% endblock %}

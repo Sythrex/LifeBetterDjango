@@ -1,9 +1,45 @@
-{% extends "index.html" %}
+{% extends "../index.html" %}
 {% load static %}
-{% block title %} LB | CR {% endblock %}
+{% block title %} LB | Crear Espacio Común {% endblock %}
+
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<div id="calendar"></div>
-
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center">Crear Espacio Común</h2>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                {{ form.nombre_ec.label_tag }}
+                {{ form.nombre_ec }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.descripcion_ec.label_tag }}
+                {{ form.descripcion_ec }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                {{ form.capacidad_ec.label_tag }}
+                {{ form.capacidad_ec }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.estado_ec.label_tag }}
+                {{ form.estado_ec }}
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Crear</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

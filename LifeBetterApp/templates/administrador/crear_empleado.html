@@ -1,17 +1,80 @@
 {% extends "index.html" %}
 {% load static %}
-{% block title %} LB | CR {% endblock %}
+{% block title %} LB | Crear Empleado {% endblock %}
 {% block body %}
-{% include 'componentes/sidenav.html' %}
+  {% include 'componentes/sidenav.html' %}
 
-
-
-  <h2>Crear Empleado</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ empleado_form.as_p }}
-    <button type="submit">Crear</button>
-  </form>
-
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2 class="text-center">Crear Empleado</h2>
+          </div>
+          <div class="card-body">
+            <form method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ user_form.username.label_tag }}
+                  {{ user_form.username }}
+                </div>
+                <div class="col-md-6 mb-3">
+                  {{ user_form.email.label_tag }}
+                  {{ user_form.email }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ user_form.first_name.label_tag }}
+                  {{ user_form.first_name }}
+                </div>
+                <div class="col-md-6 mb-3">
+                  {{ user_form.last_name.label_tag }}
+                  {{ user_form.last_name }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ user_form.role.label_tag }}
+                  {{ user_form.role }}
+                </div>
+                <div class="col-md-6 mb-3">
+                  {{ empleado_form.run_empleado.label_tag }}
+                  {{ empleado_form.run_empleado }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ empleado_form.dvrun_empleado.label_tag }}
+                  {{ empleado_form.dvrun_empleado }}
+                </div>
+                <div class="col-md-6 mb-3">
+                  {{ empleado_form.fecha_nacimiento_empleado.label_tag }}
+                  {{ empleado_form.fecha_nacimiento_empleado }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ empleado_form.fecha_contrato_empleado.label_tag }}
+                  {{ empleado_form.fecha_contrato_empleado }}
+                </div>
+                <div class="col-md-6 mb-3">
+                  {{ empleado_form.fono_empleado.label_tag }}
+                  {{ empleado_form.fono_empleado }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ empleado_form.sueldo_empleado.label_tag }}
+                  {{ empleado_form.sueldo_empleado }}
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Crear</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

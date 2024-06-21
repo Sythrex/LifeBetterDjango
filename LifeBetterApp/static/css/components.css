@@ -1,3 +1,27 @@
+/* Google Font Import - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Variables de colores - Modo claro y oscuro */
+:root {
+    /* Modo claro */
+    --primary-color: #009797;        /* Verde turquesa */
+    --secondary-color: #505050;      /* Gris oscuro */
+    --background-color: #ffffff;     /* Blanco */
+    --sidebar-background: #e0e0e0;   /* Gris claro */
+    --text-color: var(--secondary-color);
+    --tertiary-color: #c0c0c0;       /* Gris medio */
+}
+
+body.dark {
+    /* Modo oscuro */
+    --primary-color: #009797;        /* Verde turquesa */
+    --secondary-color: #e0e0e0;      /* Gris claro */
+    --background-color: #0D1117;     /* Negro suave */
+    --sidebar-background: #010409;   /* Gris oscuro */
+    --text-color: var(--secondary-color); 
+    --tertiary-color: #505050;       /* Gris medio */
+}
+
 /* Estilos de botones */
 .btn-outline-custom {
     color: var(--primary-color);
@@ -23,7 +47,7 @@
     width: auto;
 }
 
-.btn-enviar:hover{
+.btn-enviar:hover {
     background-color: var(--primary-color);
     color: var(--background-color);
     border: solid 1px var(--primary-color);
@@ -31,9 +55,8 @@
     border-radius: 10px;
 }
 
-
 /* Estilos para tablas */
-.table .table-style{
+.table .table-style {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px; 
@@ -41,6 +64,8 @@
 }
 
 th, td {
+    display: flex;
+    justify-content: flex-end;
     border: 1px solid var(--primary-color); 
     padding: 8px; 
     text-align: left; 
@@ -52,7 +77,7 @@ th {
 }
 
 tr:hover {
-    background-color:var(--primary-color); 
+    background-color: var(--primary-color); 
 }
 
 /* Estilos de la sección de pago */
@@ -73,27 +98,61 @@ tr:hover {
     margin-bottom: 20px;
 }
 
-/* Estilos de la página Nosotros */
+/* Estilos para la página Nosotros */
 .nosotros-page {
-    background-color: var(--sidebar-background);
-    padding: 20px;
+    padding: 80px 0; 
+    text-align: center; 
 }
 
-.nosotros-page .card-body .h4 {
-    color: var(--primary-color);
-}
-.nosotros-page .card {
-    margin-bottom: 200px;
+/* ... (Otros estilos de .nosotros-page del código anterior) ... */
+
+.team-members .member img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 1rem;
 }
 
-.content .texto{
-    background-color: var(--primary-color);
+/* Estilos específicos para las imágenes de la sección "features" */
+.features img {
+    max-width: 100%; /* Ajusta la imagen al ancho del contenedor */
+    height: auto;  /* Mantiene la proporción de aspecto */
+    margin-bottom: 1rem;
+    object-fit: cover;
 }
 
-.nosotros-page .content-contacto{
-    background-color: var(--primary-color);
-    border-radius: 10px;
-    margin-top: 50px;
+/* Estilos específicos para cada imagen (opcional) */
+.feature:nth-child(1) img { /* Primera imagen (1024x1280) */
+    height: 300px; /* Ajusta la altura según tus preferencias */
+}
+
+.feature:nth-child(2) img { /* Segunda imagen (864x964) */
+    height: 250px; /* Ajusta la altura según tus preferencias */
+}
+
+.feature:nth-child(3) img { /* Tercera imagen (651x761) */
+    height: 220px; /* Ajusta la altura según tus preferencias */
+}
+
+/* Media queries para ajustar el tamaño de las imágenes en pantallas más pequeñas */
+@media (max-width: 768px) {
+    .hero-image img {
+        max-height: 300px; /* Ajusta la altura máxima en tablets y móviles */
+    }
+
+    .features img {
+        max-height: 200px; /* Ajusta la altura máxima en tablets y móviles */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-image img {
+        max-height: 200px; /* Ajusta la altura máxima en móviles pequeños */
+    }
+
+    .features img {
+        max-height: 150px; /* Ajusta la altura máxima en móviles pequeños */
+    }
 }
 
 /* Estilos de la página de login */
@@ -185,3 +244,20 @@ tr:hover {
     color: darkgrey;
     width: 100%;
 }
+
+.light-icon {
+    display: block; /* Visible en modo claro */
+}
+
+.dark-icon {
+    display: none; /* Oculto en modo claro */
+}
+
+body.dark .light-icon {
+    display: none; /* Oculto en modo oscuro */
+}
+
+body.dark .dark-icon {
+    display: block; /* Visible en modo oscuro */
+}
+

@@ -1,8 +1,58 @@
-{% extends "../index.html" %} 
-{% block title %} LB | ADMINISTRADOR {% endblock %} 
+{% extends "../index.html" %}
+{% load static %}
+{% block title %} LB | Multas {% endblock %}
+
 {% block body %}
+{% include 'componentes/sidenav.html' %}
 
-{% include 'componentes/sidenav.html' %} 
-
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center">Multas</h2>
+        </div>
+        <div class="card-body">
+          {% if multas %}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Residente</th>
+                <th>Departamento</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Fecha y Hora</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for multa in multas %}
+              <tr>
+                <td>{{ multa.id_multa }}</td>
+                <td>{{ multa.run_residente }}</td>
+                <td>{{ multa.departamento }}</td>
+                <td>{{ multa.descripcion_multa }}</td>
+                <td>{{ multa.monto_multa }}</td>
+                <td>{{ multa.fecha_hora_multa }}</td>
+                <td>
+                  <a href="{% url 'editar_multa' multa.id_multa %}" class="btn btn-warning btn-sm">Editar</a>
+                  <a href="{% url 'eliminar_multa' multa.id_multa %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p class="text-center">No hay multas registradas.</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="text-end mt-3">
+        <a href="{% url 'crear_multa' %}" class="btn btn-success">Crear Multa</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

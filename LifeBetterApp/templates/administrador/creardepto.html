@@ -1,19 +1,32 @@
-{% extends "../index.html" %} 
-{% block title %} LB | ADMINISTRADOR {% endblock %} 
+{% extends "../index.html" %}
+{% block title %} LB | Crear Departamento {% endblock %}
+
 {% block body %}
+{% include 'componentes/sidenav.html' %}
 
-{% include 'componentes/sidenav.html' %} 
-
-
-<h1>Crear Departamento</h1>
-
-
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Crear</button>
-</form>
-
-
-
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center">Crear Departamento</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.numero_depto.label_tag }}
+                            {{ form.numero_depto }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.piso.label_tag }}
+                            {{ form.piso }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

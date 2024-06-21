@@ -50,6 +50,7 @@ urlpatterns = [
     path('administrador/creardepartamento/', views.creardepartamento, name='creardepartamento'),
     path('administrador/crear_ecomun/', views.crear_ecomun, name='crear_ecomun'),
     path('administrador/multasadmin/', views.multasadmin, name='multasadmin'),
+    path('crear_multa/', views.crear_multa, name='crear_multa'),
     path('sitio/gastoscomunes/', views.gastoscomunes, name='gastoscomunes'),
     
     # GESTIÓN DE USUARIOS

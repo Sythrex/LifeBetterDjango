@@ -6,6 +6,16 @@
 <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
   aria-labelledby="offcanvasWithBothOptionsLabel">
   <div class="offcanvas-header">
+    {% if user.role == 'adminedificio' %}
+      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Administrador <!-- --> </h6>
+    {% endif %}
+    {% if user.role == 'conserje' %}
+    <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Conserje</h6>
+    {% endif %}
+    {% if user.role == 'residente' %}
+    <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Residente</h6>
+    <h6> usuario </h6>
+    {% endif %}
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
@@ -18,7 +28,6 @@
       <li class="nav-item"><a href="{% url 'bitacora' %}" class="nav-link">Bitácoras</a></li>
       <li class="nav-item"><a href="{% url 'registro_visitante_depto' %}" class="nav-link">Agregar Visita</a></li>
       {% endif %}
-
       {% if user.role == 'residente'%}
       <li class="nav-item"><a href="{% url 'resumen' %}" class="nav-link">Home</a></li>
       <li class="nav-item"><a href="{% url 'perfil' %}" class="nav-link">Perfil</a></li>
@@ -37,7 +46,8 @@
       {% if user.role == 'adminedificio'%}
       <li class="nav-item"><a href="{% url 'adminedificio' %}" class="nav-link">Inicio</a></li>
       <li class="nav-item"><a href="{% url 'crear_empleado' %}" class="nav-link">Crear Empleado</a></li>
-      <li class="nav-item"><a href="{% url 'crear_residente' %}" class="nav-link">Crear Residente</a></li>      
+      <li class="nav-item"><a href="{% url 'crear_residente' %}" class="nav-link">Crear Residente</a></li>
+      <li class="nav-item"><a href="{% url 'crear_ecomun' %}" class="nav-link">Crear Espacio Comun</a></li>
       <li class="nav-item"><a href="{% url 'creardepartamento' %}" class="nav-link">Habilitar Departamento</a></li>
       <li class="nav-item"><a href="{% url 'multasadmin' %}" class="nav-link">Multas</a></li>
       {% endif %}

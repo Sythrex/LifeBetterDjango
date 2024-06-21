@@ -1,158 +1,120 @@
-{% extends "../index.html" %} <!-- Extiende la plantilla base ubicada en el mismo directorio -->
-{% load static %} <!-- Carga la biblioteca de etiquetas estáticas de Django -->
-{% block title %} LB | NOSOTROS {% endblock %} <!-- Define el bloque 'title' con el contenido 'PG | NOSOTROS' -->
+{% extends "../index.html" %}
+{% load static %}
+{% block title %} LB | NOSOTROS {% endblock %}
 
 {% block body %}
-<div class="nosotros-page">
-    <h1>NOSOTROS</h1> <!-- Encabezado principal de la página -->
 
-    <div class="container-fluid">
-        <!-- Contenedor principal para el contenido -->
-        <div class="col-md-12 content">
-            <!-- Contenedor de contenido con ancho completo -->
-            <div itemprop="articleBody">
-                <!-- Cuerpo del artículo -->
-                <h3>MISIÓN</h3>
-                <!-- Encabezado de misión -->
-                <p>Proporcionar una gestión eficiente y segura de los condominios, encomiendas y visitas, asegurando la
-                    comodidad y tranquilidad de los residentes y administradores del complejo.</p>
-                <!-- Descripción de la misión -->
-                <p>&nbsp;</p>
-                <!-- Espaciado -->
-                <h3>VISIÓN</h3>
-                <!-- Encabezado de visión -->
-                <p>Ser el líder en la administración de sistemas de condominios, ofreciendo soluciones innovadoras y de
-                    alta
-                    calidad que mejoren la vida de todos los habitantes del complejo.</p>
-                <!-- Descripción de la visión -->
-                <p>&nbsp;</p>
-                <!-- Espaciado -->
+<section class="nosotros-page">
+    <div class="container">
+        <h1>NOSOTROS</h1>
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="mision-vision">
+                    <div class="item">
+                        <h3>MISIÓN</h3>
+                        <p>Proporcionar una gestión eficiente y segura de los condominios, encomiendas y visitas,
+                            asegurando la comodidad y tranquilidad de los residentes y administradores del complejo.</p>
+                    </div>
+                    <div class="item">
+                        <h3>VISIÓN</h3>
+                        <p>Ser el líder en la administración de sistemas de condominios, ofreciendo soluciones
+                            innovadoras y de alta calidad que mejoren la vida de todos los habitantes del complejo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
                 <h3>EQUIPO</h3>
-                <!-- Encabezado de equipo -->
                 <p>Contamos con un equipo profesional y dedicado, compuesto por expertos en administración, tecnología y
                     servicio al cliente, comprometidos en brindar un servicio excepcional a todos los residentes y
                     administradores del complejo.</p>
-                <!-- Descripción del equipo -->
             </div>
         </div>
-    </div>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"> <!-- Fila con diferentes columnas responsivas -->
-        <!-- Tarjeta del miembro del equipo -->
-        <div class="col">
-            <div class="card shadow-sm">
-                <!-- Tarjeta con sombra -->
-                <img src="{% static 'img/nosotros/ga_an.jpg'%}" alt="Imagen del Desarrollador Backend">
-                <div class="card-body">
+        <div class="row team-members">
+            <div class="col-md-4">
+                <div class="member">
+                    <img src="{% static 'img/nosotros/ga_an.jpg'%}" alt="Gabriela Antúnez">
                     <h4>Gabriela Antúnez</h4>
-                    <p class="card-text">Desarrollador Backend</p>
-                    <!-- Nombre del miembro del equipo -->
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p>Responsable de diseñar y desarrollar la lógica del servidor, bases de datos y API. Asegura la
-                            integridad y seguridad de los datos, implementa sistemas de autenticación y autorización, y
-                            optimiza
-                            el rendimiento del servidor.</p>
-                        <!-- Descripción del miembro del equipo -->
-                    </div>
+                    <p>Desarrollador Backend</p>
+                    <p>Responsable de diseñar y desarrollar la lógica del servidor, bases de datos y API. Asegura la
+                        integridad y seguridad de los datos, implementa sistemas de autenticación y autorización, y
+                        optimiza el rendimiento del servidor.</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Tarjeta del miembro del equipo -->
-        <div class="col">
-            <div class="card shadow-sm">
-                <!-- Tarjeta con sombra -->
-                <img src="{% static 'img/nosotros/ca_he.jpg'%}" alt="Imagen del Desarrollador Frontend">
-                <div class="card-body">
+            <div class="col-md-4">
+                <div class="member">
+                    <img src="{% static 'img/nosotros/ca_he.jpg'%}" alt="Carlos Herrera">
                     <h4>Carlos Herrera</h4>
-                    <p class="card-text">Desarrollador Frontend</p>
-                    <!-- Nombre del miembro del equipo -->
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p>Encargado de diseñar y desarrollar la interfaz de usuario, asegurando una experiencia
-                            intuitiva y
-                            eficiente. Integra el frontend con las APIs y realiza pruebas de usabilidad para optimizar
-                            el
-                            rendimiento.</p>
-                        <!-- Descripción del miembro del equipo -->
-                    </div>
+                    <p>Desarrollador Frontend</p>
+                    <p>Encargado de diseñar y desarrollar la interfaz de usuario, asegurando una experiencia intuitiva y
+                        eficiente. Integra el frontend con las APIs y realiza pruebas de usabilidad para optimizar el
+                        rendimiento.</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Tarjeta del miembro del equipo -->
-        <div class="col">
-            <div class="card shadow-sm">
-                <!-- Tarjeta con sombra -->
-                <img src="{% static 'img/nosotros/ra_mo.jpg'%}"
-                    alt="Imagen del Administrador de Sistemas/DevOps">
-                <div class="card-body">
+            <div class="col-md-4">
+                <div class="member">
+                    <img src="{% static 'img/nosotros/ra_mo.jpg'%}" alt="Raimundo Monsalve">
                     <h4>Raimundo Monsalve</h4>
-                    <p class="card-text">Administrador de Sistemas/DevOps</p>
-                    <!-- Nombre del miembro del equipo -->
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p>Responsable de configurar y mantener la infraestructura del proyecto. Implementa pipelines de
-                            CI/CD,
-                            gestiona el monitoreo y la escalabilidad del sistema, y asegura la disponibilidad y la
-                            seguridad del
-                            sistema.</p>
-                        <!-- Descripción del miembro del equipo -->
-                    </div>
+                    <p>Administrador de Sistemas/DevOps</p>
+                    <p>Responsable de configurar y mantener la infraestructura del proyecto. Implementa pipelines de
+                        CI/CD, gestiona el monitoreo y la escalabilidad del sistema, y asegura la disponibilidad y la
+                        seguridad del sistema.</p>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <div class="content-contacto">
+<section class="content-contacto">
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="container form">
-                    <div class="form-contacto">
-                        <legend class="text-center header">Transparencia y Eficiencia para su Comunidad</legend>
-                    </div>
-                    <div class="">
-                        <p class="">Descubra cómo nuestro sistema de gestión de edificios y condominios puede
-                            transformar su comunidad, mejorando la transparencia, la eficiencia y la rentabilidad.</p>
-                        <ul class="p">
-                            <li class=""> Mejora de la transparencia</li>
-                            <li class=""> Gestión eficiente</li>
-                            <li class=""> Toma de decisiones informadas</li>
-                            <li class=""> Mayor satisfacción de los residentes</li>
-                        </ul>
-                        <h4 >Solicite una demostración gratuita</h4>
-                    </div>
+                <div class="form-contacto">
+                    <legend class="text-center header">Transparencia y Eficiencia para su Comunidad</legend>
+                    <p>Descubra cómo nuestro sistema de gestión de edificios y condominios puede transformar su
+                        comunidad, mejorando la transparencia, la eficiencia y la rentabilidad.</p>
+                    <ul class="p">
+                        <li>Mejora de la transparencia</li>
+                        <li>Gestión eficiente</li>
+                        <li>Toma de decisiones informadas</li>
+                        <li>Mayor satisfacción de los residentes</li>
+                    </ul>
+                    <h4>Solicite una demostración gratuita</h4>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="container form">
-                    <form action="respuesta.html" method="get" class="form-contacto" id="Form_Contacto">
-                        <fieldset>
-                            <legend class="text-center header">Formulario de Contacto</legend>
-    
-                            <div class="mb-2">
-                                <input class="form-control" id="userName" type="text" placeholder="Nombre" required />
-                            </div>
-    
-                            <div class="mb-2">
-                                <input class="form-control" id="userEmail" type="email" placeholder="Correo Electrónico"
-                                    required />
-                            </div>
-    
-                            <div class="mb-2">
-                                <textarea class="form-control" id="userMens" type="text"
-                                    placeholder="Introduzca su mensaje para nosotros aquí. Nos pondremos en contacto con usted"
-                                    rows="5" required></textarea>
-                            </div>
-    
-                            <div class="mb-3 d-grid">
-                                <button class="btn-enviar" type="submit">Enviar</button>
-                            </div>
-                        </fieldset>
-                    </form>
-                    <div class="alert alert-success mt-2 d-none" id="alertSuccess"></div>
-                </div>
+                <form action="respuesta.html" method="get" class="form-contacto" id="Form_Contacto">
+                    <fieldset>
+                        <legend class="text-center header">Formulario de Contacto</legend>
+
+                        <div class="mb-2">
+                            <input class="form-control" id="userName" type="text" placeholder="Nombre" required />
+                        </div>
+
+                        <div class="mb-2">
+                            <input class="form-control" id="userEmail" type="email" placeholder="Correo Electrónico"
+                                required />
+                        </div>
+
+                        <div class="mb-2">
+                            <textarea class="form-control" id="userMens" type="text"
+                                placeholder="Introduzca su mensaje para nosotros aquí. Nos pondremos en contacto con usted"
+                                rows="5" required></textarea>
+                        </div>
+
+                        <div class="mb-3 d-grid">
+                            <button class="btn-enviar" type="submit">Enviar</button>
+                        </div>
+                    </fieldset>
+                </form>
+                <div class="alert alert-success mt-2 d-none" id="alertSuccess"></div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-{% endblock %} 
+{% endblock %}

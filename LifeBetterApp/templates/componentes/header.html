@@ -1,27 +1,5 @@
 {% load static %}
 
-<!-- <div class="grid-header">
-  <div class="header">
-    <div class="header-logo">
-      <img src="{% static '/img/logo/LOGOBETTERLIFE.png' %}" width="150" height="50" alt="" />
-    </div>
-  </div>
-</div>
 <div class="grid-header">
-  <div class="header">
-    <div class="header-logo"><img
-        src="{% static '/img/logo/logoventana.png' %}" width="50" height="50" alt="" />
-    </div>
-  </div>
-</div> -->
-
-<div class="grid-header">
-  <tr> <!-- Fila -->
-    <td>
-      <img src="{% static '/img/logo/logoventana.png' %}" width="50" height="50" alt="" />
-    </td>
-    <td><!-- Columna -->
-      <img src="{% static '/img/logo/LOGOBETTERLIFE.png' %}" width="150" height="50" alt="" />
-    </td>
-  </tr>
+  {% include 'componentes/navigate.html' %}
 </div>
