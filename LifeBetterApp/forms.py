@@ -152,6 +152,12 @@ class CrearEmpleadoForm(forms.ModelForm):
         widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
         input_formats=["%Y-%m-%d"]
     )
+    fecha_contrato_empleado = forms.DateField(
+        label="Fecha de Contrato",
+        required=True,
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        input_formats=["%Y-%m-%d"]
+    )
 
     class Meta:
         model = Empleado
