@@ -11,5 +11,38 @@
 {% include 'componentes/sidenav.html' %} 
 
 
+<table>
+    <thead>
+      <tr>
+        <th>Rut</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Patente</th>
+        <th>Departamento</th>
+        <th>Hora de Ingreso</th>
+        <th>Acciones</th> <!-- Nueva columna para el botón -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for visita in visitas %}
+      <tr>
+        <td>{{ visita.rut_visitante.rut_visitante }}-{{ visita.rut_visitante.dv_visitante }}</td>
+        <td>{{ visita.rut_visitante.nombres_visitante }}</td>
+        <td>{{ visita.rut_visitante.apellido_visitante }}</td>
+        <td>{{ visita.rut_visitante.patente }}</td>
+        <td>{{ visita.rut_visitante.departamento }}</td>
+        <td>{{ visita.fecha_hora_ingreso }}</td>
+        <td>
+          <!-- Formulario para marcar la salida -->
+          <form action="{% url 'marcar_salida' visita.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Marcar salida</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
 
 {% endblock %}

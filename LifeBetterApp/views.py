@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import datetime
 import random
 from django import views
 from django.http import JsonResponse
@@ -529,7 +529,7 @@ def registro_visitante_depto(request):
 def salida_visita(request,id):
     if request.user.role == 'conserje':
         visita = RegistroVisitanteDepto.objects.get(id_visitante_depto=id)
-        visita.fecha_hora_salida = timezone.now()
+        visita.fecha_hora_salida = datetime.now()
         visita.save()
         return redirect('registro_visitante_depto')
     else:
@@ -551,5 +551,19 @@ def crear_bitacora(request):
         else:
             form = CrearBitacoraForm()   
         return render(request, 'conserje/crearbitacora.html', {'form': form})
+    else:
+        return redirect('unauthorized')
+    
+from django.utils import timezone
+from django.shortcuts import redirect
+
+@login_required
+def marcar_salida_visita(request):
+    if request.method == 'POST' and request.user.role == 'conserje':
+        visita_id = request.POST.get('visita_id')
+        visita = RegistroVisitanteDepto.objects.get(id=visita_id)
+        visita.hora_salida = timezone.now()
+        visita.save()
+        return redirect('ruta_a_historial_visitas')
     else:
         return redirect('unauthorized')
