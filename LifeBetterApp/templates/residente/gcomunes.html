@@ -1,8 +1,71 @@
 {% extends "index.html" %}
 {% load static %}
-{% block title %} LB | CR {% endblock %}
+
+{% block title %} LB | Gastos Comunes {% endblock %}
+
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center">Gastos Comunes</h2>
+        </div>
+
+        <div class="card-body">
+          {% if user.role == 'residente' %}
+          <p>Aquí puedes ver tus gastos comunes y realizar pagos.</p>
+          {% else %}
+          <p>Aquí puedes gestionar los gastos comunes de los residentes.</p>
+          {% endif %}
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Mes</th>
+                <th>Monto</th>
+                <th>Fecha de Pago</th>
+                {% if user.role == 'adminedificio' %}
+                <th>Residente</th>
+                <th>Acciones</th>
+                {% endif %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for gasto in gastos_comunes %}
+              <tr>
+                <td>{{ gasto.mes }}</td>
+                <td>{{ gasto.amount }}</td>
+                <td>{{ gasto.fecha_pago }}</td>
+                {% if user.role == 'adminedificio' %}
+                <td>{{ gasto.usuario.get_full_name }}</td>
+                <td>
+                  <a href="{% url 'editar_gasto_comun' gasto.id %}" class="btn btn-sm btn-secondary">Editar</a>
+                  <a href="{% url 'eliminar_gasto_comun' gasto.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          {% if user.role == 'residente' %}
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Pagar</button>
+          </form>
+          {% endif %}
+
+          {% if user.role == 'adminedificio' %}
+          <a href="{% url 'crear_gasto_comun' %}" class="btn btn-primary">Agregar Gasto Común</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

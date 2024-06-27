@@ -1,15 +1,55 @@
 {% extends "index.html" %}
 {% load static %}
+
 {% block title %} LB | Editar Perfil {% endblock %}
+
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<h2>Editar Perfil</h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center">Editar Perfil</h2>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-</form>
+            <div class="mb-3">
+              {{ form.username.label_tag }}
+              {{ form.username }}
+            </div>
+            <div class="mb-3">
+              {{ form.first_name.label_tag }}
+              {{ form.first_name }}
+            </div>
+            <div class="mb-3">
+              {{ form.last_name.label_tag }}
+              {{ form.last_name }}
+            </div>
+            <div class="mb-3">
+              {{ form.email.label_tag }}
+              {{ form.email }}
+            </div>
+            {% if usuario.role == 'residente' %}
+            <div class="mb-3">
+              <label for="fono_residente" class="form-label">Teléfono:</label>
+              <input type="text" class="form-control" id="fono_residente" name="fono_residente"
+                value="{{ telefono_residente }}">
+            </div>
+            {% endif %}
+            <div class="mb-3">
+              {{ form.password.label_tag }}
+              {{ form.password }}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

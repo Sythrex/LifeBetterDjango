@@ -1,29 +1,28 @@
 from datetime import datetime
 import random
-from django import views
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import path, reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views, logout, authenticate, login
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
+
 from .forms import (
     CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
     MultaForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
     ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
 )
 from .models import (
-    Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
+    Departamento, Multa, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
     Encomienda, Empleado
 )
-
 # ================================================
 #                VISTAS PRINCIPALES
 # ================================================
-
 def index(request):
     return render(request, 'index.html')
 
@@ -49,9 +48,9 @@ def login_view(request):
             login(request, user)
             return redirect(user.role)  # Redirige según el rol del usuario
         else:
-            return render(request, "sitio/login.html", {'error': 'Credenciales incorrectas'})
+            return render(request, 'sitio/login.html', {'error': 'Credenciales incorrectas'})
     else:
-        return render(request, "sitio/login.html")
+        return render(request, 'sitio/login.html')
 
 def salir(request):
     logout(request)
@@ -155,19 +154,42 @@ def residente(request):
 
 @login_required
 def perfil(request):
-    usuario = request.user  # Obtener el usuario actual
-    return render(request, 'residente/perfil.html', {'usuario': usuario})
+    usuario = request.user
+    return render(request, 'residente/perfil/perfil.html', {'usuario': usuario})
 
 @login_required
 def editar_perfil(request):
+    try:
+        residente = request.user.reservaciones.first().run_residente 
+    except AttributeError:
+        residente = None  # Manejar el caso en que el usuario no tenga reservas
+
     if request.method == 'POST':
         form = PerfilForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('perfil')  
+            usuario = form.save(commit=False)
+
+            # Actualizar contraseña si se proporcionó
+            nueva_contrasena = form.cleaned_data.get('password')
+            if nueva_contrasena:
+                usuario.password = make_password(nueva_contrasena)
+
+            # Actualizar teléfono del residente (si es que es residente y se ha proporcionado un nuevo telefono)
+            if residente:
+                nuevo_telefono = request.POST.get('fono_residente')
+                if nuevo_telefono:
+                    residente.fono_residente = nuevo_telefono
+                    residente.save()
+
+            usuario.save()
+            return redirect('perfil')
     else:
         form = PerfilForm(instance=request.user)
-    return render(request, 'editar_perfil.html', {'form': form})
+
+    # Pasar el teléfono del residente al contexto (si existe)
+    telefono_residente = residente.fono_residente if residente else None
+
+    return render(request, 'residente/perfil/editar_perfil.html', {'form': form, 'telefono_residente': telefono_residente})
 
 @login_required
 def avisos(request):
@@ -183,6 +205,32 @@ def encoresidente(request):
         context = {"encom": encom}
         return render(request, 'residente/encoresidente.html', context)
 
+@login_required
+def gcomunes(request):
+    form = PagarGComunesForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'sitio/gastoscomunes.html', context)
+
+@login_required
+def multasrev(request):
+    return render(request, 'residente/multasrev.html', {})
+
+@login_required
+def reclamos(request):
+    return render(request, 'residente/reclamos.html', {})
+
+@login_required
+def visitas(request):
+    if request.user.role == 'residente':
+        visi = Visitante.objects.all()
+        context = {"visi": visi}
+        return render(request, 'residente/visitas.html', context)
+    
+@login_required
+def crear(request):
+    return render(request, 'residente/crear/crear.html', {})
 
 # --------------------------- ESPACIO COMUN -------------------------- #
 
@@ -286,37 +334,6 @@ def validar_disponibilidad(request):
 
     return JsonResponse({'disponible': disponible})
 
-@login_required
-def gcomunes(request):
-    form = PagarGComunesForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'sitio/gastoscomunes.html', context)
-
-@login_required
-def multasrev(request):
-    return render(request, 'residente/multasrev.html', {})
-
-@login_required
-def reclamos(request):
-    return render(request, 'residente/reclamos.html', {})
-
-@login_required
-def visitas(request):
-    if request.user.role == 'residente':
-        visi = Visitante.objects.all()
-        context = {"visi": visi}
-        return render(request, 'residente/visitas.html', context)
-    
-@login_required
-def crear(request):
-    return render(request, 'residente/crear/crear.html', {})
-
-@login_required
-def resumen(request):
-    return render(request, 'residente/resumen.html', {})
-
 # ================================================
 #                 VISTAS ADMINISTRADOR
 # ================================================
@@ -324,13 +341,17 @@ def resumen(request):
 def admin(request):
     if request.user.role == 'adminedificio':
         # Aquí deberías obtener los datos que necesitas para la vista del administrador,
-        # por ejemplo, la lista de residentes, anuncios, etc.
+        total_residentes = Residente.objects.count()
+        total_departamentos = Departamento.objects.count()
+        total_empleados = Empleado.objects.count()
         residentes = Residente.objects.all()
         anuncios = Anuncio.objects.all()
         context = {
+            'total_residentes': total_residentes,
+            'total_departamentos': total_departamentos,
+            'total_empleados': total_empleados,
             "residentes": residentes,
             "anuncios": anuncios,
-            # Agrega más datos según tus necesidades
         }
         return render(request, 'administrador/adminedificio.html', context)
     else:
@@ -399,8 +420,8 @@ def crear_multa(request):
     if request.method == 'POST':
         form = MultaForm(request.POST)
         if form.is_valid():
-            multa = form.save(commit=False)
-            multa.save()
+            Multa = form.save(commit=False)
+            Multa.save()
             return redirect('multas')  # Redirige a la vista de multas
     else:
         form = MultaForm()
@@ -453,10 +474,14 @@ def reclamos(request):
 
 @login_required
 def multa(request):
-    if request.user.role == 'conserje':
-        return render(request, 'conserje/multa.html', {})
+    if request.user.role == 'adminedificio':
+        multas = Multa.objects.all()
     else:
-        return redirect('unauthorized')
+        # Suponiendo que el Empleado también tiene relación con el modelo User
+        multas = Multa.objects.filter(run_empleado__user=request.user) 
+
+    context = {'multas': multas}
+    return render(request, 'multas.html', context)  # Asegúrate de tener la plantilla 'multas.html'
     
 @login_required
 def gestionencomienda(request):

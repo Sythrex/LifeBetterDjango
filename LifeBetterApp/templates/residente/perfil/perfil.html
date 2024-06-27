@@ -1,26 +1,30 @@
 {% extends "index.html" %}
 {% load static %}
-
 {% block title %} LB | Perfil {% endblock %}
-
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<div class="profile-section">
-  <h2>Mi Perfil</h2>
-  <p>Nombre de usuario: {{ usuario.username }}</p>
-  <p>Nombre: {{ usuario.first_name }}</p>
-  <p>Apellido: {{ usuario.last_name }}</p>
-  <p>Correo electrónico: {{ usuario.email }}</p>
-  <p>Rol: {{ usuario.role }}</p>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body profile-section">
+          <h2 class="card-title">Mi Perfil</h2>
+          {% if user.role == 'residente' %}
+          {% with residente=usuario.reservaciones.first.run_residente %}
+          <p><strong>Nombre:</strong> {{ usuario.first_name }} {{ usuario.last_name }}</p>
+          <p><strong>RUT:</strong> {{ residente.rut_residente }}-{{ residente.dvrun }}</p>
+          <p><strong>Departamento:</strong> {{ residente.departamento }}</p>
+          <p><strong>Correo electrónico:</strong> {{ usuario.email }}</p>
+          <p><strong>Teléfono:</strong> {{ residente.fono_residente }}</p>
+          {% endwith %}
+          {% endif %}
 
-  {% if usuario.role == 'residente' %}
-  {% with residente=usuario.reservaciones.first.run_residente %}
-  <p>RUT: {{ residente.rut_residente }}-{{ residente.dvrun }}</p>
-  <p>Departamento: {{ residente.departamento }}</p>
-  {% endwith %}
-  {% endif %}
+          <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<a href="{% url 'editar_perfil' %}" class="btn btn-secondary">Editar Perfil</a>
 
 {% endblock %}

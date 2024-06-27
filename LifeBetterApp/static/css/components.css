@@ -40,17 +40,15 @@ body.dark {
     border-color: var(--primary-color);
 }
 
-.btn-enviar {
-    background-color: var(--secondary-color);
+.btn-enviar:hover {
     color: var(--text-color);
     border: solid 2px var(--primary-color);
     width: auto;
 }
 
-.btn-enviar:hover {
+.btn-enviar {
     background-color: var(--primary-color);
-    color: var(--background-color);
-    border: solid 1px var(--primary-color);
+    color: var(--sidebar-background);
     width: auto;
     border-radius: 10px;
 }

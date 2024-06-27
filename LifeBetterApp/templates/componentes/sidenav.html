@@ -5,19 +5,20 @@
 
 <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
   aria-labelledby="offcanvasWithBothOptionsLabel">
+  {% if user.is_authenticated %}
   <div class="offcanvas-header">
     {% if user.role == 'adminedificio' %}
-      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Administrador</h6>
+      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Administrador  {{ user.username }}</h6>
     {% endif %}
     {% if user.role == 'conserje' %}
-    <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Conserje</h6>
+      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Conserje  {{ user.username }}</h6>
     {% endif %}
     {% if user.role == 'residente' %}
-    <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Residente</h6>
-    <h6> usuario </h6>
+      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Residente  {{ user.username }}</h6>
     {% endif %}
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
+  {% endif %}
   <div class="offcanvas-body">
     <ul class="navbar-nav">
       {% if user.role == 'conserje' %}
@@ -29,7 +30,7 @@
       <li class="nav-item"><a href="{% url 'registro_visitante_depto' %}" class="nav-link">Agregar Visita</a></li>
       {% endif %}
       {% if user.role == 'residente'%}
-      <li class="nav-item"><a href="{% url 'resumen' %}" class="nav-link">Home</a></li>
+      <li class="nav-item"><a href="{% url 'residente' %}" class="nav-link">Home</a></li>
       <li class="nav-item"><a href="{% url 'perfil' %}" class="nav-link">Perfil</a></li>
       <li class="nav-item"><a href="{% url 'editar_perfil' %}" class="nav-link">Editar Perfil</a></li>
       <li class="nav-item"><a href="{% url 'avisos' %}" class="nav-link">Avisos</a></li>

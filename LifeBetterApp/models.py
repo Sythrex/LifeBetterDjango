@@ -12,7 +12,7 @@ class User(AbstractUser):
         ('conserje', 'Conserje'),
         ('residente', 'Residente'),
     )
-    role = models.CharField(max_length=13, choices=ROLES, default='adminedificio')  # Aumentado max_length para 'adminedificio'
+    role = models.CharField(max_length=13, choices=ROLES, default='residente')  # Aumentado max_length para 'adminedificio'
 
     def __str__(self):
         return self.username
