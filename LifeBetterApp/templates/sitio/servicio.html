@@ -3,11 +3,71 @@
 {% block title %} LB | NOSOTROS {% endblock %} <!-- Define el bloque 'title' con el contenido 'PG | NOSOTROS' -->
 
 {% block body %}
-<div class="row">
-  <h1>Como usar</h1> <!-- Encabezado principal de la página -->
+<section class="pricing">
+  <div class="container">
+    <h2 class="text-center mb-4">Planes de Suscripción BetterLife</h2>
 
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header text-center">
+            <h3>Básico</h3>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title text-center">$5.000 CLP/mes</h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Acceso a anuncios y comunicados</li>
+              <li class="list-group-item">Reserva de espacios comunes</li>
+              <li class="list-group-item">Recepción de encomiendas</li>
+            </ul>
+            <div class="card-footer text-center">
+              <a href="#" class="btn btn-outline-primary">Suscribirse</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header text-center">
+            <h3>Completo</h3>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title text-center">$10.000 CLP/mes</h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Todas las características del plan Básico</li>
+              <li class="list-group-item">Pagos en línea de gastos comunes</li>
+              <li class="list-group-item">Registro de visitas</li>
+              <li class="list-group-item">Acceso al foro de discusión</li>
+            </ul>
+            <div class="card-footer text-center">
+              <a href="#" class="btn btn-primary">Suscribirse</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-</div>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header text-center">
+            <h3>Premium</h3>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title text-center">$15.000 CLP/mes</h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Todas las características del plan Completo</li>
+              <li class="list-group-item">Acceso a informes y estadísticas avanzadas</li>
+              <li class="list-group-item">Soporte técnico prioritario</li>
+            </ul>
+            <div class="card-footer text-center">
+              <a href="#" class="btn btn-outline-primary">Suscribirse</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 {% endblock %} <!-- Cierra el bloque 'body' -->

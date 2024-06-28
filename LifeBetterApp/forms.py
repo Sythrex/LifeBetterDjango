@@ -192,7 +192,7 @@ class CrearBitacoraForm(forms.ModelForm):
 
     class Meta:
         model = Bitacora
-        fields = ['asunto', 'contenido', 'fecha_hora', 'run_empleado']  # Eliminado 'id_bitacora'
+        fields = ['asunto', 'contenido', 'fecha_hora']
 
 class CrearEmpleadoForm(forms.ModelForm):
     # (Campo de fecha de nacimiento sin cambios)

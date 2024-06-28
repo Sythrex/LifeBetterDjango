@@ -191,6 +191,12 @@ class Multa(models.Model):
         return f'Multa {self.id_multa}'
 
 class EspacioComun(models.Model):
+    ESTADO_CHOICES = (
+        ('disponible', 'Disponible'),
+        ('reservado', 'Reservado'),
+        ('en_mantenimiento', 'En Mantenimiento'),
+    )
+
     id_ec = models.AutoField(primary_key=True)
     nombre_ec = models.CharField(max_length=60)
     descripcion_ec = models.CharField(max_length=60)
