@@ -11,6 +11,10 @@ from .models import (
 # ================================================
 #                FORMULARIOS DE USUARIO
 # ================================================
+class UserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'role']
 
 class CrearUsuarioForm(forms.ModelForm):
     password = forms.CharField(
@@ -90,7 +94,7 @@ class PagarGastosComunesForm(forms.Form):
 class RegistroVisitanteDeptoForm(forms.ModelForm):
     class Meta:
         model = RegistroVisitanteDepto
-        fields = ['rut_visitante']
+        fields = ['rut_visitante']   
 
 class VisitanteForm(forms.ModelForm):
     class Meta:
@@ -183,8 +187,7 @@ class CrearResidenteForm(forms.ModelForm):
             'fono_residente',
             'tipo_residente',
             'comite',
-            'departamento',
-            # 'Contraseña', 'Confirmar Contraseña' removed
+            'departamento'
         ]
 
 class CrearBitacoraForm(forms.ModelForm):
@@ -195,11 +198,31 @@ class CrearBitacoraForm(forms.ModelForm):
         fields = ['asunto', 'contenido', 'fecha_hora']
 
 class CrearEmpleadoForm(forms.ModelForm):
-    # (Campo de fecha de nacimiento sin cambios)
+    fecha_contrato_empleado = forms.DateField(
+            label="Fecha de Contrato",
+            required=True,
+            widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+            input_formats=["%Y-%m-%d"]
+        )
+
+    fecha_nacimiento_empleado = forms.DateField(
+        label="Fecha de nacimiento",
+        required=True,
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        input_formats=["%Y-%m-%d"]
+    )
 
     class Meta:
         model = Empleado
         fields = ['run_empleado', 'dvrun_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
+
+class MultaForm(forms.ModelForm):
+    class Meta:
+        model = Multa
+        fields = ['run_residente', 'departamento', 'descripcion_multa', 'monto_multa', 'fecha_hora_multa']
+        widgets = {
+            'fecha_hora_multa': forms.DateTimeInput(attrs={'type': 'datetime-local'}),  # Widget para fecha y hora
+        }        
 
 class MultaForm(forms.ModelForm):
     class Meta:
@@ -213,7 +236,6 @@ class CrearDepartamentoForm(forms.ModelForm):
     class Meta:
         model = Departamento
         fields = ['numero_depto', 'piso']
-# ... (EspacioComunForm, ReservacionForm, RegistroVisitanteDeptoForm, VisitanteForm, CrearDepartamentoForm - sin cambios) ...
 
 # ================================================
 #         FORMULARIOS   Residente
@@ -244,7 +266,6 @@ class EncomiendaResidenteForm(forms.ModelForm):
             except Residente.DoesNotExist:
                 pass  # El usuario no tiene un residente asociado
 
-
 class PagarGComunesForm(forms.Form):
     mes = forms.ChoiceField(choices=[], label='Mes a Pagar', widget=forms.Select(attrs={'class': 'form-control'}))
     amount = forms.DecimalField(label='Monto', widget=forms.NumberInput(attrs={'class': 'form-control'}))
@@ -258,8 +279,6 @@ class PerfilForm(forms.ModelForm):
         model = User
         fields = ['email', 'password']
     
-
-
 class PagarGComunesForm(forms.Form):
     mes = forms.ChoiceField(
         choices=GastosComunes.MESES, 
@@ -270,7 +289,6 @@ class PagarGComunesForm(forms.Form):
         label='Monto', 
         widget=forms.NumberInput(attrs={'class': 'form-control'})
     )
-
 
 class EncomiendaForm(forms.ModelForm):
         class Meta:
@@ -297,8 +315,6 @@ class ReclamoForm(forms.ModelForm):
         # self.fields['run_residente'].widget = forms.HiddenInput()
         # self.fields['departamento'].widget = forms.HiddenInput()
 
-
-
 class EspacioComunForm(forms.ModelForm):
     class Meta:
         model = EspacioComun
@@ -309,89 +325,7 @@ class ReservacionForm(forms.ModelForm):
         model = Reservacion
         fields = ['inicio_fecha_hora_reservacion', 'fin_fecha_hora_reservacion']
 
-class RegistroVisitanteDeptoForm(forms.ModelForm):
-    class Meta:
-        model = RegistroVisitanteDepto
-        fields = ['rut_visitante']
-
 class VisitanteForm(forms.ModelForm):
     class Meta:
         model = Visitante
         fields = ['rut_visitante', 'dv_visitante', 'nombres_visitante', 'apellido_visitante', 'departamento','patente']
-
-class CrearDepartamentoForm(forms.ModelForm):
-    class Meta:
-        model = Departamento
-        fields = ['numero_depto', 'piso']
-
-class CrearResidenteForm(forms.ModelForm):
-    #  Password fields removed
-    fecha_nacimiento_residente = forms.DateField(
-        label="Fecha de nacimiento",
-        required=True,
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
-        input_formats=["%Y-%m-%d"]
-    )
-    fecha_contrato_residente = forms.DateField(
-        label="Fecha de Contrato",
-        required=True,
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
-        input_formats=["%Y-%m-%d"]
-    )
-
-    class Meta:
-        model = Residente
-        fields = [
-            'rut_residente',
-            'dvrun',
-            'pnombre_residente',
-            'snombre_residente',
-            'appaterno_residente',
-            'apmaterno_residente',
-            'fecha_nacimiento_residente',
-            'fecha_contrato_residente',
-            'correo_residente',
-            'fono_residente',
-            'tipo_residente',
-            'comite',
-            'departamento'
-        ]
-
-class CrearBitacoraForm(forms.ModelForm):
-    contenido = forms.CharField(widget=forms.Textarea)
-
-    class Meta:
-        model = Bitacora
-        fields = ['id_bitacora', 'asunto', 'contenido', 'fecha_hora', 'empleado']
-
-class UserForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'role']
-
-class CrearEmpleadoForm(forms.ModelForm):
-    fecha_contrato_empleado = forms.DateField(
-            label="Fecha de Contrato",
-            required=True,
-            widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
-            input_formats=["%Y-%m-%d"]
-        )
-
-    fecha_nacimiento_empleado = forms.DateField(
-        label="Fecha de nacimiento",
-        required=True,
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
-        input_formats=["%Y-%m-%d"]
-    )
-
-    class Meta:
-        model = Empleado
-        fields = ['run_empleado', 'dvrun_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
-
-class MultaForm(forms.ModelForm):
-    class Meta:
-        model = Multa
-        fields = ['run_residente', 'departamento', 'descripcion_multa', 'monto_multa', 'fecha_hora_multa']
-        widgets = {
-            'fecha_hora_multa': forms.DateTimeInput(attrs={'type': 'datetime-local'}),  # Widget para fecha y hora
-        }
