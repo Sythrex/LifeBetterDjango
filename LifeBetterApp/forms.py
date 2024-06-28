@@ -354,8 +354,7 @@ class CrearResidenteForm(forms.ModelForm):
             'fono_residente',
             'tipo_residente',
             'comite',
-            'departamento',
-            # 'Contraseña', 'Confirmar Contraseña' removed
+            'departamento'
         ]
 
 class CrearBitacoraForm(forms.ModelForm):
@@ -371,6 +370,13 @@ class UserForm(UserCreationForm):
         fields = ['username', 'email', 'first_name', 'last_name', 'role']
 
 class CrearEmpleadoForm(forms.ModelForm):
+    fecha_contrato_empleado = forms.DateField(
+            label="Fecha de Contrato",
+            required=True,
+            widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+            input_formats=["%Y-%m-%d"]
+        )
+
     fecha_nacimiento_empleado = forms.DateField(
         label="Fecha de nacimiento",
         required=True,
