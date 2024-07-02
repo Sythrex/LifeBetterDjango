@@ -43,7 +43,6 @@ class Departamento(models.Model):
         return f'Departamento {self.numero_depto} - Piso {self.piso}'
     
 class Edificio(models.Model):
-    # ... (tus campos para el modelo Edificio) ...
     administrador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'role': 'adminedificio'})
     
     def __str__(self):
