@@ -61,9 +61,9 @@
 
 /* Offcanvas */
 .offcanvas {
-    width: 50%; /* Ancho del offcanvas */
-    background-color: var(--background-color); /* Color de fondo */
-    color: var(--text-color); /* Color del texto */
+    width: 50%;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .offcanvas-header {

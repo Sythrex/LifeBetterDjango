@@ -4,7 +4,78 @@
 
 {% block body %}
   {% include 'componentes/sidenav.html' %} 
-
-  <h1>Dashboard</h1>
-
+  <div class="container mt-4">
+    <h2>Bienvenid@, {{ user.username }}!</h2>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-header">Gastos Comunes Pendientes</div>
+          <div class="card-body">
+            {% if gastos_pendientes %}
+            <ul>
+              {% for gasto in gastos_pendientes %}
+              <li>{{ gasto.mes }}: ${{ gasto.monto }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>No tienes gastos comunes pendientes.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-header">Anuncios</div>
+          <div class="card-body">
+            {% if anuncios %}
+            <ul>
+              {% for anuncio in anuncios %}
+              <li>{{ anuncio.asunto }}: {{ anuncio.contenido_asunto }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>No hay anuncios nuevos.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-header">Encomiendas</div>
+          <div class="card-body">
+            {% if encomiendas %}
+            <ul>
+              {% for encomienda in encomiendas %}
+              <li>{{ encomienda }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>No tienes encomiendas pendientes.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-header">Visitas</div>
+          <div class="card-body">
+            {% if visitas %}
+            <ul>
+              {% for visita in visitas %}
+              <li>{{ visita }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>No tienes visitas registradas.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

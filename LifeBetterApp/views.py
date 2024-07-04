@@ -225,7 +225,7 @@ def cambiar(request):
                 return redirect('residente/perfil/perfil.html')  # O donde quieras redirigir después del cambio
         else:
             form = PasswordChangeForm(request.user)
-        return render(request, 'residente/residente.html', {'contrasena_form': form})
+        return render(request, 'residente/perfil/cambiar_contraseña.html', {'contrasena_form': form})
 
 
 @login_required

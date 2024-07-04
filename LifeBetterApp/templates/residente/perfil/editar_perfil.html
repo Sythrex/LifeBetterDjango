@@ -40,13 +40,7 @@
                 value="{{ telefono_residente }}">
             </div>
             {% endif %}
-            <h3>Cambiar Contraseña</h3>
-            <form method="post">
-              {% csrf_token %}
-              {{ contrasena_form.as_p }}
-              <button type="submit">Cambiar Contraseña</button>
-            </form>
-            <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
           </form>
         </div>
       </div>
