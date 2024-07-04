@@ -1,16 +1,14 @@
 {% extends "index.html" %}
 {% load static %}
 {% block title %} LB | CR {% endblock %}
+
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<h2>Crear Reserva</h2>
-<div id='calendar'></div>
-
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Crear Reserva</button>
-</form>
+<div class="calendar" id="calendar">
+  <h1>
+    Reservar Espacio Común
+  </h1>
+</div>
 
 {% endblock %}

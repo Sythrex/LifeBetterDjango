@@ -44,12 +44,12 @@ urlpatterns = [
     #                  ESPACIO COMUN
     # ------------------------------------------------
     path('residente/ecomun/', views.espaciocomun, name='espaciocomun'),
-    path('residente/ecomun/crear_reservacion/', views.crear_reservacion, name='crear_reservacion'),
-    path('residente/ecomun/listar_reservaciones/', views.listar_reservaciones, name='listar_reservaciones'),
-    path('residente/ecomun/detalle_espacio/<int:id_ec>/', views.detalle_espacio, name='detalle_espacio'),
-    path('residente/ecomun/editar_reservacion/<int:id_reservacion>/', views.editar_reservacion, name='editar_reservacion'),
-    path('residente/ecomun/eliminar_reservacion/<int:id_reservacion>/', views.eliminar_reservacion, name='eliminar_reservacion'),
-    path('residente/ecomun/validar_disponibilidad/', views.validar_disponibilidad, name='validar_disponibilidad'),
+    path('residente/ecomun/crear_reservacion/', views.crear_reservacion, name='crear_reservacion'),# Aqui es donde estara el calendario
+    path('residente/ecomun/listar_reservaciones/', views.listar_reservaciones, name='listar_reservaciones'),#Reservas hechas en el pasado
+    path('residente/ecomun/detalle_espacio/<int:id_ec>/', views.detalle_espacio, name='detalle_espacio'),#Descripcion espacio
+    path('residente/ecomun/editar_reservacion/<int:id_reservacion>/', views.editar_reservacion, name='editar_reservacion'),#Edicion de la reservacion
+    path('residente/ecomun/eliminar_reservacion/<int:id_reservacion>/', views.eliminar_reservacion, name='eliminar_reservacion'),#Elimar reservacion
+    path('residente/ecomun/validar_disponibilidad/', views.validar_disponibilidad, name='validar_disponibilidad'),#Valida disponibilidad
 
     # ------------------------------------------------
     #                 ADMINISTRADOR

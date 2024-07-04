@@ -2,29 +2,29 @@
 {% load static %}
 {% block title %} LB | Perfil {% endblock %}
 {% block body %}
-{% include 'componentes/sidenav.html' %}
+  {% include 'componentes/sidenav.html' %}
+  
+  <h2>Mi Perfil</h2>
 
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-body profile-section">
-          <h2 class="card-title">Mi Perfil</h2>
-          {% if user.role == 'residente' %}
-          {% with residente=usuario.reservaciones.first.run_residente %}
-          <p><strong>Nombre:</strong> {{ usuario.first_name }} {{ usuario.last_name }}</p>
-          <p><strong>RUT:</strong> {{ residente.rut_residente }}-{{ residente.dvrun }}</p>
-          <p><strong>Departamento:</strong> {{ residente.departamento }}</p>
-          <p><strong>Correo electrónico:</strong> {{ usuario.email }}</p>
-          <p><strong>Teléfono:</strong> {{ residente.fono_residente }}</p>
-          {% endwith %}
-          {% endif %}
+  <h3>Información Personal</h3>
+  <p>Nombre: {{ usuario.get_full_name }}</p>
+  <p>RUT: {{ residente.rut_residente }}-{{ residente.dvrun }}</p>
+  <p>Fecha de Nacimiento: {{ residente.fecha_nacimiento_residente }}</p>
+  <p>Departamento: {{ residente.departamento }}</p>
+  <p>Correo Electrónico: {{ usuario.email }}</p>
+  <p>Teléfono: {{ residente.fono_residente }}</p>
 
-          <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  <h3>Cambiar Contraseña</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ contrasena_form.as_p }}
+    <button type="submit">Cambiar Contraseña</button>
+  </form>
 
+  <h3>Actualizar Perfil</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ perfil_form.as_p }}
+    <button type="submit">Actualizar Perfil</button>
+  </form>
 {% endblock %}

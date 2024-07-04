@@ -1,21 +1,50 @@
 {% extends "index.html" %}
 {% load static %}
-{% block title %} LB | LR {% endblock %}
+
+{% block title %} LB | Mis Reservas {% endblock %}
+
 {% block body %}
-{% include 'componentes/sidenav.html' %}
+{% include 'componentes/sidenav.html' %} 52.54
 
-<h2>Mis Reservas</h2>
+<div class="card">
+  <div class="card-header">
+    <a name="" id="" class="btn btn-sucess" href="#" role="button">Reservar</a>
 
-<ul>
-  {% for reserva in reservaciones %}
-  <li>
-    {{ reserva.id_ec }} - {{ reserva.inicio_fecha_hora_reservacion }} - {{ reserva.fin_fecha_hora_reservacion }}
-    <a href="{% url 'editar_reservacion' reserva.id_reservacion %}">Editar</a>
-    <a href="{% url 'eliminar_reservacion' reserva.id_reservacion %}">Eliminar</a>
-  </li>
-  {% empty %}
-  <li>No tienes reservas aún.</li>
-  {% endfor %}
-</ul>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title">Historial de Reservaciones</h4>
+    <div class="table-responsive">
+      <table class="table table-primary">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Capacidad</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Inicio</th>
+            <th scope="col">Fin</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="">
+            <td>R1C1</td>
+            <td>R1C2</td>
+            <td>R1C3.jpg</td>
+            <td>R1C4</td>
+            <td>R1C5</td>
+            <td>R1C6</td>
+            <td>R1C7</td>
+            <td>R1C8</td>
+            <td>Editar | Eliminar </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}

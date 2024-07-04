@@ -116,8 +116,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'LifeBetterApp.User'
-
+AUTH_USER_MODEL = 'LifeBetterApp.User' 
 
 # Configuración del correo electrónico
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -23,3 +23,7 @@ python manage.py createsuperuser
 
 ### Ejecuta la APP
 python manage.py runserver
+
+
+----------------------------
+superela 1234

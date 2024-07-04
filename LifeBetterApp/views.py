@@ -12,12 +12,12 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
 
 from .forms import (
-    CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
-    MultaForm, PagarGComunesForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
+    ActualizarPerfilForm, CambiarContrasenaForm, CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
+    MultaForm,PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
     ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
 )
 from .models import (
-    Departamento, Multa, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
+    Departamento, GastosComunes, Multa, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
     Encomienda, Empleado
 )
 # ================================================
@@ -154,8 +154,29 @@ def residente(request):
 
 @login_required
 def perfil(request):
-    usuario = request.user
-    return render(request, 'residente/perfil/perfil.html', {'usuario': usuario})
+    if request.user.role == 'residente':
+        if request.method == 'POST':
+            if 'cambiar_contrasena' in request.POST:
+                contrasena_form = CambiarContrasenaForm(user=request.user, data=request.POST)
+                if contrasena_form.is_valid():
+                    contrasena_form.save()
+                    return redirect('perfil_residente')  # Redirigir después de cambiar la contraseña
+            elif 'actualizar_perfil' in request.POST:
+                perfil_form = ActualizarPerfilForm(instance=request.user, data=request.POST)
+                if perfil_form.is_valid():
+                    perfil_form.save()
+                    return redirect('perfil_residente')  # Redirigir después de actualizar el perfil
+        else:
+            contrasena_form = CambiarContrasenaForm(user=request.user)
+            perfil_form = ActualizarPerfilForm(instance=request.user)
+            return render(request, 'perfil_residente.html', {
+                'contrasena_form': contrasena_form,
+                'perfil_form': perfil_form,
+            })
+    else:
+        return redirect('unauthorized')    
+    #usuario = request.user
+    #return render(request, 'residente/perfil/perfil.html', {'usuario': usuario})
 
 @login_required
 def editar_perfil(request):
@@ -207,10 +228,38 @@ def encoresidente(request):
 
 @login_required
 def gcomunes(request):
-    form = PagarGComunesForm()
-    context = {
-        'form': form,
-    }
+    if request.user.role == 'residente':
+        gastos = GastosComunes.objects.filter(usuario=request.user)
+        if request.method == 'POST':
+            form = PagarGastosComunesForm(request.POST)
+            if form.is_valid():
+                mes = form.cleaned_data['mes']
+                monto = GastosComunes.VALOR_MESES.get(mes)  # Obtener monto desde el diccionario
+
+                try:
+                    gasto_comun = gastos.get(mes=mes)
+                except GastosComunes.DoesNotExist:
+                    gasto_comun = None
+                
+                if gasto_comun:
+                    if gasto_comun.amount == monto:
+                        # Procesar el pago aquí (por ejemplo, redirigir a Webpay Plus)
+                        return redirect('webpay-plus-create', mes=mes)  # Reemplaza con tu URL
+                    else:
+                        form.add_error('amount', "El monto no coincide con el gasto común.")
+                else:
+                    form.add_error('mes', "No se encontró un gasto común para este mes.")
+        else:
+            form = PagarGastosComunesForm()
+        context = {
+            'gastos_comunes': gastos,
+            'form': form
+        }
+    else:
+        # Lógica para otros roles, por ejemplo, mostrar todos los gastos comunes para el administrador
+        gastos = GastosComunes.objects.all()
+        context = {'gastos_comunes': gastos}
+
     return render(request, 'sitio/gastoscomunes.html', context)
 
 @login_required
@@ -233,16 +282,13 @@ def crear(request):
     return render(request, 'residente/crear/crear.html', {})
 
 # --------------------------- ESPACIO COMUN -------------------------- #
-
 @login_required
 def espaciocomun(request):
     espacios = EspacioComun.objects.all()
-
-    # Obtener las reservas para cada espacio
-    reservas_por_espacio = {}
-    for espacio in espacios:
-        reservas_por_espacio[espacio.id_ec] = Reservacion.objects.filter(id_ec=espacio)
-
+    reservas_por_espacio = {
+        espacio.id_ec: Reservacion.objects.filter(id_ec=espacio)
+        for espacio in espacios
+    }
     return render(request, 'residente/ecomun/espaciocomun.html', {
         'espacios': espacios,
         'reservas_por_espacio': reservas_por_espacio,
@@ -250,48 +296,28 @@ def espaciocomun(request):
 
 @login_required
 def listar_reservaciones(request):
-    try:
-        residente = Reservacion.objects.filter(run_residente__user=request.user).first().run_residente
-        reservaciones = Reservacion.objects.filter(run_residente=residente)
-    except AttributeError: # Manejo de error en caso que el usuario no tenga reservas
-        reservaciones = Reservacion.objects.none()
+    if request.user.role == 'Residente':  
+        reservaciones = Reservacion.objects.filter(run_residente__user=request.user)  
+    else:
+        reservaciones = Reservacion.objects.none()  # Si no es residente, no muestra reservas
     return render(request, 'residente/ecomun/listar_reservaciones.html', {'reservaciones': reservaciones})
 
 @login_required
 def reservacion(request, id_reservacion):
-    reserva = Reservacion.objects.get(id=id_reservacion)
-    context = {"reserva": reserva}
-    return render(request, 'residente/ecomun/reservacion.html', context)
+    reserva = get_object_or_404(Reservacion, id=id_reservacion)
+    return render(request, 'residente/ecomun/reservacion.html', {"reserva": reserva})
 
 @login_required
 def crear_reservacion(request):
-    if request.method == 'POST':
-        form = ReservacionForm(request.POST)
-        if form.is_valid():
-            reservacion = form.save(commit=False)
-            reservacion.run_residente = request.user.residente
-            
-            # Verificar si hay superposición de horarios
-            conflicts = Reservacion.objects.filter(
-                id_ec=reservacion.id_ec,
-                inicio_fecha_hora_reservacion__lt=reservacion.fin_fecha_hora_reservacion,
-                fin_fecha_hora_reservacion__gt=reservacion.inicio_fecha_hora_reservacion
-            ).exclude(id_reservacion=reservacion.id_reservacion) # Excluir la reserva que se está editando
-            if conflicts.exists():
-                form.add_error(None, "Ya existe una reserva en este espacio y horario.")
-            else:
-                reservacion.save()
-                if request.is_ajax():  
-                    return JsonResponse({'success': True})
-                else:
-                    return redirect('listar_reservaciones')
-            
-        # Manejo de errores para solicitudes AJAX
-        if request.is_ajax():  
-            return JsonResponse({'success': False, 'errors': form.errors})
-    else:
-        form = ReservacionForm()
-    return render(request, 'residente/ecomun/crear_reservacion.html', {'form': form})
+    espacios = EspacioComun.objects.all()
+    reservas_por_espacio = {
+        espacio.id_ec: Reservacion.objects.filter(id_ec=espacio)
+        for espacio in espacios
+    }
+    return render(request, 'residente/ecomun/crear_reservacion.html', {
+        'espacios': espacios,
+        'reservas_por_espacio': reservas_por_espacio,
+    })
 
 @login_required
 def detalle_espacio(request, id_ec):
@@ -440,21 +466,6 @@ def gastoscomunes(request):
     else:
         form = PagarGastosComunesForm()
     return render(request, 'sitio/gastoscomunes.html', {'form': form})
-
-VALOR_MESES = {
-    'Enero': 100,
-    'Febrero': 200,
-    'Marzo': 300,
-    'Abril': 400,
-    'Mayo': 500,
-    'Junio': 600,
-    'Julio': 700,
-    'Agosto': 800,
-    'Septiembre': 900,
-    'Octubre': 1000,
-    'Noviembre': 1100,
-    'Diciembre': 1200,
-}
 
 # ================================================
 #                 VISTAS CONSERJE

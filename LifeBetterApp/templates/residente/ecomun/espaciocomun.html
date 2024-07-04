@@ -1,21 +1,24 @@
 {% extends "index.html" %}
 {% load static %}
-
 {% block title %} LB | EC {% endblock %}
-
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<h1>Reservas</h1>
+<div class="container mt-4">
+  <div class="row justify-content-center">
 
-<div class="p-2">
-  <a href="{% url 'crear_reservacion' %}" class="btn btn-primary">Reservar</a>
+    {% for espacio in espacios %}
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center">{{ espacio.nombre_ec }}</h2>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
 </div>
-
-{% for espacio in espacios %}
-<h2>{{ espacio.nombre_ec }}</h2>
-<div id="calendar-{{ espacio.id_ec }}" data-bs-toggle="modal" data-bs-target="#reservarModal"></div>
-{% endfor %}
 
 <div class="modal fade" id="reservarModal" tabindex="-1" aria-labelledby="reservarModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -28,6 +31,7 @@
         <form id="reservacionForm" method="post">
           {% csrf_token %}
           <input type="hidden" id="espacioId" name="espacio_id">
+
           <div class="mb-3">
             <label for="inicio" class="form-label">Fecha y hora de inicio:</label>
             <input type="datetime-local" class="form-control" id="inicio" name="inicio">
@@ -46,5 +50,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}

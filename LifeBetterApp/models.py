@@ -28,7 +28,6 @@ def validar_dv(value):
     if not re.match(r'^[\dkK]$', value):
         raise ValidationError('%(value)s no es un dígito verificador válido', params={'value': value})
 
-# Modelos basados en las tablas SQL proporcionadas
 class Departamento(models.Model):
     id_depto = models.AutoField(primary_key=True)
     numero_depto = models.IntegerField()
@@ -43,8 +42,7 @@ class Departamento(models.Model):
         return f'Departamento {self.numero_depto} - Piso {self.piso}'
     
 class Edificio(models.Model):
-    # ... (tus campos para el modelo Edificio) ...
-    administrador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'role': 'adminedificio'})
+    administrador = models.ForeignKey(User, on_delete=models.SET_NULL,null=True, blank=True, limit_choices_to={'role': 'adminedificio'})
     
     def __str__(self):
         return self.nombre
@@ -119,7 +117,7 @@ class Empleado(models.Model):
     fecha_contrato_empleado = models.DateField()
     fono_empleado = models.CharField(max_length=15)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    edificio = models.ForeignKey('Edificio', on_delete=models.SET_NULL, null=True, blank=True)  # Relación con Edificio
+    edificio = models.ForeignKey('Edificio', on_delete=models.SET_NULL, null=True, blank=True) 
     sueldo_empleado = models.DecimalField(max_digits=8, decimal_places=2)
     
 
@@ -191,17 +189,15 @@ class Multa(models.Model):
         return f'Multa {self.id_multa}'
 
 class EspacioComun(models.Model):
-    ESTADO_CHOICES = (
-        ('disponible', 'Disponible'),
-        ('reservado', 'Reservado'),
-        ('en_mantenimiento', 'En Mantenimiento'),
-    )
-
     id_ec = models.AutoField(primary_key=True)
     nombre_ec = models.CharField(max_length=60)
     descripcion_ec = models.CharField(max_length=60)
     capacidad_ec = models.IntegerField()
-    estado_ec = models.CharField(max_length=20, default='disponible') 
+    estado_ec = models.CharField(max_length=20, choices=[
+        ('disponible', 'Disponible'),
+        ('reservado', 'Reservado'),
+        ('en_mantenimiento', 'En Mantenimiento'),
+    ], default='disponible')
 
     class Meta:
         db_table = 'espacio_comun'
@@ -342,28 +338,33 @@ class Respuesta(models.Model):
         return f'Respuesta {self.id_respuesta}'
 
 class GastosComunes(models.Model):
-    MESES = (
-        ('Enero', 'Enero'),
-        ('Febrero', 'Febrero'),
-        ('Marzo', 'Marzo'),
-        ('Abril', 'Abril'),
-        ('Mayo', 'Mayo'),
-        ('Junio', 'Junio'),
-        ('Julio', 'Julio'),
-        ('Agosto', 'Agosto'),
-        ('Septiembre', 'Septiembre'),
-        ('Octubre', 'Octubre'),
-        ('Noviembre', 'Noviembre'),
-        ('Diciembre', 'Diciembre'),
-    )
+    VALOR_MESES = {
+        'Enero': 100,
+        'Febrero': 200,
+        'Marzo': 300,
+        'Abril': 400,
+        'Mayo': 500,
+        'Junio': 600,
+        'Julio': 700,
+        'Agosto': 800,
+        'Septiembre': 900,
+        'Octubre': 1000,
+        'Noviembre': 1100,
+        'Diciembre': 1200,
+    }
+    MESES = [
+        (mes, mes) for mes in VALOR_MESES.keys()
+    ]
 
     mes = models.CharField(max_length=20, choices=MESES)
-    monto = models.DecimalField(max_digits=10, decimal_places=2)  # Cambiado a 'monto' en lugar de 'amount'
+    monto = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Ajuste: default=0
     fecha_pago = models.DateTimeField(auto_now_add=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='gastos_comunes', default=1) 
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='gastos_comunes', default=1)
 
     def __str__(self):
         return f"{self.mes} - ${self.monto}"
 
-    mes = forms.ChoiceField(choices=MESES, widget=forms.Select(attrs={'class': 'form-control'}))
+    def save(self, *args, **kwargs):
+        self.monto = self.VALOR_MESES[self.mes]  # Asigna el monto según el mes
+        super().save(*args, **kwargs)  # Llama al método save original

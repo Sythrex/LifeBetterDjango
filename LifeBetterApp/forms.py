@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
@@ -7,15 +8,11 @@ from .models import (
     Empleado, RegistroVisitanteDepto, EspacioComun, Bitacora, Reservacion, 
     Encomienda, Multa
 )
+from LifeBetterApp import models
 
 # ================================================
 #                FORMULARIOS DE USUARIO
 # ================================================
-class UserForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'role']
-
 class CrearUsuarioForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}), 
@@ -43,31 +40,21 @@ class CrearUsuarioForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
+class UserForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = list(UserCreationForm.Meta.fields) + ['role']
+
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email', 'password']
 
 # ================================================
-#            FORMULARIOS DE GASTOS COMUNES
+#            FORMULARIOS COMUNES
 # ================================================
 
 class PagarGastosComunesForm(forms.Form):
-    MESES = (
-        ('Enero', 'Enero'),
-        ('Febrero', 'Febrero'),
-        ('Marzo', 'Marzo'),
-        ('Abril', 'Abril'),
-        ('Mayo', 'Mayo'),
-        ('Junio', 'Junio'),
-        ('Julio', 'Julio'),
-        ('Agosto', 'Agosto'),
-        ('Septiembre', 'Septiembre'),
-        ('Octubre', 'Octubre'),
-        ('Noviembre', 'Noviembre'),
-        ('Diciembre', 'Diciembre'),
-    )
-
     VALOR_MESES = {
         'Enero': 100,
         'Febrero': 200,
@@ -84,9 +71,17 @@ class PagarGastosComunesForm(forms.Form):
     }
 
     mes = forms.ChoiceField(
-        choices=MESES, 
+        choices=VALOR_MESES, 
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+
+class MultaForm(forms.ModelForm):
+    class Meta:
+        model = Multa
+        fields = ['run_residente', 'departamento', 'descripcion_multa', 'monto_multa', 'fecha_hora_multa']
+        widgets = {
+            'fecha_hora_multa': forms.DateTimeInput(attrs={'type': 'datetime-local'}),  # Widget para fecha y hora
+        }
 
 # ================================================
 #         FORMULARIOS   CONSERJE 
@@ -103,29 +98,22 @@ class VisitanteForm(forms.ModelForm):
 
 class CrearBitacoraForm(forms.ModelForm):
     contenido = forms.CharField(widget=forms.Textarea)
-
     class Meta:
         model = Bitacora
-        fields = ['id_bitacora', 'asunto', 'contenido', 'fecha_hora', 'empleado']
+        fields = ['asunto', 'contenido', 'fecha_hora']
+        widgets = {
+            'fecha_hora': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
 
 class EncomiendaForm(forms.ModelForm):
     class Meta:
         model = Encomienda
         fields = ['estado_encomienda', 'fecha_hora_encomienda', 'run_residente', 'run_empleado', 'departamento']
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['run_residente'].queryset = Residente.objects.all()
         self.fields['run_empleado'].queryset = Empleado.objects.filter(role='conserje')
         self.fields['departamento'].queryset = Departamento.objects.all()
-
-class MultaForm(forms.ModelForm):
-    class Meta:
-        model = Multa
-        fields = ['run_residente', 'departamento', 'descripcion_multa', 'monto_multa', 'fecha_hora_multa']
-        widgets = {
-            'fecha_hora_multa': forms.DateTimeInput(attrs={'type': 'datetime-local'}),  # Widget para fecha y hora
-        }
 
 class ReclamoForm(forms.ModelForm):
     class Meta:
@@ -148,7 +136,7 @@ class CrearEcomun(forms.ModelForm):
             'nombre_ec': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del espacio'}),
             'descripcion_ec': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción del espacio'}),
             'capacidad_ec': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Capacidad máxima'}),
-            'estado_ec': forms.Select(attrs={'class': 'form-control'}, choices=EspacioComun.ESTADO_CHOICES), 
+            'estado_ec': forms.Select(attrs={'class': 'form-control'}, choices=EspacioComun.estado_ec), 
         }
         labels = {
             'nombre_ec': 'Nombre',
@@ -171,7 +159,6 @@ class CrearResidenteForm(forms.ModelForm):
         widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
         input_formats=["%Y-%m-%d"]
     )
-
     class Meta:
         model = Residente
         fields = [
@@ -192,7 +179,6 @@ class CrearResidenteForm(forms.ModelForm):
 
 class CrearBitacoraForm(forms.ModelForm):
     contenido = forms.CharField(widget=forms.Textarea)
-
     class Meta:
         model = Bitacora
         fields = ['asunto', 'contenido', 'fecha_hora']
@@ -204,25 +190,15 @@ class CrearEmpleadoForm(forms.ModelForm):
             widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
             input_formats=["%Y-%m-%d"]
         )
-
     fecha_nacimiento_empleado = forms.DateField(
         label="Fecha de nacimiento",
         required=True,
         widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
         input_formats=["%Y-%m-%d"]
     )
-
     class Meta:
         model = Empleado
         fields = ['run_empleado', 'dvrun_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
-
-class MultaForm(forms.ModelForm):
-    class Meta:
-        model = Multa
-        fields = ['run_residente', 'departamento', 'descripcion_multa', 'monto_multa', 'fecha_hora_multa']
-        widgets = {
-            'fecha_hora_multa': forms.DateTimeInput(attrs={'type': 'datetime-local'}),  # Widget para fecha y hora
-        }        
 
 class MultaForm(forms.ModelForm):
     class Meta:
@@ -240,6 +216,15 @@ class CrearDepartamentoForm(forms.ModelForm):
 # ================================================
 #         FORMULARIOS   Residente
 # ================================================
+class ActualizarPerfilForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+
+class CambiarContrasenaForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['password']        
 
 class EncomiendaResidenteForm(forms.ModelForm):
     class Meta:
@@ -266,40 +251,16 @@ class EncomiendaResidenteForm(forms.ModelForm):
             except Residente.DoesNotExist:
                 pass  # El usuario no tiene un residente asociado
 
-class PagarGComunesForm(forms.Form):
-    mes = forms.ChoiceField(choices=[], label='Mes a Pagar', widget=forms.Select(attrs={'class': 'form-control'}))
-    amount = forms.DecimalField(label='Monto', widget=forms.NumberInput(attrs={'class': 'form-control'}))
+class EncomiendaForm(forms.ModelForm):
+    class Meta:
+        model = Encomienda
+        fields = ['estado_encomienda', 'fecha_hora_encomienda', 'run_residente', 'run_empleado', 'departamento']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['mes'].choices = GastosComunes.MESES
-
-class PerfilForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['email', 'password']
-    
-class PagarGComunesForm(forms.Form):
-    mes = forms.ChoiceField(
-        choices=GastosComunes.MESES, 
-        label='Mes a Pagar', 
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
-    amount = forms.DecimalField(
-        label='Monto', 
-        widget=forms.NumberInput(attrs={'class': 'form-control'})
-    )
-
-class EncomiendaForm(forms.ModelForm):
-        class Meta:
-            model = Encomienda
-            fields = ['estado_encomienda', 'fecha_hora_encomienda', 'run_residente', 'run_empleado', 'departamento']
-    
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['run_residente'].queryset = Residente.objects.all()
-            self.fields['run_empleado'].queryset = Empleado.objects.filter(role='conserje')
-            self.fields['departamento'].queryset = Departamento.objects.all()
+        self.fields['run_residente'].queryset = Residente.objects.all()
+        self.fields['run_empleado'].queryset = Empleado.objects.filter(role='conserje')
+        self.fields['departamento'].queryset = Departamento.objects.all()
 
 class ReclamoForm(forms.ModelForm):
     class Meta: 
