@@ -103,9 +103,18 @@ section {
 .btn-primary {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #fff; /* Fondo blanco para el botón */
-    color: var(--secondary-color);
+    background-color: var(--primary-color);
+    color: var(--background-color);
     text-decoration: none;
+    border-color: var(--secondary-color);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
     border-radius: 5px;
 }
 

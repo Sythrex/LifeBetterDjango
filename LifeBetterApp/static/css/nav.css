@@ -1,26 +1,6 @@
 /* Google Font Import - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Variables de colores - Modo claro y oscuro */
-:root {
-    /* Modo claro */
-    --primary-color: #009797;        /* Verde turquesa */
-    --secondary-color: #000000;      /* Gris oscuro */
-    --background-color: #ffffff;     /* Blanco */
-    --sidebar-background: #e0e0e0;   /* Gris claro */
-    --text-color: var(--secondary-color);
-    --tertiary-color: #505050;       /* Gris medio */
-}
-
-body.dark {
-    --primary-color: #009797;        /* Verde turquesa */
-    --secondary-color: #e0e0e0;      /* Gris claro */
-    --background-color: #0D1117;     /* Negro suave */
-    --sidebar-background: #010409;   /* Gris oscuro */
-    --text-color: var(--secondary-color); 
-    --tertiary-color: #505050;       /* Gris medio */
-}
-
 /* Barra de navegación (navbar) */
 .navbar {
     background-color: var(--background-color);
@@ -54,7 +34,7 @@ body.dark {
 }
 
 .navbar a:hover {
-    color: var(--text-color);
+    color: var(--primary-color);
 }
 
 .navbar-collapse {
@@ -104,7 +84,7 @@ body.dark {
 }
 
 .offcanvas-body .nav-link:hover {
-    background-color: var(--secondary-color); /* Color de fondo al pasar el mouse */
+    background-color: var(--primary-color); /* Color de fondo al pasar el mouse */
     color: var(--background-color); /* Color del texto al pasar el mouse */
 }
 

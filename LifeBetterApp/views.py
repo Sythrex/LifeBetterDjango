@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import views as auth_views, logout, authenticate, login
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -215,9 +217,15 @@ def editar_perfil(request):
 @login_required
 def cambiar(request):
     if request.user.role == 'residente':
-        contra = Anuncio.objects.all()
-        context = {"contra": contra}
-        return render(request, 'residente/perfil/cambiar_contraseña.html', context) 
+        if request.method == 'POST':
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Importante para mantener la sesión activa
+                return redirect('residente/perfil/perfil.html')  # O donde quieras redirigir después del cambio
+        else:
+            form = PasswordChangeForm(request.user)
+        return render(request, 'residente/residente.html', {'contrasena_form': form})
 
 
 @login_required
