@@ -70,6 +70,16 @@
                   {{ empleado_form.sueldo_empleado }}
                 </div>
               </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ user_form.password1.label_tag }}
+                  {{ user_form.password1 }}
+                </div>
+                <div class="col-md-6 mb-3">
+                  {{ user_form.password2.label_tag }}
+                  {{ user_form.password2 }}
+                </div>
+              </div>
               <button type="submit" class="btn btn-primary btn-block">Crear</button>
             </form>
           </div>
