@@ -148,6 +148,26 @@ def webpay_plus_commit(request):
 @login_required
 def residente(request):
     if request.user.role == 'residente':
+        residente = request.user.residente
+        gastos_pendientes = GastosComunes.objects.filter(usuario=request.user, departamento=residente.departamento, estado='pendiente')
+        anuncios = Anuncio.objects.all()  # O filtra por edificio si es necesario
+        encomiendas = Encomienda.objects.filter(run_residente=residente)
+        visitas = Visitante.objects.filter(departamento=residente.departamento)
+
+        return render(request, 'residente/residente.html', {
+            'usuario': request.user,
+            'residente': residente,
+            'gastos_pendientes': gastos_pendientes,
+            'anuncios': anuncios,
+            'encomiendas': encomiendas,
+            'visitas': visitas,
+        })
+    else:
+        return redirect('unauthorized')
+#Antiguo
+@login_required
+def residente(request):
+    if request.user.role == 'residente':
         residente = Residente.objects.all()
         context = {"residente": residente}
         return render(request, 'residente/residente.html', context)
