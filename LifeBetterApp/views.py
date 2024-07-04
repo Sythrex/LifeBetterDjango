@@ -160,16 +160,16 @@ def perfil(request):
                 contrasena_form = CambiarContrasenaForm(user=request.user, data=request.POST)
                 if contrasena_form.is_valid():
                     contrasena_form.save()
-                    return redirect('perfil_residente')  # Redirigir después de cambiar la contraseña
+                    return redirect('residente/perfil/perfil.html')  # Redirigir después de cambiar la contraseña
             elif 'actualizar_perfil' in request.POST:
                 perfil_form = ActualizarPerfilForm(instance=request.user, data=request.POST)
                 if perfil_form.is_valid():
                     perfil_form.save()
-                    return redirect('perfil_residente')  # Redirigir después de actualizar el perfil
+                    return redirect('residente/perfil/perfil.html')  # Redirigir después de actualizar el perfil
         else:
             contrasena_form = CambiarContrasenaForm(user=request.user)
             perfil_form = ActualizarPerfilForm(instance=request.user)
-            return render(request, 'perfil_residente.html', {
+            return render(request, 'residente/perfil/perfil.html', {
                 'contrasena_form': contrasena_form,
                 'perfil_form': perfil_form,
             })
@@ -211,6 +211,14 @@ def editar_perfil(request):
     telefono_residente = residente.fono_residente if residente else None
 
     return render(request, 'residente/perfil/editar_perfil.html', {'form': form, 'telefono_residente': telefono_residente})
+
+@login_required
+def cambiar(request):
+    if request.user.role == 'residente':
+        contra = Anuncio.objects.all()
+        context = {"contra": contra}
+        return render(request, 'residente/perfil/cambiar_contraseña.html', context) 
+
 
 @login_required
 def avisos(request):

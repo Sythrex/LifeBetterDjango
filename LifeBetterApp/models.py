@@ -292,6 +292,8 @@ class Estacionamiento(models.Model):
 
 class Encomienda(models.Model):
     id_encomienda = models.AutoField(primary_key=True)
+    nombre_encomienda = models.CharField(max_length=40, default='Nombre')
+    descripcion_encomienda = models.CharField(max_length=200, null=True)
     estado_encomienda = models.CharField(max_length=20)
     fecha_hora_encomienda =  models.DateTimeField(default=timezone.now)
     run_residente = models.ForeignKey(Residente, on_delete=models.CASCADE, related_name='encomiendas')

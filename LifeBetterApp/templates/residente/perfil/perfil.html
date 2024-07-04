@@ -3,28 +3,25 @@
 {% block title %} LB | Perfil {% endblock %}
 {% block body %}
   {% include 'componentes/sidenav.html' %}
-  
-  <h2>Mi Perfil</h2>
-
-  <h3>Información Personal</h3>
-  <p>Nombre: {{ usuario.get_full_name }}</p>
-  <p>RUT: {{ residente.rut_residente }}-{{ residente.dvrun }}</p>
-  <p>Fecha de Nacimiento: {{ residente.fecha_nacimiento_residente }}</p>
-  <p>Departamento: {{ residente.departamento }}</p>
-  <p>Correo Electrónico: {{ usuario.email }}</p>
-  <p>Teléfono: {{ residente.fono_residente }}</p>
-
-  <h3>Cambiar Contraseña</h3>
-  <form method="post">
-    {% csrf_token %}
-    {{ contrasena_form.as_p }}
-    <button type="submit">Cambiar Contraseña</button>
-  </form>
-
-  <h3>Actualizar Perfil</h3>
-  <form method="post">
-    {% csrf_token %}
-    {{ perfil_form.as_p }}
-    <button type="submit">Actualizar Perfil</button>
-  </form>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2 class="text-center">Mi Perfil</h2>
+          </div>
+          <div class="card-body">
+            <h3>Información Personal</h3>
+            <p>Nombre: {{ usuario.get_full_name }}</p>
+            <p>RUT: {{ residente.rut_residente }}-{{ residente.dvrun }}</p>
+            <p>Fecha de Nacimiento: {{ residente.fecha_nacimiento_residente }}</p>
+            <p>Departamento: {{ residente.departamento }}</p>
+            <p>Correo Electrónico: {{ usuario.email }}</p>
+            <p>Teléfono: {{ residente.fono_residente }}</p>
+          </div>
+          <a name="" id="" class="btn btn-sucess" href="{% url 'editar_perfil' %}" role="button">Editar Perfil</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

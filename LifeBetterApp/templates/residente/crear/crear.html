@@ -1,19 +1,55 @@
 {% extends "index.html" %}
 {% load static %}
-{% block title %} LB | CREAR {% endblock %}
+
+{% block title %} LB | Crear Encomienda {% endblock %}
+
 {% block body %}
-{% include 'componentes/sidenav.html' %}
+<div class="container mt-4">
+    <div class="row">
+        {% include 'componentes/sidenav.html' %}
 
-<h1>Crear</h1>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Crear Encomienda</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'encomienda' %}">
+                        {% csrf_token %}
 
-<div class="card">
-  <div class="card-header">Header</div>
-  <div class="card-body">
-    <h4 class="card-title">Title</h4>
-    <p class="card-text">Text</p>
-  </div>
-  <div class="card-footer text-muted">Footer</div>
+                        <div class="mb-3">
+                            <label for="estado_encomienda" class="form-label">Estado de la encomienda:</label>
+                            <input type="text" class="form-control" name="estado_encomienda" id="estado_encomienda" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_hora_encomienda" class="form-label">Fecha y hora de la encomienda:</label>
+                            <input type="datetime-local" class="form-control" name="fecha_hora_encomienda" id="fecha_hora_encomienda" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="run_residente" class="form-label">Run del residente:</label>
+                            <select class="form-select" name="run_residente" id="run_residente" required>
+                                {% for residente in residentes %}
+                                    <option value="{{ residente.run }}">{{ residente.run }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="departamento" class="form-label">Departamento:</label>
+                            <select class="form-select" name="departamento" id="departamento" required>
+                                {% for departamento in departamentos %}
+                                    <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Crear encomienda</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 {% endblock %}

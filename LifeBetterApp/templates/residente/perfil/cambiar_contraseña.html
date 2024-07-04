@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block title %} LB | Cambiar Contraseña {% endblock %}
+
+{% block body %}
+{% include 'componentes/sidenav.html' %}
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2>Cambiar Contraseña</h2>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="old_password" class="form-label">Contraseña actual</label>
+              <input type="password" class="form-control" id="old_password" name="old_password" required>
+            </div>
+            <div class="mb-3">
+              <label for="new_password1" class="form-label">Nueva contraseña</label>
+              <input type="password" class="form-control" id="new_password1" name="new_password1" required>
+            </div>
+            <div class="mb-3">
+              <label for="new_password2" class="form-label">Confirmar nueva contraseña</label>
+              <input type="password" class="form-control" id="new_password2" name="new_password2" required>
+            </div>
+            <div class="form-text">Utiliza 8 caracteres como mínimo. No utilices una contraseña de otro sitio ni un
+              término que sea demasiado obvio.</div>
+            <button type="submit" class="btn btn-primary mt-3">Cambiar contraseña</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

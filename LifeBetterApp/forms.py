@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.forms import PasswordChangeForm
 
 from .models import (
     Departamento, GastosComunes, Reclamo, User, Visitante, Residente, 
@@ -31,6 +31,7 @@ class CrearUsuarioForm(forms.ModelForm):
             'last_name': 'Apellido',
             'email': 'Correo electrónico',
             'role': 'Rol',
+            'password': 'Contraseña',
         }
         widgets = {
             'role': forms.Select(attrs={'class': 'form-control', 'id': 'id_role'}),            
@@ -123,6 +124,11 @@ class ReclamoForm(forms.ModelForm):
             'asunto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese un asunto'}),
             'contenido_reclamo': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Ingrese el detalle'}),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super(ReclamoForm, self).__init__(*args, **kwargs)
+        self.fields['run_residente'].widget = forms.HiddenInput()
+        self.fields['departamento'].widget = forms.HiddenInput()
 
 # ================================================
 #         FORMULARIOS   AMDIN 
@@ -221,10 +227,8 @@ class ActualizarPerfilForm(forms.ModelForm):
         model = User
         fields = ['email', 'password']
 
-class CambiarContrasenaForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['password']        
+class CambiarContrasenaForm(PasswordChangeForm):
+    pass     
 
 class EncomiendaResidenteForm(forms.ModelForm):
     class Meta:
@@ -272,9 +276,7 @@ class ReclamoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ReclamoForm, self).__init__(*args, **kwargs)
-        # Set hidden fields if needed (e.g., for logged-in user or department)
-        # self.fields['run_residente'].widget = forms.HiddenInput()
-        # self.fields['departamento'].widget = forms.HiddenInput()
+        self.fields['run_empleado'].widget = forms.HiddenInput()
 
 class EspacioComunForm(forms.ModelForm):
     class Meta:

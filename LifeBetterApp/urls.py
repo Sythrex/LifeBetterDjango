@@ -30,6 +30,7 @@ urlpatterns = [
     #                  RESIDENTE
     # ------------------------------------------------
     path('residente/', views.residente, name='residente'),
+    path('cambiar/', views.cambiar, name='cambiar'),
     path('avisos/', views.avisos, name='avisos'),
     path('encoresidente/', views.encoresidente, name='encoresidente'),
     path('perfil/', views.perfil, name='perfil'),
@@ -66,7 +67,7 @@ urlpatterns = [
     #                   CONSERJE
     # ------------------------------------------------
     path('conserje/', views.conserje, name='conserje'),
-    path('conserje/encomienda/', views.encomienda, name='encomienda'),
+    path('encomienda/', views.encomienda, name='encomienda'),
     path('conserje/visita/', views.visita, name='visita_conserje'),
     path('conserje/visita/crear', views.nueva_visita, name='nueva_visita'),
     path('conserje/registro/visita', views.registro_visitante_depto, name='registro_visitante_depto'),
