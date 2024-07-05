@@ -52,6 +52,7 @@
           Empleados
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownEmpleados">
+          <li><a href="{% url 'crear_empleado' %}" class="dropdown-item">Ver Empleado</a></li>
           <li><a href="{% url 'crear_empleado' %}" class="dropdown-item">Crear Empleado</a></li>
         </ul>
       </li>
@@ -83,12 +84,12 @@
         </ul>
       </li>
       <li class="nav-item">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdownDepartamentos" role="button" data-bs-toggle="dropdown"
+        <a class="nav-link dropdown-toggle" href="{% url 'multasadmin' %}" id="dropdownDepartamentos" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
           Multas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownDepartamentos">
-          <li><a href="{% url 'multasadmin' %}" class="dropdown-item">Multas</a></li>
+          <li><a href="{% url 'crear_multa' %}" class="dropdown-item">Crear Multa</a></li>
         </ul>
       </li>
       {% endif %}

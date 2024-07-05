@@ -88,6 +88,27 @@
     color: var(--background-color); /* Color del texto al pasar el mouse */
 }
 
+/* Estilos para menús desplegables en el sidebar */
+.offcanvas-body .dropdown-toggle {
+    cursor: pointer;
+}
+
+.offcanvas-body .dropdown-menu {
+    background-color: var(--background-color); /* Color de fondo del menú desplegable */
+    border: none; /* Sin borde */
+    box-shadow: none; /* Sin sombra */
+}
+
+.offcanvas-body .dropdown-item {
+    color: var(--text-color); /* Color del texto */
+    padding: 0.5rem 1rem; /* Espaciado interno */
+}
+
+.offcanvas-body .dropdown-item:hover {
+    background-color: var(--primary-color); /* Color de fondo al pasar el mouse */
+    color: var(--background-color); /* Color del texto al pasar el mouse */
+}
+
 /* Botón para abrir el offcanvas */
 .btn-primary[data-bs-toggle="offcanvas"] {
     position: fixed; /* Fijar el botón en la esquina superior izquierda */
