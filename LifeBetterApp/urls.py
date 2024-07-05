@@ -85,4 +85,6 @@ urlpatterns = [
     #              GESTIÓN DE USUARIOS
     # ------------------------------------------------
     path('logout/', views.salir, name='logout'), 
+    path('unauthorized/', views.unauthorized, name='unauthorized'),
+
 ]
