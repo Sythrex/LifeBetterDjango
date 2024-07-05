@@ -429,19 +429,19 @@ def crear_residente(request):
     if request.user.role == 'adminedificio':
         if request.method == 'POST':
             user_form = UsuarioForm(request.POST)
-            residente_form = CrearResidenteForm(request.POST)
-            if user_form.is_valid() and residente_form.is_valid():
+            form = CrearResidenteForm(request.POST)
+            if user_form.is_valid() and form.is_valid():
                 user = user_form.save()
-                residente = residente_form.save(commit=False)
-                messages.success(request, 'Residente creado exitosamente')
+                residente = form.save(commit=False)
                 residente.usuario = user
                 residente.save()
+                messages.success(request, 'Residente creado exitosamente')
                 return redirect('adminedificio')
         else:
             messages.error(request, 'Error al crear el residente')
             user_form = UsuarioForm()
-            residente_form = CrearResidenteForm()
-        return render(request, 'administrador/crear_residente.html',{'user_form': user_form, 'residente_form': residente_form})
+            form = CrearResidenteForm()
+        return render(request, 'administrador/crear_residente.html',{'user_form': user_form, 'form': form})
     else:
         return redirect('unauthorized')
 

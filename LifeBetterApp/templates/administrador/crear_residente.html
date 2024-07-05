@@ -23,12 +23,12 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                {{ residente_form.rut_residente.label_tag }}
-                                {{ residente_form.rut_residente }}
+                                {{ form.rut_residente.label_tag }}
+                                {{ form.rut_residente }}
                             </div>
                             <div class="col-md-6 mb-3">
-                                {{ residente_form.dvrun.label_tag }}
-                                {{ residente_form.dvrun }}
+                                {{ form.dvrun.label_tag }}
+                                {{ form.dvrun }}
                             </div>
                         </div>
                         <div class="row">
@@ -43,38 +43,38 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                {{ residente_form.fecha_nacimiento_residente.label_tag }}
-                                {{ residente_form.fecha_nacimiento_residente }}
+                                {{ form.fecha_nacimiento_residente.label_tag }}
+                                {{ form.fecha_nacimiento_residente }}
                             </div>
                             <div class="col-md-6 mb-3">
-                                {{ residente_form.fecha_contrato_residente.label_tag }}
-                                {{ residente_form.fecha_contrato_residente }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ residente_form.correo_residente.label_tag }}
-                                {{ residente_form.correo_residente }}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                {{ residente_form.fono_residente.label_tag }}
-                                {{ residente_form.fono_residente }}
+                                {{ form.fecha_contrato_residente.label_tag }}
+                                {{ form.fecha_contrato_residente }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                {{ residente_form.tipo_residente.label_tag }}
-                                {{ residente_form.tipo_residente }}
+                                {{ form.correo_residente.label_tag }}
+                                {{ form.correo_residente }}
                             </div>
                             <div class="col-md-6 mb-3">
-                                {{ residente_form.comite.label_tag }}
-                                {{ residente_form.comite }}
+                                {{ form.fono_residente.label_tag }}
+                                {{ form.fono_residente }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                {{ residente_form.departamento.label_tag }}
-                                {{ residente_form.departamento }}
+                                {{ form.tipo_residente.label_tag }}
+                                {{ form.tipo_residente }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.comite.label_tag }}
+                                {{ form.comite }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.departamento.label_tag }}
+                                {{ form.departamento }}
                             </div>
                         </div>
                         <div class="row">
@@ -87,7 +87,7 @@
                                 {{ user_form.password2 }}
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
                     </form>
                 </div>
             </div>

@@ -26,8 +26,6 @@ class UsuarioForm(UserCreationForm):
             'last_name': 'Apellido',
             'email': 'Correo electrónico',
             'role': 'Rol',
-            'password1': 'Contraseña',
-            'password2': 'Confirmar Contraseña',
         }
         widgets = {
             'role': forms.Select(attrs={'class': 'form-control', 'id': 'id_role'}),

@@ -23,10 +23,10 @@
   <div class="offcanvas-body">
     <ul class="navbar-nav">
       {% if user.role == 'conserje' %}
-      <li class="nav-item"><a href="{% url 'conserje' %}" class="nav-link">Inicio</a></li>
+      <li class="nav-item" ><a href="{% url 'conserje' %}" class="nav-link"><i class="fas fa-home"></i> Inicio</a></li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fas fa-book"></i> 
           Bitácoras
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
@@ -36,7 +36,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fas fa-box"></i> 
           Encomiendas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
@@ -46,7 +46,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fas fa-file-invoice-dollar"></i> 
           Multas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
@@ -56,12 +56,12 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fas fa-user-friends"></i> 
           Visitas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
           <li class="nav-item"><a href="{% url 'visita_conserje' %}" class="nav-link">Visita</a></li>
-          <li class="nav-item"><a href="{% url 'nueva_visita' %}" class="nav-link">Crear Visita</a></li>
+          <li class="nav-item"><a href="{% url 'nueva_visita' %}" class="nav-link"><i class="fas fa-user-plus"></i> Crear Visita</a></li>
           <li class="nav-item"><a href="{% url 'registro_visitante_depto' %}" class="nav-link">Registrar Visita</a></li>
           
         </ul>
@@ -69,21 +69,21 @@
       {% endif %}
 
       {% if user.role == 'residente'%}
-      <li class="nav-item"><a href="{% url 'residente' %}" class="nav-link">Inicio</a></li>
+      <li class="nav-item"><a href="{% url 'residente' %}" class="nav-link"><i class="fas fa-home"></i> Inicio</a></li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="bi bi-person"></i> 
           Perfil
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
-          <li class="nav-item"><a href="{% url 'perfil' %}" class="nav-link">Ver Perfil</a></li>
-          <li class="nav-item"><a href="{% url 'editar_perfil' %}" class="nav-link">Editar Perfil</a></li>
+          <li class="nav-item"><a href="{% url 'perfil' %}" class="nav-link"><i class="fas fa-person"></i> Ver Perfil</a></li>
+          <li class="nav-item"><a href="{% url 'editar_perfil' %}" class="nav-link"><i class="bi bi-pencil"></i> Editar Perfil</a></li>
         </ul>
       </li>
-      <li class="nav-item"><a href="{% url 'avisos' %}" class="nav-link">Anuncios</a></li>
+      <li class="nav-item"><a href="{% url 'avisos' %}" class="nav-link"><i class="bi bi-bell"></i> Anuncios</a></li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fas fa-box"></i> 
           Encomiendas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
@@ -93,47 +93,47 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="{% url 'espaciocomun' %}" id="dropdownEspacioComun" role="button"
-          data-bs-toggle="dropdown" aria-expanded="false">
+          data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-building"></i> 
           Espacios Comunes
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownEspacioComun">
-          <li><a href="{% url 'listar_reservaciones' %}" class="dropdown-item">Historial</a></li>
-          <li><a href="{% url 'crear_reservacion' %}" class="dropdown-item">Reservar</a></li>
+          <li><a href="{% url 'listar_reservaciones' %}" class="dropdown-item"><i class="bi bi-clock-history"></i> Historial</a></li>
+          <li><a href="{% url 'crear_reservacion' %}" class="dropdown-item"><i class="i bi-calendar-plus"></i> Reservar</a></li>
         </ul>
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="bi bi-cash-stack"></i> 
           Gastos Comunes
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
-          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link">Historial</a></li>
+          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link"><i class="bi bi-clock-history"></i> Historial</a></li>
           <li class="nav-item"><a href="{% url 'encoresidente' %}" class="nav-link">Pagar</a></li>
         </ul>
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="bi bi-exclamation-circle"></i> 
           Multas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
-          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link">Historial</a></li>
+          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link"><i class="bi bi-clock-history"></i> Historial</a></li>
           <li class="nav-item"><a href="{% url 'encoresidente' %}" class="nav-link">Pagar</a></li>
         </ul>
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fas fa-comments"></i> 
           Reclamos y Sugerencias
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
-          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link">Historial</a></li>
+          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link"><i class="bi bi-clock-history"></i> Historial</a></li>
           <li class="nav-item"><a href="{% url 'reclamos' %}" class="nav-link">Crer Reclamo</a></li>
         </ul>
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fas fa-user-friends"></i>
           Visistas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
@@ -144,10 +144,10 @@
       {% endif %}
 
       {% if user.role == 'adminedificio'%}
-      <li class="nav-item"><a href="{% url 'adminedificio' %}" class="nav-link">Inicio</a></li>
+      <li class="nav-item"><a href="{% url 'adminedificio' %}" class="nav-link"><i class="fas fa-home"></i> Inicio</a></li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownEmpleados" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fa fa-user-friends"></i>
           Empleados
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownEmpleados">
@@ -157,7 +157,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fa fa-user"></i> 
           Residentes
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
@@ -166,7 +166,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownEspacios" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fa fa-tools"></i> 
           Espacios
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownEspacios">
@@ -175,7 +175,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="#" id="dropdownDepartamentos" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
+          aria-expanded="false"><i class="fa fa-building"></i> 
           Departamentos
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownDepartamentos">
@@ -184,7 +184,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link dropdown-toggle" href="{% url 'multasadmin' %}" id="dropdownDepartamentos" role="button" data-bs-toggle="dropdown"
-          aria-expanded="true">
+          aria-expanded="true"><i class="fas fa-file-invoice-dollar"></i> 
           Multas
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownDepartamentos">
