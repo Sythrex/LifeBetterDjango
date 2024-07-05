@@ -309,7 +309,7 @@ class Encomienda(models.Model):
         verbose_name_plural = 'Encomiendas'
 
     def __str__(self):
-        return f'Encomienda {self.id_encomienda}'
+        return f'Encomienda {self.departamento.numero_depto}'
 
 class Reclamo(models.Model):
     id_reclamo = models.AutoField(primary_key=True)

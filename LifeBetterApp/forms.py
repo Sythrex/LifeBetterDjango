@@ -90,15 +90,18 @@ class CrearBitacoraForm(forms.ModelForm):
             'fecha_hora': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
-class EncomiendaForm(forms.ModelForm):
+class RegistroEncomiendaForm(forms.ModelForm):
+
     class Meta:
         model = Encomienda
-        fields = ['estado_encomienda', 'fecha_hora_encomienda', 'run_residente', 'run_empleado', 'departamento']
+        fields = ['nombre_encomienda', 'descripcion_encomienda', 'departamento','run_residente','run_empleado']
+        widgets = {
+            'estado_encomienda': forms.HiddenInput(),  # Campo oculto para estado_encomienda
+        }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['run_residente'].queryset = Residente.objects.all()
-        self.fields['run_empleado'].queryset = Empleado.objects.filter(role='conserje')
-        self.fields['departamento'].queryset = Departamento.objects.all()
+        self.initial['estado_encomienda'] = 'pendiente'  # Establece el valor inicial como pendiente
 
 class ReclamoForm(forms.ModelForm):
     class Meta:

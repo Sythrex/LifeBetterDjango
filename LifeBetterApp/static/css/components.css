@@ -229,7 +229,7 @@ body.dark .dark-icon {
     min-height: calc(100vh - 128px - 76px);
 }
 
-select{
+select, input{
     height: 40px;
     padding: .5rem 1rem;
     border-radius: 5px;
