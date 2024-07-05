@@ -9,6 +9,7 @@ class User(AbstractUser):
     ROLES = (
         ('adminedificio', 'Administrador'),
         ('conserje', 'Conserje'),
+        ('residente', 'Residente'),
     )
     role = models.CharField(max_length=13, choices=ROLES, default='adminedificio')
 

@@ -148,19 +148,17 @@ class CrearResidenteForm(forms.ModelForm):
     )
     class Meta:
         model = Residente
+        exclude = ['pnombre_residente', 'snombre_residente',
+            'appaterno_residente', 'apmaterno_residente','correo_residente', ]
         fields = [
-            'rut_residente',
-            'dvrun',
-            'fecha_nacimiento_residente',
-            'fecha_contrato_residente',
-            'correo_residente',
-            'fono_residente',
-            'tipo_residente',
-            'comite',
-            'departamento'
-        ]
+            'rut_residente', 'dvrun','fecha_nacimiento_residente',
+            'fecha_contrato_residente', 'fono_residente', 
+            'tipo_residente', 'comite', 'departamento', 'usuario'
+        ] 
 
 class CrearEmpleadoForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
     fecha_contrato_empleado = forms.DateField(
             label="Fecha de Contrato",
             required=True,

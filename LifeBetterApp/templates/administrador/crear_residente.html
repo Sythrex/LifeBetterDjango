@@ -1,6 +1,7 @@
-{% extends "index.html" %}
+{% extends "../index.html" %}
 {% load static %}
-{% block title %} LB | Crear Empleado {% endblock %}
+{% block title %} LB | Registro de Usuarios {% endblock %}
+
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
@@ -9,89 +10,31 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h2 class="text-center">Crear Residente</h2>
+                    <h2 class="text-center">Registro de Residentes</h2>
                 </div>
                 <div class="card-body">
-                    {% if messages %}
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                    {% endif %}
                     <form method="post">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ form.rut_residente.label_tag }}
-                                {{ form.rut_residente }}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="invalid-feedback">
+                                {{ field.errors }}
                             </div>
-                            <div class="col-md-6 mb-3">
-                                {{ form.dvrun.label_tag }}
-                                {{ form.dvrun }}
-                            </div>
+                            {% endif %}
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ user_form.first_name.label_tag }}
-                                {{ user_form.first_name }}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                {{ user_form.last_name.label_tag }}
-                                {{ user_form.last_name }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ form.fecha_nacimiento_residente.label_tag }}
-                                {{ form.fecha_nacimiento_residente }}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                {{ form.fecha_contrato_residente.label_tag }}
-                                {{ form.fecha_contrato_residente }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ form.correo_residente.label_tag }}
-                                {{ form.correo_residente }}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                {{ form.fono_residente.label_tag }}
-                                {{ form.fono_residente }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ form.tipo_residente.label_tag }}
-                                {{ form.tipo_residente }}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                {{ form.comite.label_tag }}
-                                {{ form.comite }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ form.departamento.label_tag }}
-                                {{ form.departamento }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ user_form.password1.label_tag }}
-                                {{ user_form.password1 }}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                {{ user_form.password2.label_tag }}
-                                {{ user_form.password2 }}
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Crear</button>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
                     </form>
+                </div>
+                <div class="card-footer text-center">
+                    ¿Ya tiene Cuenta? <a href="{% url 'login' %}">Iniciar Sesión</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

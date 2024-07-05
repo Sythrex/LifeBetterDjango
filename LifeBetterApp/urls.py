@@ -57,6 +57,7 @@ urlpatterns = [
     # ------------------------------------------------
     path('adminedificio/', views.admin, name='adminedificio'),
     path('adminedificio/residente/crear/', views.crear_residente, name='crear_residente'),
+    path('adminedificio/usuario/crear/', views.crearusuario, name='crearusuario'),
     path('adminedificio/empleado/crear/', views.crear_empleado, name='crear_empleado'),
     path('adminedificio/creardepartamento/', views.creardepartamento, name='creardepartamento'),
     path('adminedificio/crear_ecomun/', views.crear_ecomun, name='crear_ecomun'),

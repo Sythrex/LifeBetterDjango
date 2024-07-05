@@ -401,6 +401,25 @@ def admin(request):
         return render(request, 'administrador/adminedificio.html', context)
     else:
         return redirect('unauthorized')
+    
+@login_required
+def crearusuario(request):
+    if request.user.role == 'adminedificio':
+        if request.method == 'POST':
+            user_form = UsuarioForm(request.POST)
+            if user_form.is_valid():
+                user_form.save()  # Guarda el usuario directamente
+                messages.success(request, 'Usuario creado exitosamente')
+                return redirect('lista_usuarios')  # Redirige a la lista de usuarios (debes crear esta vista)
+        else:
+            user_form = UsuarioForm()
+
+        return render(request, 'administrador/crearusuario.html', {
+            'user_form': user_form
+        })
+    else:
+        return redirect('unauthorized')  # Redirige si no es un administrador
+
 
 @login_required
 def crear_empleado(request):
@@ -426,24 +445,22 @@ def crear_empleado(request):
 
 @login_required
 def crear_residente(request):
-    if request.user.role == 'adminedificio':
-        if request.method == 'POST':
-            user_form = UsuarioForm(request.POST)
-            form = CrearResidenteForm(request.POST)
-            if user_form.is_valid() and form.is_valid():
-                user = user_form.save()
-                residente = form.save(commit=False)
-                residente.usuario = user
-                residente.save()
-                messages.success(request, 'Residente creado exitosamente')
-                return redirect('adminedificio')
-        else:
-            messages.error(request, 'Error al crear el residente')
-            user_form = UsuarioForm()
-            form = CrearResidenteForm()
-        return render(request, 'administrador/crear_residente.html',{'user_form': user_form, 'form': form})
+    if request.user.role != 'adminedificio':
+        # Redirigir si el usuario no es un residente
+        return redirect('unauthorized')  # Reemplaza 'unauthorized' por la URL de tu vista de no autorizado
+
+    if request.method == 'POST':
+        form = CrearResidenteForm(request.POST)
+        if form.is_valid():
+            residente = form.save(commit=False)
+            residente.usuario = request.user
+            residente.save()
+            messages.success(request, 'Perfil de residente creado exitosamente.')
+            return redirect('residente')  # Reemplaza 'residente' por la URL de tu vista de perfil de residente
     else:
-        return redirect('unauthorized')
+        form = CrearResidenteForm()
+
+    return render(request, 'administrador/crear_residente.html', {'form': form})
 
 @login_required
 def creardepartamento(request):
@@ -492,7 +509,7 @@ def crear_multa(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Multa creada exitosamente')
-            return redirect('multas')  # Redirige a la vista de multas
+            return redirect('adminedificio')  # Redirige a la vista de multas
         else:
             messages.error(request, 'Error al crear la multa')
             
