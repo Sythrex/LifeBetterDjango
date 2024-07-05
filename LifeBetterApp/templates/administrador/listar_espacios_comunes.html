@@ -1,0 +1,13 @@
+{% extends "../index.html" %}
+{% load static %}
+{% block title %} LB | Espacios Comunes {% endblock %}
+
+{% block body %}
+{% include 'componentes/sidenav.html' %}
+  <h1>Espacios Comunes</h1>
+  <ul>
+    {% for espacio in espacios %}
+    <li>{{ espacio.nombre_ec }} - {{ espacio.descripcion_ec }} - {{ espacio.estado_ec }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

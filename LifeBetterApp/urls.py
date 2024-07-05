@@ -60,6 +60,7 @@ urlpatterns = [
     path('adminedificio/empleado/crear/', views.crear_empleado, name='crear_empleado'),
     path('adminedificio/creardepartamento/', views.creardepartamento, name='creardepartamento'),
     path('adminedificio/crear_ecomun/', views.crear_ecomun, name='crear_ecomun'),
+    path('listar_espacios_comunes/', views.listar_espacios_comunes, name='listar_espacios_comunes'),
     path('adminedificio/multasadmin/', views.multasadmin, name='multasadmin'),
     path('adminedificio/crear_multa/', views.crear_multa, name='crear_multa'),
 

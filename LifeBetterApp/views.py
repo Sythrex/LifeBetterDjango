@@ -465,6 +465,11 @@ def crear_ecomun(request):
     return render(request, 'administrador/crear_ecomun.html', {'form': form})
 
 @login_required
+def listar_espacios_comunes(request):
+    espacios = EspacioComun.objects.all()
+    return render(request, 'administrador/listar_espacios_comunes.html', {'espacios': espacios})
+
+@login_required
 def multasadmin(request):
     return render(request, 'administrador/multasadmin.html', {})
 
