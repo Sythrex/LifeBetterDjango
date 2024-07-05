@@ -3,9 +3,9 @@
 
 <h1>Listado de Visitantes</h1>
 
-<button onclick="location.href='{% url 'nueva_visita' %}'">Nuevo Visitante</button>
+<a href="{% url 'nueva_visita' %}"><button class="btn-primary">Nuevo Visitante</button></a>
 
-<table>
+<table class="my-4 w-100">
   <thead>
     <tr>
       <th>Rut</th>

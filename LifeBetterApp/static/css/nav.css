@@ -80,6 +80,7 @@
 }
 
 .offcanvas-body .nav-link {
+    padding-left: .5rem;
     color: var(--text-color); /* Color de los enlaces */
 }
 
@@ -93,7 +94,13 @@
     cursor: pointer;
 }
 
-.ul,.dropdown-menu.show{
+.ul,.dropdown-menu.show{    
+    border: 4 cap;
+    border-color: var(--text-color);
+}
+
+.ul,.dropdown-menu.show li{   
+    padding: 0 1rem; 
     border: 4 cap;
     border-color: var(--text-color);
 }
@@ -116,10 +123,17 @@
 
 /* Botón para abrir el offcanvas */
 .btn-primary[data-bs-toggle="offcanvas"] {
-    position: fixed; /* Fijar el botón en la esquina superior izquierda */
-    top: 100px;
-    left: 10px;
-    z-index: 1030; /* Asegurarse de que esté por encima del offcanvas */
+    width: 40px;
+    position: fixed;
+    top: 70px;
+    left: -15px;
+    z-index: 1030;
+    height: 40px;
+}
+
+.bi::before, [class*=" bi-"]::before, [class^=bi-]::before {
+
+    vertical-align: 0;
 }
 
 /* Estilos para pantallas pequeñas */
@@ -128,3 +142,6 @@
         width: 75%; /* Ajustar el ancho del offcanvas en pantallas pequeñas */
     }
 }
+
+
+

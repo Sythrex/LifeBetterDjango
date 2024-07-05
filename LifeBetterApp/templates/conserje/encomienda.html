@@ -4,36 +4,15 @@
 {% block body %}
 {% include 'componentes/sidenav.html' %}
 
-<form method="POST" action="{% url 'encomienda' %}">
+<h1>Nueva Encomienda</h1>
+<p>Usuario Activo: {{ user.username }}</p>
+
+
+<form method="post">
     {% csrf_token %}
-    <label for="estado_encomienda">Estado de la encomienda:</label>
-    <input type="text" name="estado_encomienda" id="estado_encomienda" required>
-    <br>
-    <label for="fecha_hora_encomienda">Fecha y hora de la encomienda:</label>
-    <input type="datetime-local" name="fecha_hora_encomienda" id="fecha_hora_encomienda" required>
-    <br>
-    <label for="run_residente">Run del residente:</label>
-    <select name="run_residente" id="run_residente" required>
-        {% for residente in residentes %}
-            <option value="{{ residente.run }}">{{ residente.run }}</option>
-        {% endfor %}
-    </select>
-    <br>
-    <label for="run_empleado">Run del empleado:</label>
-    <select name="run_empleado" id="run_empleado" required>
-        {% for empleado in empleados %}
-            <option value="{{ empleado.run }}">{{ empleado.run }}</option>
-        {% endfor %}
-    </select>
-    <br>
-    <label for="departamento">Departamento:</label>
-    <select name="departamento" id="departamento" required>
-        {% for departamento in departamentos %}
-            <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
-        {% endfor %}
-    </select>
-    <br>
-    <input type="submit" value="Crear encomienda">
+    {{ form.as_p }}
+    <button class="btn-primary" type="submit">Guardar</button>
 </form>
 
 {% endblock %}
+

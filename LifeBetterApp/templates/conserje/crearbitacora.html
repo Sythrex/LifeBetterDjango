@@ -5,11 +5,13 @@
 {% include 'componentes/sidenav.html' %} 
 
 <h1>Nueva Bitácora</h1>
+<p>Usuario Activo: {{ user.username }}</p>
+
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    <button class="btn-primary" type="submit">Guardar</button>
 </form>
 
 {% endblock %}

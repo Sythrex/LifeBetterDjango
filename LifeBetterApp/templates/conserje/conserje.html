@@ -12,7 +12,7 @@
 {% include 'componentes/sidenav.html' %} 
 
 
-<table>
+<table class="my-4 w-100">
     <thead>
       <tr>
         <th>Rut</th>
@@ -27,12 +27,11 @@
     <tbody>
       {% for visita in visitas %}
       <tr>
-        <td>{{ visita.rut_visitante.rut_visitante }}-{{ visita.rut_visitante.dv_visitante }}</td>
-        <td>{{ visita.rut_visitante.nombres_visitante }}</td>
-        <td>{{ visita.rut_visitante.apellido_visitante }}</td>
-        <td>{{ visita.rut_visitante.patente }}</td>
-        <td>{{ visita.rut_visitante.departamento }}</td>
-        <td>{{ visita.fecha_hora_ingreso }}</td>
+      <td>{{ visita.rut_visitante }}-{{visita.dv_visitante}} </td>
+      <td>{{ visita.nombres_visitante }}</td>
+      <td>{{ visita.apellido_visitante }}</td>
+      <td>{{ visita.patente }}</td>
+      <td>{{ visita.departamento }}</td>
         <td>
           <!-- Formulario para marcar la salida -->
           <form action="{% url 'marcar_salida' visita.id %}" method="post">

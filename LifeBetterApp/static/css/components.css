@@ -34,14 +34,15 @@
 
 /* Estilos para tablas */
 .table .table-style {
+    display: flex;
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px; 
-    margin-bottom: 20px; 
+    margin-top: 20px !important; 
+    margin-bottom: 20px !important; 
 }
 
+
 th, td {
-    display: flex;
     justify-content: flex-end;
     border: 1px solid var(--primary-color); 
     padding: 8px; 
@@ -224,3 +225,12 @@ body.dark .dark-icon {
     display: block; /* Visible en modo oscuro */
 }
 
+.lifebetter-container {
+    min-height: calc(100vh - 128px - 76px);
+}
+
+select{
+    height: 40px;
+    padding: .5rem 1rem;
+    border-radius: 5px;
+}
