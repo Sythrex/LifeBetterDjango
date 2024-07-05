@@ -13,12 +13,13 @@ from .models import (
 # ================================================
 class UsuarioForm(UserCreationForm):
     departamento = forms.ModelChoiceField(
-        queryset=Departamento.objects.all()
+        queryset=Departamento.objects.all(),
+        required=False
     )
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'password', 'departamento', 'password1', 'password2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'departamento', 'password1', 'password2']
         labels = {
             'username': 'Nombre de usuario',
             'first_name': 'Nombre',
@@ -29,12 +30,13 @@ class UsuarioForm(UserCreationForm):
             'password2': 'Confirmar Contraseña',
         }
         widgets = {
-            'role': forms.Select(attrs={'class': 'form-control', 'id': 'id_role'}),            
+            'role': forms.Select(attrs={'class': 'form-control', 'id': 'id_role'}),
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
+        
 # ================================================
 #            FORMULARIOS COMUNES
 # ================================================
@@ -151,10 +153,6 @@ class CrearResidenteForm(forms.ModelForm):
         fields = [
             'rut_residente',
             'dvrun',
-            'pnombre_residente',
-            'snombre_residente',
-            'appaterno_residente',
-            'apmaterno_residente',
             'fecha_nacimiento_residente',
             'fecha_contrato_residente',
             'correo_residente',
