@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 import random
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -15,13 +16,14 @@ from transbank.error.transaction_commit_error import TransactionCommitError
 
 from .forms import (
     ActualizarPerfilForm, CambiarContrasenaForm, CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
-    MultaForm,PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
+    MultaForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
     ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
 )
 from .models import (
     Departamento, GastosComunes, Multa, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
     Encomienda, Empleado
 )
+
 # ================================================
 #                VISTAS PRINCIPALES
 # ================================================
@@ -40,7 +42,6 @@ def nosotros(request):
 # ================================================
 #          VISTAS DE AUTENTICACIÓN Y LOGIN
 # ================================================
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -58,7 +59,6 @@ def salir(request):
     logout(request)
     return redirect("home")
 
-
 # Rutas para el restablecimiento de contraseña
 def password_reset(request):
     return auth_views.PasswordResetView.as_view(
@@ -67,15 +67,18 @@ def password_reset(request):
         subject_template_name='password_reset/subject.txt',
         success_url=reverse_lazy('done')
     )(request)
+
 def done(request):
     return auth_views.PasswordResetDoneView.as_view(
         template_name='password_reset/done.html'
     )(request)
+
 def confirm(request, uidb64=None, token=None):
     return auth_views.PasswordResetConfirmView.as_view(
         template_name='password_reset/confirm.html',
         success_url=reverse_lazy('complete')
     )(request, uidb64=uidb64, token=token)
+
 def complete(request):
     return auth_views.PasswordResetCompleteView.as_view(
         template_name='password_reset/complete.html'
@@ -112,7 +115,6 @@ def webpay_plus_create(request):
     session_id = str(random.randrange(1000000, 99999999))
     mes = request.POST.get('mes')
     amount = VALOR_MESES.get(mes, 0)  # Obtén el valor de 'amount' basado en 'mes'
-    print(f"Amount: {request.POST}")  # Agrega esta línea
     return_url = request.build_absolute_uri(reverse("webpay-plus-commit"))
     create_request = {
         "buy_order": buy_order,
@@ -121,7 +123,7 @@ def webpay_plus_create(request):
         "return_url": return_url
     }
     response = (Transaction()).create(buy_order, session_id, amount, return_url)
-    return render(request,'webpay/plus/create.html', {
+    return render(request, 'webpay/plus/create.html', {
         'request': create_request,
         'response': response,
         'amount': amount,
@@ -164,15 +166,6 @@ def residente(request):
         })
     else:
         return redirect('unauthorized')
-#Antiguo
-@login_required
-def residente(request):
-    if request.user.role == 'residente':
-        residente = Residente.objects.all()
-        context = {"residente": residente}
-        return render(request, 'residente/residente.html', context)
-    else:
-        return redirect('unauthorized')
 
 @login_required
 def perfil(request):
@@ -182,12 +175,12 @@ def perfil(request):
                 contrasena_form = CambiarContrasenaForm(user=request.user, data=request.POST)
                 if contrasena_form.is_valid():
                     contrasena_form.save()
-                    return redirect('residente/perfil/perfil.html')  # Redirigir después de cambiar la contraseña
+                    return redirect('perfil')  # Redirigir después de cambiar la contraseña
             elif 'actualizar_perfil' in request.POST:
                 perfil_form = ActualizarPerfilForm(instance=request.user, data=request.POST)
                 if perfil_form.is_valid():
                     perfil_form.save()
-                    return redirect('residente/perfil/perfil.html')  # Redirigir después de actualizar el perfil
+                    return redirect('perfil')  # Redirigir después de actualizar el perfil
         else:
             contrasena_form = CambiarContrasenaForm(user=request.user)
             perfil_form = ActualizarPerfilForm(instance=request.user)
@@ -196,9 +189,7 @@ def perfil(request):
                 'perfil_form': perfil_form,
             })
     else:
-        return redirect('unauthorized')    
-    #usuario = request.user
-    #return render(request, 'residente/perfil/perfil.html', {'usuario': usuario})
+        return redirect('unauthorized')
 
 @login_required
 def editar_perfil(request):
@@ -242,11 +233,10 @@ def cambiar(request):
             if form.is_valid():
                 user = form.save()
                 update_session_auth_hash(request, user)  # Importante para mantener la sesión activa
-                return redirect('residente/perfil/perfil.html')  # O donde quieras redirigir después del cambio
+                return redirect('perfil')  # O donde quieras redirigir después del cambio
         else:
             form = PasswordChangeForm(request.user)
         return render(request, 'residente/perfil/cambiar_contraseña.html', {'contrasena_form': form})
-
 
 @login_required
 def avisos(request):
@@ -258,7 +248,7 @@ def avisos(request):
 @login_required
 def encoresidente(request):
     if request.user.role == 'residente':
-        encom = Encomienda.objects.all()
+        encom = Encomienda.objects.filter(run_residente=request.user.residente)
         context = {"encom": encom}
         return render(request, 'residente/encoresidente.html', context)
 
@@ -270,7 +260,7 @@ def gcomunes(request):
             form = PagarGastosComunesForm(request.POST)
             if form.is_valid():
                 mes = form.cleaned_data['mes']
-                monto = GastosComunes.VALOR_MESES.get(mes)  # Obtener monto desde el diccionario
+                monto = VALOR_MESES.get(mes)  # Obtener monto desde el diccionario
 
                 try:
                     gasto_comun = gastos.get(mes=mes)
@@ -309,7 +299,7 @@ def reclamos(request):
 @login_required
 def visitas(request):
     if request.user.role == 'residente':
-        visi = Visitante.objects.all()
+        visi = Visitante.objects.filter(departamento=request.user.residente.departamento)
         context = {"visi": visi}
         return render(request, 'residente/visitas.html', context)
     
@@ -332,7 +322,7 @@ def espaciocomun(request):
 
 @login_required
 def listar_reservaciones(request):
-    if request.user.role == 'Residente':  
+    if request.user.role == 'residente':  
         reservaciones = Reservacion.objects.filter(run_residente__user=request.user)  
     else:
         reservaciones = Reservacion.objects.none()  # Si no es residente, no muestra reservas
@@ -474,6 +464,7 @@ def crear_ecomun(request):
         form = EspacioComunForm()
     return render(request, 'administrador/crear_ecomun.html', {'form': form})
 
+@login_required
 def multasadmin(request):
     return render(request, 'administrador/multasadmin.html', {})
 
@@ -482,8 +473,7 @@ def crear_multa(request):
     if request.method == 'POST':
         form = MultaForm(request.POST)
         if form.is_valid():
-            Multa = form.save(commit=False)
-            Multa.save()
+            form.save()
             return redirect('multas')  # Redirige a la vista de multas
     else:
         form = MultaForm()
@@ -495,10 +485,9 @@ def gastoscomunes(request):
         form = PagarGastosComunesForm(request.POST)
         if form.is_valid():
             mes = form.cleaned_data['mes']
-            amount = form.cleaned_data['amount']
+            amount = VALOR_MESES[mes]
             print(f"Mes: {mes}, Amount: {amount}")  # Agrega esta línea
-            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})  
-
+            return render(request, 'webpay/plus/create.html', {'form': form, 'amount': amount})
     else:
         form = PagarGastosComunesForm()
     return render(request, 'sitio/gastoscomunes.html', {'form': form})
@@ -512,9 +501,11 @@ def conserje(request):
         return render(request, 'conserje/conserje.html', {})
     else:
         return redirect('unauthorized')
+
 @login_required
 def encomienda(request):
     return render(request, 'conserje/encomienda.html', {})
+
 @login_required
 def reclamos(request):
     return render(request, 'conserje/reclamos.html', {})
@@ -529,21 +520,21 @@ def multa(request):
 
     context = {'multas': multas}
     return render(request, 'multas.html', context)  # Asegúrate de tener la plantilla 'multas.html'
-    
+
 @login_required
 def gestionencomienda(request):
-    enco = encomienda.objects.all()
+    enco = Encomienda.objects.all()
     context = {"enco": enco}
     return render(request, 'conserje/gestion/gestion.html', context)
 
 @login_required
 def visita(request):
-    if request.user.role == 'conserje' or request.user.role == 'residente':     
+    if request.user.role in ['conserje', 'residente']:
         visitas = Visitante.objects.all()
         return render(request, 'conserje/visita.html', {'visitas': visitas})
     else:
-        return redirect('unauthorized')   
-    
+        return redirect('unauthorized')
+
 @login_required
 def editar_visita(request, id):
     if request.user.role == 'conserje':
@@ -558,7 +549,7 @@ def editar_visita(request, id):
         return render(request, 'conserje/editarvisita.html', {'form1': form1})
     else:
         return redirect('unauthorized')
-    
+
 @login_required
 def eliminar_visita(request, id):
     if request.user.role == 'conserje':
@@ -580,11 +571,11 @@ def nueva_visita(request):
             form1 = VisitanteForm(prefix='form1')
         return render(request, 'conserje/nuevavisita.html', {'form1': form1})
     else:
-        return redirect('unauthorized')   
+        return redirect('unauthorized')
 
 @login_required 
 def registro_visitante_depto(request):
-    if request.user.role == 'conserje' or request.user.role == 'residente':
+    if request.user.role in ['conserje', 'residente']:
         if request.method == 'POST':
             form1 = RegistroVisitanteDeptoForm(request.POST, prefix='form1')
             if form1.is_valid():
@@ -598,7 +589,7 @@ def registro_visitante_depto(request):
     return render(request, 'conserje/agregarvisita.html', {'form1': form1, 'visitas': visitas})
 
 @login_required
-def salida_visita(request,id):
+def salida_visita(request, id):
     if request.user.role == 'conserje':
         visita = RegistroVisitanteDepto.objects.get(id_visitante_depto=id)
         visita.fecha_hora_salida = datetime.now()
@@ -606,12 +597,12 @@ def salida_visita(request,id):
         return redirect('registro_visitante_depto')
     else:
         return redirect('unauthorized')
-    
+
 @login_required    
 def bitacora(request):
     if request.user.role == 'conserje':
         return render(request, 'conserje/bitacora.html', {})
-    
+
 @login_required    
 def crear_bitacora(request):
     if request.user.role == 'conserje':
@@ -625,9 +616,6 @@ def crear_bitacora(request):
         return render(request, 'conserje/crearbitacora.html', {'form': form})
     else:
         return redirect('unauthorized')
-    
-from django.utils import timezone
-from django.shortcuts import redirect
 
 @login_required
 def marcar_salida_visita(request):
