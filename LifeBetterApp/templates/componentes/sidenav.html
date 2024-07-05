@@ -8,13 +8,13 @@
   {% if user.is_authenticated %}
   <div class="offcanvas-header">
     {% if user.role == 'adminedificio' %}
-      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Administrador  {{ user.username }}</h6>
+    <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Administrador {{ user.username }}</h6>
     {% endif %}
     {% if user.role == 'conserje' %}
-      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Conserje  {{ user.username }}</h6>
+    <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Conserje {{ user.username }}</h6>
     {% endif %}
     {% if user.role == 'residente' %}
-      <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Residente  {{ user.username }}</h6>
+    <h6 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Residente {{ user.username }}</h6>
     {% endif %}
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
@@ -46,11 +46,52 @@
 
       {% if user.role == 'adminedificio'%}
       <li class="nav-item"><a href="{% url 'adminedificio' %}" class="nav-link">Inicio</a></li>
-      <li class="nav-item"><a href="{% url 'crear_empleado' %}" class="nav-link">Crear Empleado</a></li>
-      <li class="nav-item"><a href="{% url 'crear_residente' %}" class="nav-link">Crear Residente</a></li>
-      <li class="nav-item"><a href="{% url 'crear_ecomun' %}" class="nav-link">Crear Espacio Comun</a></li>
-      <li class="nav-item"><a href="{% url 'creardepartamento' %}" class="nav-link">Habilitar Departamento</a></li>
-      <li class="nav-item"><a href="{% url 'multasadmin' %}" class="nav-link">Multas</a></li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownEmpleados" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Empleados
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownEmpleados">
+          <li><a href="{% url 'crear_empleado' %}" class="dropdown-item">Ver Empleado</a></li>
+          <li><a href="{% url 'crear_empleado' %}" class="dropdown-item">Crear Empleado</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Residentes
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li><a href="{% url 'crear_residente' %}" class="dropdown-item">Crear Residente</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownEspacios" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Espacios
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownEspacios">
+          <li><a href="{% url 'crear_ecomun' %}" class="dropdown-item">Crear Espacio</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownDepartamentos" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Departamentos
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownDepartamentos">
+          <li><a href="{% url 'creardepartamento' %}" class="dropdown-item">Crear Departamento</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="{% url 'multasadmin' %}" id="dropdownDepartamentos" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Multas
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownDepartamentos">
+          <li><a href="{% url 'crear_multa' %}" class="dropdown-item">Crear Multa</a></li>
+        </ul>
+      </li>
       {% endif %}
     </ul>
   </div>

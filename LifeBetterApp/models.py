@@ -1,9 +1,8 @@
-from django import forms
+import re
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-import re
 
 # Usuarios
 class User(AbstractUser):
@@ -12,7 +11,7 @@ class User(AbstractUser):
         ('conserje', 'Conserje'),
         ('residente', 'Residente'),
     )
-    role = models.CharField(max_length=13, choices=ROLES, default='adminedificio')  # Aumentado max_length para 'adminedificio'
+    role = models.CharField(max_length=13, choices=ROLES, default='adminedificio')
 
     def __str__(self):
         return self.username
@@ -40,23 +39,23 @@ class Departamento(models.Model):
 
     def __str__(self):
         return f'Departamento {self.numero_depto} - Piso {self.piso}'
-    
+
 class Edificio(models.Model):
-    administrador = models.ForeignKey(User, on_delete=models.SET_NULL,null=True, blank=True, limit_choices_to={'role': 'adminedificio'})
-    
+    administrador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'role': 'adminedificio'})
+
     def __str__(self):
         return self.nombre
-    
+
 class Bodega(models.Model):
     numero = models.IntegerField()
     piso = models.IntegerField()
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     estado = models.CharField(max_length=20, choices=[('disponible', 'Disponible'), ('ocupada', 'Ocupada')], default='disponible')
-    edificio = models.ForeignKey(Edificio, on_delete=models.CASCADE) 
+    edificio = models.ForeignKey(Edificio, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Bodega {self.numero}'
-    
+
 class LocalComercial(models.Model):
     numero = models.IntegerField()
     piso = models.IntegerField()
@@ -67,9 +66,8 @@ class LocalComercial(models.Model):
     def __str__(self):
         return f'Local Comercial {self.numero}'
 
-
 class Residente(models.Model):
-    Tipo_residente = (
+    TIPO_RESIDENTE = (
         ('dueño', 'Dueño'),
         ('arrendatario', 'Arrendatario'),        
     )
@@ -83,9 +81,10 @@ class Residente(models.Model):
     fecha_contrato_residente = models.DateField()
     correo_residente = models.EmailField(max_length=50, blank=True, null=True, unique=True)
     fono_residente = models.CharField(max_length=15)
-    tipo_residente = models.CharField(max_length=20, choices=Tipo_residente)
+    tipo_residente = models.CharField(max_length=20, choices=TIPO_RESIDENTE)
     comite = models.BooleanField()
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, blank=False, null=False)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'residente'
@@ -117,9 +116,8 @@ class Empleado(models.Model):
     fecha_contrato_empleado = models.DateField()
     fono_empleado = models.CharField(max_length=15)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    edificio = models.ForeignKey('Edificio', on_delete=models.SET_NULL, null=True, blank=True) 
+    edificio = models.ForeignKey(Edificio, on_delete=models.SET_NULL, null=True, blank=True)
     sueldo_empleado = models.DecimalField(max_digits=8, decimal_places=2)
-    
 
     class Meta:
         db_table = 'empleado'
@@ -164,6 +162,7 @@ class RegistroVisitanteDepto(models.Model):
     rut_visitante = models.ForeignKey(Visitante, on_delete=models.CASCADE)
     fecha_hora_ingreso = models.DateTimeField(default=timezone.now)
     fecha_hora_salida = models.DateTimeField(null=True, blank=True)
+
     class Meta:
         db_table = 'registro_visitante_depto'
         verbose_name = 'Registro Visitante Depto'
@@ -226,7 +225,7 @@ class Bitacora(models.Model):
     id_bitacora = models.AutoField(primary_key=True)
     asunto = models.CharField(max_length=60)
     contenido = models.CharField(max_length=200)
-    fecha_hora =  models.DateTimeField(default=timezone.now)
+    fecha_hora = models.DateTimeField(default=timezone.now)
     empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='bitacoras')
 
     class Meta:
@@ -241,7 +240,7 @@ class Reservacion(models.Model):
     id_reservacion = models.AutoField(primary_key=True)
     inicio_fecha_hora_reservacion = models.DateTimeField()
     fin_fecha_hora_reservacion = models.DateTimeField()
-    cantidad_personas = models.IntegerField(null=False)
+    cantidad_personas = models.IntegerField()
     run_residente = models.ForeignKey(Residente, on_delete=models.CASCADE, related_name='reservaciones')
     id_ec = models.ForeignKey(EspacioComun, on_delete=models.CASCADE, related_name='reservaciones')
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
@@ -253,7 +252,7 @@ class Reservacion(models.Model):
 
     def __str__(self):
         return f'Reservación {self.id_reservacion} - {self.id_ec.nombre_ec}'
-    
+
     def clean(self):
         # Validar que la fecha de inicio sea anterior a la fecha de fin
         if self.inicio_fecha_hora_reservacion >= self.fin_fecha_hora_reservacion:
@@ -295,7 +294,7 @@ class Encomienda(models.Model):
     nombre_encomienda = models.CharField(max_length=40, default='Nombre')
     descripcion_encomienda = models.CharField(max_length=200, null=True)
     estado_encomienda = models.CharField(max_length=20)
-    fecha_hora_encomienda =  models.DateTimeField(default=timezone.now)
+    fecha_hora_encomienda = models.DateTimeField(default=timezone.now)
     run_residente = models.ForeignKey(Residente, on_delete=models.CASCADE, related_name='encomiendas')
     run_empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='encomiendas')
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
@@ -357,16 +356,14 @@ class GastosComunes(models.Model):
     MESES = [
         (mes, mes) for mes in VALOR_MESES.keys()
     ]
-
     mes = models.CharField(max_length=20, choices=MESES)
-    monto = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Ajuste: default=0
+    monto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     fecha_pago = models.DateTimeField(auto_now_add=True)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='gastos_comunes', default=1)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='gastos_comunes')
 
     def __str__(self):
         return f"{self.mes} - ${self.monto}"
 
     def save(self, *args, **kwargs):
         self.monto = self.VALOR_MESES[self.mes]  # Asigna el monto según el mes
-        super().save(*args, **kwargs)  # Llama al método save original
+        super().save(*args, **kwargs)

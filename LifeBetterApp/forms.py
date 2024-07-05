@@ -1,14 +1,12 @@
 from django.utils import timezone
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 
 from .models import (
     Departamento, GastosComunes, Reclamo, User, Visitante, Residente, 
     Empleado, RegistroVisitanteDepto, EspacioComun, Bitacora, Reservacion, 
     Encomienda, Multa
 )
-from LifeBetterApp import models
 
 # ================================================
 #                FORMULARIOS DE USUARIO
@@ -72,7 +70,7 @@ class PagarGastosComunesForm(forms.Form):
     }
 
     mes = forms.ChoiceField(
-        choices=VALOR_MESES, 
+        choices=VALOR_MESES.items(), 
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
@@ -124,16 +122,14 @@ class ReclamoForm(forms.ModelForm):
             'asunto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese un asunto'}),
             'contenido_reclamo': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Ingrese el detalle'}),
         }
-    
     def __init__(self, *args, **kwargs):
         super(ReclamoForm, self).__init__(*args, **kwargs)
         self.fields['run_residente'].widget = forms.HiddenInput()
         self.fields['departamento'].widget = forms.HiddenInput()
 
 # ================================================
-#         FORMULARIOS   AMDIN 
+#         FORMULARIOS   ADMIN 
 # ================================================
-
 class CrearEcomun(forms.ModelForm):
     class Meta:
         model = EspacioComun
@@ -152,7 +148,6 @@ class CrearEcomun(forms.ModelForm):
         }
 
 class CrearResidenteForm(forms.ModelForm):
-    #  Password fields removed
     fecha_nacimiento_residente = forms.DateField(
         label="Fecha de nacimiento",
         required=True,
@@ -183,12 +178,6 @@ class CrearResidenteForm(forms.ModelForm):
             'departamento'
         ]
 
-class CrearBitacoraForm(forms.ModelForm):
-    contenido = forms.CharField(widget=forms.Textarea)
-    class Meta:
-        model = Bitacora
-        fields = ['asunto', 'contenido', 'fecha_hora']
-
 class CrearEmpleadoForm(forms.ModelForm):
     fecha_contrato_empleado = forms.DateField(
             label="Fecha de Contrato",
@@ -206,21 +195,13 @@ class CrearEmpleadoForm(forms.ModelForm):
         model = Empleado
         fields = ['run_empleado', 'dvrun_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
 
-class MultaForm(forms.ModelForm):
-    class Meta:
-        model = Multa
-        fields = ['run_residente', 'departamento', 'descripcion_multa', 'monto_multa', 'fecha_hora_multa']
-        widgets = {
-            'fecha_hora_multa': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-        }
-
 class CrearDepartamentoForm(forms.ModelForm):
     class Meta:
         model = Departamento
         fields = ['numero_depto', 'piso']
 
 # ================================================
-#         FORMULARIOS   Residente
+#         FORMULARIOS   RESIDENTE
 # ================================================
 class ActualizarPerfilForm(forms.ModelForm):
     class Meta:
@@ -255,24 +236,14 @@ class EncomiendaResidenteForm(forms.ModelForm):
             except Residente.DoesNotExist:
                 pass  # El usuario no tiene un residente asociado
 
-class EncomiendaForm(forms.ModelForm):
-    class Meta:
-        model = Encomienda
-        fields = ['estado_encomienda', 'fecha_hora_encomienda', 'run_residente', 'run_empleado', 'departamento']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['run_residente'].queryset = Residente.objects.all()
-        self.fields['run_empleado'].queryset = Empleado.objects.filter(role='conserje')
-        self.fields['departamento'].queryset = Departamento.objects.all()
-
 class ReclamoForm(forms.ModelForm):
     class Meta: 
         model = Reclamo
         fields =['asunto', 'contenido_reclamo']
         widgets = {
-            'asunto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese un asunto'}),'contenido_reclamo': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Ingrese el detalle del reclamo o sugerencia'}),
-    }
+            'asunto': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese un asunto'}),
+            'contenido_reclamo': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Ingrese el detalle del reclamo o sugerencia'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(ReclamoForm, self).__init__(*args, **kwargs)
