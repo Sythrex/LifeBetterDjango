@@ -80,6 +80,7 @@
 }
 
 .offcanvas-body .nav-link {
+    padding-left: .5rem;
     color: var(--text-color); /* Color de los enlaces */
 }
 
@@ -93,7 +94,13 @@
     cursor: pointer;
 }
 
-.ul,.dropdown-menu.show{
+.ul,.dropdown-menu.show{    
+    border: 4 cap;
+    border-color: var(--text-color);
+}
+
+.ul,.dropdown-menu.show li{   
+    padding: 0 1rem; 
     border: 4 cap;
     border-color: var(--text-color);
 }
@@ -135,4 +142,6 @@
         width: 75%; /* Ajustar el ancho del offcanvas en pantallas pequeñas */
     }
 }
+
+
 

@@ -88,7 +88,7 @@ class MultaForm(forms.ModelForm):
 class RegistroVisitanteDeptoForm(forms.ModelForm):
     class Meta:
         model = RegistroVisitanteDepto
-        fields = ['rut_visitante']   
+        fields = ['rut_visitante']
 
 class VisitanteForm(forms.ModelForm):
     class Meta:

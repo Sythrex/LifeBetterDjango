@@ -145,7 +145,7 @@ class Visitante(models.Model):
         verbose_name_plural = 'Visitantes'
 
     def __str__(self):
-        return f'{self.nombres_visitante} {self.apellido_visitante}'
+        return f'{self.rut_visitante}-{self.dv_visitante}'
 
 class AdminEmpleadoContratada(models.Model):
     id_admin_empleado_contratada = models.AutoField(primary_key=True)

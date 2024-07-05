@@ -228,3 +228,9 @@ body.dark .dark-icon {
 .lifebetter-container {
     min-height: calc(100vh - 128px - 76px);
 }
+
+select{
+    height: 40px;
+    padding: .5rem 1rem;
+    border-radius: 5px;
+}
