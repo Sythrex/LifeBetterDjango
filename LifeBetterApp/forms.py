@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 
 from .models import (
-    Departamento, GastosComunes, Reclamo, User, Visitante, Residente, 
+    Departamento, Reclamo, User, Visitante, Residente, 
     Empleado, RegistroVisitanteDepto, EspacioComun, Bitacora, Reservacion, 
     Encomienda, Multa
 )
@@ -11,25 +11,22 @@ from .models import (
 # ================================================
 #                FORMULARIOS DE USUARIO
 # ================================================
-class CrearUsuarioForm(forms.ModelForm):
-    password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}), 
-        label='Contraseña'
-    )
+class UsuarioForm(UserCreationForm):
     departamento = forms.ModelChoiceField(
         queryset=Departamento.objects.all()
     )
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'password', 'departamento']
+        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'password', 'departamento', 'password1', 'password2']
         labels = {
             'username': 'Nombre de usuario',
             'first_name': 'Nombre',
             'last_name': 'Apellido',
             'email': 'Correo electrónico',
             'role': 'Rol',
-            'password': 'Contraseña',
+            'password1': 'Contraseña',
+            'password2': 'Confirmar Contraseña',
         }
         widgets = {
             'role': forms.Select(attrs={'class': 'form-control', 'id': 'id_role'}),            
@@ -38,17 +35,6 @@ class CrearUsuarioForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
-
-class UserForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
-        model = User
-        fields = list(UserCreationForm.Meta.fields) + ['role']
-
-class PerfilForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['email', 'password']
-
 # ================================================
 #            FORMULARIOS COMUNES
 # ================================================
@@ -162,10 +148,20 @@ class CrearResidenteForm(forms.ModelForm):
     )
     class Meta:
         model = Residente
-        fields = ['rut_residente','dvrun','pnombre_residente','snombre_residente',
-            'appaterno_residente','apmaterno_residente','fecha_nacimiento_residente',
-            'fecha_contrato_residente','correo_residente','fono_residente',
-            'tipo_residente','comite','departamento'
+        fields = [
+            'rut_residente',
+            'dvrun',
+            'pnombre_residente',
+            'snombre_residente',
+            'appaterno_residente',
+            'apmaterno_residente',
+            'fecha_nacimiento_residente',
+            'fecha_contrato_residente',
+            'correo_residente',
+            'fono_residente',
+            'tipo_residente',
+            'comite',
+            'departamento'
         ]
 
 class CrearEmpleadoForm(forms.ModelForm):
@@ -183,8 +179,7 @@ class CrearEmpleadoForm(forms.ModelForm):
     )
     class Meta:
         model = Empleado
-        fields = ['run_empleado', 'dvrun_empleado','pnombre_empleado','snombre_empleado',
-            'appaterno_empleado','apmaterno_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
+        fields = ['run_empleado', 'dvrun_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
 
 class CrearDepartamentoForm(forms.ModelForm):
     class Meta:

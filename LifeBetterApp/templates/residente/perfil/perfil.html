@@ -12,13 +12,14 @@
           </div>
           <div class="card-body">
             <h3>Información Personal</h3>
-            <p>Nombre: {{ usuario.get_full_name }}</p>
-            <p>RUT: {{ residente.rut_residente }}-{{ residente.dvrun }}</p>
-            <p>Fecha de Nacimiento: {{ residente.fecha_nacimiento_residente }}</p>
-            <p>Departamento: {{ residente.departamento }}</p>
-            <p>Correo Electrónico: {{ usuario.email }}</p>
-            <p>Teléfono: {{ residente.fono_residente }}</p>
-          </div>
+            <p><strong>Nombre de usuario:</strong> {{ usuario.username }}</p>
+            <p><strong>Nombre:</strong> {{ usuario.first_name }}</p>
+            <p><strong>Apellido:</strong> {{ usuario.last_name }}</p>
+            <p><strong>Correo electrónico:</strong> {{ usuario.email }}</p>
+            <p><strong>Rol:</strong> {{ usuario.get_role_display }}</p>
+            {% if usuario.residente %}
+            <p><strong>Departamento:</strong> {{ usuario.residente.departamento }}</p>
+            {% endif %}
           <a name="" id="" class="btn btn-primary" href="{% url 'editar_perfil' %}" role="button">Editar Perfil</a>
           <a name="" id="" class="btn btn-primary" href="{% url 'cambiar' %}" role="button">Cambiar Contraseña</a>
         </div>

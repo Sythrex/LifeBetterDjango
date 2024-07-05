@@ -17,7 +17,7 @@ from transbank.error.transaction_commit_error import TransactionCommitError
 from .forms import (
     ActualizarPerfilForm, CambiarContrasenaForm, CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
     MultaForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
-    ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
+    ReservacionForm, UsuarioForm, VisitanteForm, CrearResidenteForm
 )
 from .models import (
     Departamento, GastosComunes, Multa, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
@@ -194,40 +194,28 @@ def perfil(request):
     else:
         return redirect('unauthorized')
 
+#la actualización del teléfono
 @login_required
 def editar_perfil(request):
-    try:
-        residente = request.user.reservaciones.first().run_residente 
-    except AttributeError:
-        residente = None  # Manejar el caso en que el usuario no tenga reservas
-
     if request.method == 'POST':
-        form = PerfilForm(request.POST, instance=request.user)
+        form = UsuarioForm(request.POST, instance=request.user)
         if form.is_valid():
             usuario = form.save(commit=False)
-
-            # Actualizar contraseña si se proporcionó
-            nueva_contrasena = form.cleaned_data.get('password')
-            if nueva_contrasena:
-                usuario.password = make_password(nueva_contrasena)
-
             # Actualizar teléfono del residente (si es que es residente y se ha proporcionado un nuevo telefono)
             if residente:
                 nuevo_telefono = request.POST.get('fono_residente')
                 if nuevo_telefono:
                     residente.fono_residente = nuevo_telefono
                     residente.save()
-
             usuario.save()
             return redirect('perfil')
     else:
-        form = PerfilForm(instance=request.user)
-
+        form = UsuarioForm(instance=request.user)
     # Pasar el teléfono del residente al contexto (si existe)
-    telefono_residente = residente.fono_residente if residente else None
+    fono_residente = residente.fono_residente if residente else None
+    return render(request, 'residente/perfil/editar_perfil.html', {'form': form, 'fono_residente': fono_residente})
 
-    return render(request, 'residente/perfil/editar_perfil.html', {'form': form, 'telefono_residente': telefono_residente})
-
+#Cambiar contra
 @login_required
 def cambiar(request):
     if request.user.role == 'residente':
@@ -243,10 +231,13 @@ def cambiar(request):
 
 @login_required
 def avisos(request):
-    if request.user.role == 'residente':
-        avi = Anuncio.objects.all()
-        context = {"avisos": avi}
-        return render(request, 'residente/avisos.html', context) 
+    if request.user.role in ['adminedificio', 'conserje']:
+        # Filtrar anuncios creados por el administrador o el conserje
+        anuncios = Anuncio.objects.filter(run_empleado__usuario=request.user)
+    else:
+        anuncios = Anuncio.objects.none() 
+
+    return render(request, 'residente/avisos.html', {'anuncios': anuncios})
 
 @login_required
 def encoresidente(request):
@@ -416,7 +407,7 @@ def admin(request):
 def crear_empleado(request):
     if request.user.role == 'adminedificio':
         if request.method == 'POST':
-            user_form = UserForm(request.POST)
+            user_form = UsuarioForm(request.POST)
             empleado_form = CrearEmpleadoForm(request.POST)
             if user_form.is_valid() and empleado_form.is_valid():
                 user = user_form.save()
@@ -425,7 +416,7 @@ def crear_empleado(request):
                 empleado.save()
                 return redirect('adminedificio')
         else:
-            user_form = UserForm()
+            user_form = UsuarioForm()
             empleado_form = CrearEmpleadoForm()
         return render(request, 'administrador/crear_empleado.html',{'user_form': user_form, 'empleado_form': empleado_form})
     else:
@@ -433,14 +424,22 @@ def crear_empleado(request):
 
 @login_required
 def crear_residente(request):
-    if request.method == 'POST':
-        form = CrearResidenteForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('adminedificio')
+    if request.user.role == 'adminedificio':
+        if request.method == 'POST':
+            user_form = UsuarioForm(request.POST)
+            residente_form = CrearResidenteForm(request.POST)
+            if user_form.is_valid() and residente_form.is_valid():
+                user = user_form.save()
+                residente = residente_form.save(commit=False)
+                residente.usuario = user
+                residente.save()
+                return redirect('adminedificio')
+        else:
+            user_form = UsuarioForm()
+            residente_form = CrearResidenteForm()
+        return render(request, 'administrador/crear_residente.html',{'user_form': user_form, 'residente_form': residente_form})
     else:
-        form = CrearResidenteForm()
-    return render(request, 'administrador/crear_residente.html', {'form': form})
+        return redirect('unauthorized')
 
 @login_required
 def creardepartamento(request):
