@@ -18,7 +18,7 @@ from django.contrib import messages
 
 from .forms import (
     ActualizarPerfilForm, CambiarContrasenaForm, CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
-    MultaForm, PagarGastosComunesForm, RegistroVisitanteDeptoForm, 
+    MultaForm, PagarGastosComunesForm, RegistroEncomiendaForm, RegistroVisitanteDeptoForm, 
     ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
 )
 from .models import (
@@ -545,10 +545,25 @@ def multa(request):
     return render(request, 'multas.html', context)  # Asegúrate de tener la plantilla 'multas.html'
 
 @login_required
-def gestionencomienda(request):
-    enco = Encomienda.objects.all()
-    context = {"enco": enco}
-    return render(request, 'conserje/gestion/gestion.html', context)
+def registro_encomienda(request):
+    if request.user.role == 'conserje':
+        if request.method == 'POST':
+            form = RegistroEncomiendaForm(request.POST)
+            if form.is_valid():
+                encomienda = form.save(commit=False)
+                encomienda.run_empleado = request.user.empleado  # Asigna el conserje actual automáticamente
+                encomienda.estado_encomienda = 'pendiente'
+                encomienda.save()
+                messages.success(request, 'Encomienda registrada exitosamente')
+                return redirect('registro_encomienda')
+            else:
+                messages.error(request, 'Error al registrar la encomienda')
+        else:
+            form = RegistroEncomiendaForm()
+        encomiendas = Encomienda.objects.all()
+    else:
+        return redirect('unauthorized')
+    return render(request, 'conserje/crearencomienda.html', {'form': form, 'encomiendas': encomiendas})
 
 @login_required
 def visita(request):

@@ -68,8 +68,9 @@ urlpatterns = [
     #                   CONSERJE
     # ------------------------------------------------
     path('conserje/', views.conserje, name='conserje'),
-    path('encomienda/', views.encomienda, name='encomienda'),
+    path('encomienda/', views.registro_encomienda, name='registro_encomienda'),
     #Crear encomienda falta aquiiiiiiiiii
+
     path('conserje/visita/', views.visita, name='visita_conserje'),
     path('conserje/visita/crear', views.nueva_visita, name='nueva_visita'),
     path('conserje/registro/visita', views.registro_visitante_depto, name='registro_visitante_depto'),
