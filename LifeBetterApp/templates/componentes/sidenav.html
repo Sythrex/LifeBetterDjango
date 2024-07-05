@@ -19,29 +19,147 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   {% endif %}
+
   <div class="offcanvas-body">
     <ul class="navbar-nav">
       {% if user.role == 'conserje' %}
-      <li class="nav-item"><a href="{% url 'visita_conserje' %}" class="nav-link">Nuevas Visitas</a></li>
-      <li class="nav-item"><a href="{% url 'encomienda' %}" class="nav-link">Encomienda</a></li>
-      <li class="nav-item"><a href="{% url 'multa' %}" class="nav-link">Multas</a></li>
-      <li class="nav-item"><a href="{% url 'reclamos' %}" class="nav-link">Reclamos</a></li>
-      <li class="nav-item"><a href="{% url 'bitacora' %}" class="nav-link">Bitácoras</a></li>
-      <li class="nav-item"><a href="{% url 'registro_visitante_depto' %}" class="nav-link">Agregar Visita</a></li>
+      <li class="nav-item"><a href="{% url 'conserje' %}" class="nav-link">Inicio</a></li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Bitácoras
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'bitacora' %}" class="nav-link">Ver Bitácoras</a></li>
+          <li class="nav-item"><a href="{% url 'crear_bitacora' %}" class="nav-link">Crear Bitácora</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Encomiendas
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'encomienda' %}" class="nav-link">Ver Encomiendas</a></li>
+          <li class="nav-item"><a href="{% url 'encomienda' %}" class="nav-link">Crear Encomienda</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Multas
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'multa' %}" class="nav-link">Ver Multas</a></li>
+          <li class="nav-item"><a href="{% url 'multa' %}" class="nav-link">Crear Multa</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Reclamos y Sugerencias
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'reclamos' %}" class="nav-link">Ver Reclamos</a></li>
+          <li class="nav-item"><a href="{% url 'reclamos' %}" class="nav-link">Crear Reclamo</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Visitas
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'visita_conserje' %}" class="nav-link">Visita</a></li>
+          <li class="nav-item"><a href="{% url 'nueva_visita' %}" class="nav-link">Crear Visita</a></li>
+          <li class="nav-item"><a href="{% url 'registro_visitante_depto' %}" class="nav-link">Registrar Visita</a></li>
+          
+        </ul>
+      </li>
       {% endif %}
+
       {% if user.role == 'residente'%}
-      <li class="nav-item"><a href="{% url 'residente' %}" class="nav-link">Home</a></li>
-      <li class="nav-item"><a href="{% url 'perfil' %}" class="nav-link">Perfil</a></li>
-      <li class="nav-item"><a href="{% url 'editar_perfil' %}" class="nav-link">Editar Perfil</a></li>
-      <li class="nav-item"><a href="{% url 'avisos' %}" class="nav-link">Avisos</a></li>
-      <li class="nav-item"><a href="{% url 'encoresidente' %}" class="nav-link">Encomienda</a></li>
-      <li class="nav-item"><a href="{% url 'espaciocomun' %}" class="nav-link">Espacio Común</a></li>
-      <li class="nav-item"><a href="{% url 'listar_reservaciones' %}" class="nav-link">Historial</a></li>
-      <li class="nav-item"><a href="{% url 'crear_reservacion' %}" class="nav-link">Reservar</a></li>
-      <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link">Gasto Común</a></li>
-      <li class="nav-item"><a href="{% url 'multasrev' %}" class="nav-link">Multas</a></li>
-      <li class="nav-item"><a href="{% url 'reclamos' %}" class="nav-link">Reclamos y Sugerencias</a></li>
-      <li class="nav-item"><a href="{% url 'visita_residente' %}" class="nav-link">Visitas</a></li>
+      <li class="nav-item"><a href="{% url 'residente' %}" class="nav-link">Inicio</a></li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Perfil
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'perfil' %}" class="nav-link">Ver Perfil</a></li>
+          <li class="nav-item"><a href="{% url 'editar_perfil' %}" class="nav-link">Editar Perfil</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Avisos
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'avisos' %}" class="nav-link">Ver Avisos</a></li>
+          <li class="nav-item"><a href="{% url 'avisos' %}" class="nav-link">Crear Aviso</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Encomiendas
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'encoresidente' %}" class="nav-link">Ver Encomienda</a></li>
+          <li class="nav-item"><a href="{% url 'encoresidente' %}" class="nav-link">Crear Encomienda</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="{% url 'espaciocomun' %}" id="dropdownEspacioComun" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Espacios Comunes
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownEspacioComun">
+          <li><a href="{% url 'listar_reservaciones' %}" class="dropdown-item">Historial</a></li>
+          <li><a href="{% url 'crear_reservacion' %}" class="dropdown-item">Reservar</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Gastos Comunes
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link">Historial</a></li>
+          <li class="nav-item"><a href="{% url 'encoresidente' %}" class="nav-link">Pagar</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Multas
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link">Historial</a></li>
+          <li class="nav-item"><a href="{% url 'encoresidente' %}" class="nav-link">Pagar</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Reclamos y Sugerencias
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'gcomunes' %}" class="nav-link">Historial</a></li>
+          <li class="nav-item"><a href="{% url 'reclamos' %}" class="nav-link">Crer Reclamo</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownResidentes" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Visistas
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownResidentes">
+          <li class="nav-item"><a href="{% url 'visita_residente' %}" class="nav-link">Visitas Activas</a></li>
+          <li class="nav-item"><a href="{% url 'reclamos' %}" class="nav-link">Crer Nueva Visita</a></li>
+        </ul>
+      </li>
       {% endif %}
 
       {% if user.role == 'adminedificio'%}

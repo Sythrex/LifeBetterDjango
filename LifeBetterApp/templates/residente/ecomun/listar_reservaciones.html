@@ -5,46 +5,48 @@
 
 {% block body %}
 {% include 'componentes/sidenav.html' %} 52.54
-
-<div class="card">
-  <div class="card-header">
-    <a name="" id="" class="btn btn-sucess" href="#" role="button">Reservar</a>
-
-  </div>
-  <div class="card-body">
-    <h4 class="card-title">Historial de Reservaciones</h4>
-    <div class="table-responsive">
-      <table class="table table-primary">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Imagen</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Capacidad</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Inicio</th>
-            <th scope="col">Fin</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="">
-            <td>R1C1</td>
-            <td>R1C2</td>
-            <td>R1C3.jpg</td>
-            <td>R1C4</td>
-            <td>R1C5</td>
-            <td>R1C6</td>
-            <td>R1C7</td>
-            <td>R1C8</td>
-            <td>Editar | Eliminar </td>
-          </tr>
-        </tbody>
-      </table>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Historial de Reservaciones</h2>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-primary">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Imagen</th>
+                  <th scope="col">Descripcion</th>
+                  <th scope="col">Capacidad</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Inicio</th>
+                  <th scope="col">Fin</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="">
+                  <td>R1C1</td>
+                  <td>R1C2</td>
+                  <td>R1C3.jpg</td>
+                  <td>R1C4</td>
+                  <td>R1C5</td>
+                  <td>R1C6</td>
+                  <td>R1C7</td>
+                  <td>R1C8</td>
+                  <td>Editar | Eliminar </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
 
 {% endblock %}

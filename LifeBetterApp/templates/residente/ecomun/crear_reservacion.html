@@ -4,11 +4,20 @@
 
 {% block body %}
 {% include 'componentes/sidenav.html' %}
-
-<div class="calendar" id="calendar">
-  <h1>
-    Reservar Espacio Común
-  </h1>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Reservar Espacio Común</h2>
+        </div>
+        <div class="card-body">
+          <div class="calendar" id="calendar">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
