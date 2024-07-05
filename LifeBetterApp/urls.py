@@ -69,13 +69,16 @@ urlpatterns = [
     # ------------------------------------------------
     path('conserje/', views.conserje, name='conserje'),
     path('encomienda/', views.encomienda, name='encomienda'),
+    #Crear encomienda falta aquiiiiiiiiii
     path('conserje/visita/', views.visita, name='visita_conserje'),
     path('conserje/visita/crear', views.nueva_visita, name='nueva_visita'),
     path('conserje/registro/visita', views.registro_visitante_depto, name='registro_visitante_depto'),
+
     path('marcar_salida/', views.marcar_salida_visita, name='marcar_salida'),
     path('conserje/visita/salida_visita/<int:id>/', views.salida_visita, name='salida_visita'),
     path('conserje/visita/editar/<int:id>/', views.editar_visita, name='editar_visita'),
     path('conserje/visita/eliminar/<int:id>/', views.eliminar_visita, name='eliminar_visita'),
+    
     path('conserje/multa/', views.multa, name='multa'),
     path('conserje/bitacora/', views.bitacora, name='bitacora'),
     path('conserje/bitacora/crear', views.crear_bitacora, name='crear_bitacora'),

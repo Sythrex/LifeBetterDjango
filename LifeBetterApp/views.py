@@ -148,27 +148,30 @@ def webpay_plus_commit(request):
 # ================================================
 #                 VISTAS RESIDENTE
 # ================================================
-
+#Dashboard
 @login_required
 def residente(request):
     if request.user.role == 'residente':
-        residente = request.user.residente
-        gastos_pendientes = GastosComunes.objects.filter(usuario=request.user, departamento=residente.departamento, estado='pendiente')
-        anuncios = Anuncio.objects.all()  # O filtra por edificio si es necesario
-        encomiendas = Encomienda.objects.filter(run_residente=residente)
-        visitas = Visitante.objects.filter(departamento=residente.departamento)
+        try:
+            residente = request.user.residente
+            gastos_pendientes = GastosComunes.objects.filter(usuario=request.user, departamento=residente.departamento, estado='pendiente')
+            anuncios = Anuncio.objects.all()  # O filtra por edificio si es necesario
+            encomiendas = Encomienda.objects.filter(run_residente=residente)
+            visitas = Visitante.objects.filter(departamento=residente.departamento)
 
-        return render(request, 'residente/residente.html', {
-            'usuario': request.user,
-            'residente': residente,
-            'gastos_pendientes': gastos_pendientes,
-            'anuncios': anuncios,
-            'encomiendas': encomiendas,
-            'visitas': visitas,
-        })
+            return render(request, 'residente/residente.html', {
+                'usuario': request.user,
+                'residente': residente,
+                'gastos_pendientes': gastos_pendientes,
+                'anuncios': anuncios,
+                'encomiendas': encomiendas,
+                'visitas': visitas,
+            })
+        except Residente.DoesNotExist:
+            return redirect('unauthorized')  # Redirigir a una vista o página que maneje este error
     else:
         return redirect('unauthorized')
-
+#Ver informacion del usuario y reedirige a editar
 @login_required
 def perfil(request):
     if request.user.role == 'residente':
@@ -321,7 +324,7 @@ def espaciocomun(request):
 
 @login_required
 def listar_reservaciones(request):
-    if request.user.role == 'residente':  
+    if request.user.role == 'Residente':  
         reservaciones = Reservacion.objects.filter(run_residente__user=request.user)  
     else:
         reservaciones = Reservacion.objects.none()  # Si no es residente, no muestra reservas

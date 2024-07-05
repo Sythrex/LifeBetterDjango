@@ -93,10 +93,15 @@
     cursor: pointer;
 }
 
+.ul,.dropdown-menu.show{
+    border: 4 cap;
+    border-color: var(--text-color);
+}
+
 .offcanvas-body .dropdown-menu {
     background-color: var(--background-color); /* Color de fondo del menú desplegable */
-    border: none; /* Sin borde */
-    box-shadow: none; /* Sin sombra */
+
+    box-shadow: 10px; /* Sin sombra */
 }
 
 .offcanvas-body .dropdown-item {

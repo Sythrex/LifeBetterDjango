@@ -162,20 +162,10 @@ class CrearResidenteForm(forms.ModelForm):
     )
     class Meta:
         model = Residente
-        fields = [
-            'rut_residente',
-            'dvrun',
-            'pnombre_residente',
-            'snombre_residente',
-            'appaterno_residente',
-            'apmaterno_residente',
-            'fecha_nacimiento_residente',
-            'fecha_contrato_residente',
-            'correo_residente',
-            'fono_residente',
-            'tipo_residente',
-            'comite',
-            'departamento'
+        fields = ['rut_residente','dvrun','pnombre_residente','snombre_residente',
+            'appaterno_residente','apmaterno_residente','fecha_nacimiento_residente',
+            'fecha_contrato_residente','correo_residente','fono_residente',
+            'tipo_residente','comite','departamento'
         ]
 
 class CrearEmpleadoForm(forms.ModelForm):
@@ -193,7 +183,8 @@ class CrearEmpleadoForm(forms.ModelForm):
     )
     class Meta:
         model = Empleado
-        fields = ['run_empleado', 'dvrun_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
+        fields = ['run_empleado', 'dvrun_empleado','pnombre_empleado','snombre_empleado',
+            'appaterno_empleado','apmaterno_empleado', 'fecha_nacimiento_empleado', 'fecha_contrato_empleado', 'fono_empleado', 'sueldo_empleado']
 
 class CrearDepartamentoForm(forms.ModelForm):
     class Meta:
