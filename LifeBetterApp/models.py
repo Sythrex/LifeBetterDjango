@@ -9,7 +9,6 @@ class User(AbstractUser):
     ROLES = (
         ('adminedificio', 'Administrador'),
         ('conserje', 'Conserje'),
-        ('residente', 'Residente'),
     )
     role = models.CharField(max_length=13, choices=ROLES, default='adminedificio')
 
@@ -117,7 +116,7 @@ class Empleado(models.Model):
     fono_empleado = models.CharField(max_length=15)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     edificio = models.ForeignKey(Edificio, on_delete=models.SET_NULL, null=True, blank=True)
-    sueldo_empleado = models.DecimalField(max_digits=8, decimal_places=2)
+    sueldo_empleado = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         db_table = 'empleado'

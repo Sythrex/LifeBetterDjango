@@ -4,12 +4,21 @@
 {% block body %}
 {% include 'componentes/sidenav.html' %} 
 
-<h1>Crear Visita</h1>
+<h1>Listado de visitas activas</h1>
+<p>Usuario Activo: {{ user.username }}</p>
+
+{% if messages %}
+    <div>
+        {% for message in messages %}
+            <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
 
 <form method="post">
     {% csrf_token %}
     {{ form1.as_p }}
-    <button type="submit">Guardar</button>
+    <button type="submit" class="btn-primary">Guardar</button>
 </form>
 
 <h1>Visitas Activas</h1>

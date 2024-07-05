@@ -166,11 +166,7 @@ section {
     padding: 1rem;
     border-radius: 8px 8px 0 0; /* Bordes redondeados solo en la parte superior */
 }
-/*
-.table th, .table td {
-    vertical-align: middle; /* Alinea el texto verticalmente al centro de las celdas 
-    }
-*/
+
 
 .card-header {
     background-color: var(--primary-color) !important; /* Color de fondo turquesa */

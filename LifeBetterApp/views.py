@@ -13,6 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transaction_commit_error import TransactionCommitError
+from django.contrib import messages
+
 
 from .forms import (
     ActualizarPerfilForm, CambiarContrasenaForm, CrearBitacoraForm, CrearDepartamentoForm, CrearEmpleadoForm, EspacioComunForm,
@@ -20,7 +22,7 @@ from .forms import (
     ReservacionForm, UserForm, VisitanteForm, PerfilForm, CrearResidenteForm
 )
 from .models import (
-    Departamento, GastosComunes, Multa, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
+    Bitacora, Departamento, GastosComunes, Multa, Visitante, Residente, RegistroVisitanteDepto, EspacioComun, Anuncio, Reservacion, 
     Encomienda, Empleado
 )
 
@@ -292,9 +294,6 @@ def gcomunes(request):
 def multasrev(request):
     return render(request, 'residente/multasrev.html', {})
 
-@login_required
-def reclamos(request):
-    return render(request, 'residente/reclamos.html', {})
 
 @login_required
 def visitas(request):
@@ -420,7 +419,10 @@ def crear_empleado(request):
                 empleado = empleado_form.save(commit=False)
                 empleado.usuario = user
                 empleado.save()
-                return redirect('adminedificio')
+                messages.success(request, 'Empleado creado exitosamente')
+                return redirect('crear_empleado')
+            else:
+                messages.error(request, 'Error al crear el empleado')
         else:
             user_form = UserForm()
             empleado_form = CrearEmpleadoForm()
@@ -434,7 +436,10 @@ def crear_residente(request):
         form = CrearResidenteForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('adminedificio')
+            messages.success(request, 'Residente creado exitosamente')
+            return redirect('crear_residente')
+        else:
+            messages.error(request, 'Error al crear el residente')
     else:
         form = CrearResidenteForm()
     return render(request, 'administrador/crear_residente.html', {'form': form})
@@ -446,7 +451,10 @@ def creardepartamento(request):
             form = CrearDepartamentoForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('adminedificio')
+                messages.success(request, 'Departamento creado exitosamente')
+                return redirect('creardepartamento')
+            else:
+                messages.error(request, 'Error al crear el departamento')
         else:
             form = CrearDepartamentoForm()
         return render(request, 'administrador/creardepto.html', {'form': form})
@@ -459,7 +467,10 @@ def crear_ecomun(request):
         form = EspacioComunForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('listar_espacios_comunes')
+            messages.success(request, 'Espacio común creado exitosamente')
+            return redirect('crear_ecomun')
+        else:
+            messages.error(request, 'Error al crear el espacio común')
     else:
         form = EspacioComunForm()
     return render(request, 'administrador/crear_ecomun.html', {'form': form})
@@ -479,7 +490,11 @@ def crear_multa(request):
         form = MultaForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Multa creada exitosamente')
             return redirect('multas')  # Redirige a la vista de multas
+        else:
+            messages.error(request, 'Error al crear la multa')
+            
     else:
         form = MultaForm()
     return render(request, 'administrador/crear_multa.html', {'form': form})
@@ -571,7 +586,11 @@ def nueva_visita(request):
             form1 = VisitanteForm(request.POST, prefix='form1')
             if form1.is_valid():
                 form1.save()
-                return redirect('visita_conserje')
+                messages.success(request, 'Nueva visita creada exitosamente')
+                return redirect('nueva_visita')
+            else:
+                messages.error(request, 'Error al crear la visita')
+
         else:
             form1 = VisitanteForm(prefix='form1')
         return render(request, 'conserje/nuevavisita.html', {'form1': form1})
@@ -585,7 +604,11 @@ def registro_visitante_depto(request):
             form1 = RegistroVisitanteDeptoForm(request.POST, prefix='form1')
             if form1.is_valid():
                 form1.save()
+                messages.success(request, 'Registro de visita creado exitosamente')
                 return redirect('registro_visitante_depto')
+            else:
+                messages.error(request, 'Error al crear el registro de visita')
+
         else:
             form1 = RegistroVisitanteDeptoForm(prefix='form1')
         visitas = RegistroVisitanteDepto.objects.filter(fecha_hora_salida__isnull=True)
@@ -605,8 +628,9 @@ def salida_visita(request, id):
 
 @login_required    
 def bitacora(request):
-    if request.user.role == 'conserje':
-        return render(request, 'conserje/bitacora.html', {})
+    if request.user.role in ['conserje', 'administrador']:
+        bitacoras = Bitacora.objects.all()  # Obtener todas las bitácoras
+        return render(request, 'conserje/bitacora.html', {'bitacoras': bitacoras})
 
 @login_required    
 def crear_bitacora(request):
@@ -614,13 +638,26 @@ def crear_bitacora(request):
         if request.method == 'POST':
             form = CrearBitacoraForm(request.POST)
             if form.is_valid():
-                form.save()
+                bitacora_instance = form.save(commit=False)
+                bitacora_instance.empleado = request.user.empleado
+                bitacora_instance.save()
+                messages.success(request, 'Bitácora creada exitosamente')
                 return redirect('bitacora')
+            else:
+                messages.error(request, 'Error al crear la bitácora')
+
         else:
             form = CrearBitacoraForm()   
         return render(request, 'conserje/crearbitacora.html', {'form': form})
     else:
         return redirect('unauthorized')
+
+
+@login_required
+def vista_bitacoras(request):
+    bitacoras = Bitacora.objects.all() 
+    
+    return render(request, 'bitacora.html', {'bitacoras': bitacoras})
 
 @login_required
 def marcar_salida_visita(request):

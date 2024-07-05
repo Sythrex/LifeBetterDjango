@@ -4,9 +4,11 @@
 
 {% include 'componentes/sidenav.html' %}
 
+{% load static %}
 
-<img src="/LifeBetterApp/static/img/error-401.png" alt="Error 401">
+<div class="text-center">
+    <p class="text-center">No tienes permisos para acceder a esta página.</p>
+<img src="{% static 'img/error-401.png' %}" alt="Error 401" class="img-fluid">
 
-
-
+</div>
 {% endblock %}

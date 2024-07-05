@@ -79,7 +79,8 @@ urlpatterns = [
     path('conserje/multa/', views.multa, name='multa'),
     path('conserje/bitacora/', views.bitacora, name='bitacora'),
     path('conserje/bitacora/crear', views.crear_bitacora, name='crear_bitacora'),
-    path('conserje/reclamos/', views.reclamos, name='reclamos'),
+    path('ruta_bitacoras/', views.vista_bitacoras, name='vista_bitacoras'),
+
 
     # ------------------------------------------------
     #              GESTIÓN DE USUARIOS

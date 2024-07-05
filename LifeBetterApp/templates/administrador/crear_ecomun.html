@@ -13,6 +13,13 @@
           <h2 class="text-center">Crear Espacio Común</h2>
         </div>
         <div class="card-body">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+          {% endfor %}
+          {% endif %}
           <form method="POST">
             {% csrf_token %}
             <div class="row">

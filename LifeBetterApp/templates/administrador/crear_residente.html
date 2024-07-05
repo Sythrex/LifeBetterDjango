@@ -11,6 +11,13 @@
                     <h2 class="text-center">Nuevo Residente</h2>
                 </div>
                 <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                     <form method="post">
                         {% csrf_token %}
                         <div class="row">
